@@ -1,5 +1,5 @@
 import httpx
-from vitap_vtop_client.constants import VTOP_URL, HEADERS 
+from vitap_vtop_client.constants import VTOP_LOGIN_URL, HEADERS 
 from vitap_vtop_client.exceptions.exception import VtopConnectionError, VtopCsrfError
 from vitap_vtop_client.utils import find_csrf
 import asyncio
@@ -22,7 +22,7 @@ async def fetch_csrf_token(client: httpx.AsyncClient, max_retries: int = 3) -> s
     for attempt in range(max_retries):
         print(f"Fetching initial CSRF token, attempt {attempt + 1}/{max_retries}...")
         try:
-            response = await client.get(VTOP_URL, headers=HEADERS)
+            response = await client.get(VTOP_LOGIN_URL, headers=HEADERS)
             response.raise_for_status() # Raise an exception for bad status codes (4xx or 5xx)
 
             csrf_token = find_csrf(response.text)
@@ -35,7 +35,7 @@ async def fetch_csrf_token(client: httpx.AsyncClient, max_retries: int = 3) -> s
                 if attempt < max_retries - 1:
                     print("Retrying fetch_csrf_token...")
                     await asyncio.sleep(1) # Small delay before retry
-                else:\
+                else:
                     raise VtopCsrfError(
                         f"Initial CSRF token not found in response after {attempt + 1} attempts.",
                         status_code=response.status_code
@@ -44,11 +44,14 @@ async def fetch_csrf_token(client: httpx.AsyncClient, max_retries: int = 3) -> s
         except httpx.RequestError as e:
             print("RequestError type:", type(e))
             print("RequestError details:", repr(e))
-            raise VtopConnectionError(
-                f"Failed to fetch csrf page after {attempt + 1} attempts.",
-                original_exception=e,
-                status_code=502
-            )
+            if attempt < max_retries - 1:
+                await asyncio.sleep(1)
+            else:
+                raise VtopConnectionError(
+                    f"Failed to fetch csrf page after {attempt + 1} attempts.",
+                    original_exception=e,
+                    status_code=502
+                )
         except VtopCsrfError as e:
             raise e
         
