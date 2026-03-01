@@ -42,6 +42,8 @@ async def fetch_csrf_token(client: httpx.AsyncClient, max_retries: int = 3) -> s
                     )
 
         except httpx.RequestError as e:
+            print("RequestError type:", type(e))
+            print("RequestError details:", repr(e))
             raise VtopConnectionError(
                 f"Failed to fetch csrf page after {attempt + 1} attempts.",
                 original_exception=e,
