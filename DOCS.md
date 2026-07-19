@@ -331,15 +331,23 @@ except Exception as e: # General Python errors
 ## 7. Semester IDs (`sem_sub_id`)
 
 Many functions require a `sem_sub_id` to specify the semester. These IDs are specific to VIT-AP's VTOP system.
-You can find a list of common `SemSubID` values in [`vitap_vtop_client/constants.py`](/vitap_vtop_client/constants.py).
 
-Some examples:
--   `"AP2024254"`: Winter Semester 2024-25
--   `"AP2024255"`: Winter Semester 2024-25 Freshers
--   `"AP2024253"`: FALL SEM 2024-25
--   `"AP2024252"`: FALL SEM 2024-25 FRESHERS
+Fetch them with `get_semesters()`, which reads the semesters VTOP currently
+offers for your account:
 
-It's recommended to refer to [`vitap_vtop_client/constants.py`](/vitap_vtop_client/constants.py) for the most up-to-date list or to discover IDs for other semesters.
+```python
+async with VtopClient("username", "password") as client:
+    data = await client.get_semesters()
+    for semester in data.semesters:
+        print(semester.id, semester.name)
+
+    # Use an id from the list for semester scoped calls
+    attendance = await client.get_attendance(sem_sub_id=data.semesters[0].id)
+```
+
+> A hardcoded `SemSubID` dictionary used to live in `constants.py`. It was
+> removed in `0.3.0` because it went stale as new semesters were added and
+> silently produced wrong ids. Use `get_semesters()` instead.
 
 ## 8. Contributing
 

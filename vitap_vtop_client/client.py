@@ -48,6 +48,7 @@ from .payments import (
     PendingPayment,
     PaymentReceipt,
 )
+from .semester import fetch_semesters, SemesterData
 
 
 class VtopClient:
@@ -278,6 +279,23 @@ class VtopClient:
                     "VtopClient: Failed to establish a login session."
                 )
             return self._logged_in_student
+
+    async def get_semesters(self) -> SemesterData:
+        """
+        Fetches the semesters available to the student.
+
+        The ids returned here are what every semester scoped method expects,
+        so prefer this over hardcoding semester ids.
+
+        Returns:
+            SemesterData: The available semesters and the time they were read.
+        """
+        student = await self._ensure_logged_in()
+        return await fetch_semesters(
+            client=self._client,
+            username=student.registration_number,
+            csrf_token=student.post_login_csrf_token,
+        )
 
     async def get_attendance(self, sem_sub_id: str) -> list[AttendanceModel]:
         """
