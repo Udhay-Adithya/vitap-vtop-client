@@ -1,1 +1,1 @@
-from .grade_history_model import GradeHistoryModel
+from .grade_history_model import GradeHistoryModel, GradeCourseHistoryModel

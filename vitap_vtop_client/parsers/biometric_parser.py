@@ -1,36 +1,46 @@
 from bs4 import BeautifulSoup
+
 from vitap_vtop_client.biometric.model.biometric_model import BiometricModel
 from vitap_vtop_client.exceptions.exception import VtopParsingError
 
+
+def _cell_text(cell) -> str:
+    return cell.get_text(strip=True).replace("\t", "").replace("\n", "")
+
+
 def parse_biometric(html: str) -> list[BiometricModel]:
     """
-    Parses the HTML content of the VIT biometric logs table and extracts each log
-    into a list of dictionaries with time and location details.
+    Parses the biometric log table into one record per punch.
 
     Args:
         html (str): The raw HTML string containing the biometric log table.
 
     Returns:
-        list: A list of dictionaries, each representing a biometric log with timestamp, time, and location.
-    
+        list[BiometricModel]: One entry per biometric punch.
+
     Raises:
-        VtopParsingError: If parsing fails due to malformed HTML or unexpected structure.
+        VtopParsingError: If parsing fails due to malformed or unexpected HTML.
     """
     try:
-        soup = BeautifulSoup(html, "html.parser")
-        bio_data = soup.find_all('td')  # Flattened list of all <td> elements
+        soup = BeautifulSoup(html, "lxml")
+        biometric_logs: list[BiometricModel] = []
 
-        biometric_logs: list[BiometricModel] = []  # Final list to hold each log entry as a dictionary
+        # Skip the header row.
+        for row in soup.find_all("tr")[1:]:
+            cells = row.find_all("td")
+            if len(cells) < 4:
+                continue
 
-        # Biometric log data is grouped in sets of 4 <td> tags per entry
-        for i in range(4, len(bio_data), 4):  # Skip header or non-data cells (start at index 4)
-            biometric_log = {
-                "time": bio_data[i + 2].get_text(strip=True),
-                "location": bio_data[i + 3].get_text(strip=True).replace(' ', '')
-            }
-            biometric_logs.append(BiometricModel(**biometric_log)) 
+            biometric_logs.append(
+                BiometricModel(
+                    serial=_cell_text(cells[0]),
+                    date=_cell_text(cells[1]),
+                    in_time=_cell_text(cells[2]),
+                    location=_cell_text(cells[3]),
+                )
+            )
 
         return biometric_logs
 
     except Exception as e:
-        raise VtopParsingError(f"Failed to parse biometric data: {e}")
+        raise VtopParsingError(f"Failed to parse biometric data: {e}") from e
