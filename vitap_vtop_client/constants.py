@@ -96,3 +96,7 @@ NCGPA_RANK_URL = "/vtop/hostels/counsellingSlotTimings1"
 
 # Profile image path
 PFP_PATH = "/vtop/users/image/?id="
+
+# Faculty URL
+FACULTY_SEARCH_URL = "/vtop/hrms/EmployeeSearchForStudent"
+FACULTY_DETAIL_URL = "/vtop/hrms/EmployeeSearch1ForStudent"

@@ -54,6 +54,13 @@ from .payments import (
     PaymentReceipt,
 )
 from .semester import fetch_semesters, SemesterData
+from .faculty import (
+    fetch_faculty_search,
+    fetch_all_faculty,
+    fetch_faculty_details,
+    FacultyModel,
+    FacultyDetailsModel,
+)
 
 
 class VtopClient:
@@ -510,6 +517,57 @@ class VtopClient:
             client=self._client,
             registration_number=logged_in_info.registration_number,
             csrf_token=logged_in_info.post_login_csrf_token,
+        )
+
+    async def search_faculty(self, search_term: str) -> FacultyModel:
+        """
+        Searches for a faculty member and returns the first match.
+
+        Args:
+            search_term: A faculty name or employee id to search for.
+
+        Returns:
+            The first matching FacultyModel, or an empty model when there are
+            no matches.
+        """
+        logged_in_info = await self._ensure_logged_in()
+        return await fetch_faculty_search(
+            client=self._client,
+            username=logged_in_info.registration_number,
+            csrf_token=logged_in_info.post_login_csrf_token,
+            search_term=search_term,
+        )
+
+    async def get_all_faculty(self) -> List[FacultyModel]:
+        """
+        Fetches the full faculty directory.
+
+        Returns:
+            A list of FacultyModel, one per faculty member.
+        """
+        logged_in_info = await self._ensure_logged_in()
+        return await fetch_all_faculty(
+            client=self._client,
+            username=logged_in_info.registration_number,
+            csrf_token=logged_in_info.post_login_csrf_token,
+        )
+
+    async def get_faculty_details(self, emp_id: str) -> FacultyDetailsModel:
+        """
+        Fetches a faculty member's profile and office hours.
+
+        Args:
+            emp_id: The employee id, from FacultyModel.emp_id.
+
+        Returns:
+            The parsed FacultyDetailsModel.
+        """
+        logged_in_info = await self._ensure_logged_in()
+        return await fetch_faculty_details(
+            client=self._client,
+            username=logged_in_info.registration_number,
+            csrf_token=logged_in_info.post_login_csrf_token,
+            emp_id=emp_id,
         )
 
     async def close(self):
