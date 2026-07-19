@@ -23,6 +23,16 @@ python-dotenv = "1.1.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.5"
+pytest-asyncio = "^0.24.0"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+markers = [
+    "live: hits the real VTOP portal. Needs credentials and a human for the OTP. Deselected by default.",
+]
+# Live tests are opt in, so a plain `pytest` run stays offline and secretless.
+addopts = "-m 'not live'"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

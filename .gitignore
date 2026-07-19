@@ -5,3 +5,9 @@ poetry.lock
 .devenv
 devenv.lock
 .devenv.flake.nix
+
+# Local credentials for live tests. Never commit.
+.env
+
+# Raw, unscrubbed captures from the fixture recorder.
+tests/fixtures/raw/
