@@ -5,12 +5,12 @@ from pydantic import BaseModel, RootModel
 class ExamEntry(BaseModel):
     serial_number: str
     course_code: str
-    course_title: str
-    type: str
-    registration_number: str
+    course_name: str
+    course_type: str
+    course_id: str
     slot: str
-    date: str
-    session: str
+    exam_date: str
+    exam_session: str
     reporting_time: str
     exam_time: str
     venue: str
