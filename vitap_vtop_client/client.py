@@ -6,6 +6,7 @@ from .constants import VTOP_BASE_URL
 
 from .exceptions import (
     VtopLoginError,
+    VtopLoginOtpRequiredError,
     VtopCaptchaError,
     VtopCaptchaSolvingError,
     VtopConnectionError,
@@ -18,6 +19,8 @@ from .login import (
     pre_login,
     fetch_captcha,
     student_login,
+    verify_login_otp,
+    resend_login_otp,
     LoggedInStudent,
 )
 
@@ -84,6 +87,78 @@ class VtopClient:
         self.max_login_retries = max_login_retries
         self.captcha_retries = captcha_retries
         self._login_lock = asyncio.Lock()  # Prevents concurrent login attempts
+        # CSRF token scraped from the OTP page. Set when VTOP interrupts the
+        # login with an OTP challenge, cleared once the OTP is verified.
+        self._pending_otp_csrf: str | None = None
+
+    @property
+    def otp_pending(self) -> bool:
+        """True when VTOP is waiting on an OTP to finish the login."""
+        return self._pending_otp_csrf is not None
+
+    async def login(self) -> LoggedInStudent:
+        """
+        Logs in to VTOP explicitly.
+
+        VTOP requires an OTP after a period of inactivity or when logging in
+        from a new IP address. When that happens this raises
+        `VtopLoginOtpRequiredError`; collect the OTP from the user and pass it
+        to `verify_login_otp` to finish authenticating.
+
+        Returns:
+            LoggedInStudent: The authenticated session details.
+
+        Raises:
+            VtopLoginOtpRequiredError: If VTOP requires an OTP to continue.
+            VtopLoginError: If the credentials are rejected.
+        """
+        async with self._login_lock:
+            if self._logged_in_student is not None:
+                return self._logged_in_student
+            return await self._perform_login_sequence()
+
+    async def verify_login_otp(self, otp: str) -> LoggedInStudent:
+        """
+        Completes a login that VTOP interrupted with an OTP challenge.
+
+        Args:
+            otp (str): The OTP entered by the user.
+
+        Returns:
+            LoggedInStudent: The authenticated session details.
+
+        Raises:
+            VtopSessionError: If no OTP challenge is currently pending.
+            VtopLoginOtpIncorrectError: If the OTP is wrong.
+            VtopLoginOtpExpiredError: If the OTP has expired.
+        """
+        if self._pending_otp_csrf is None:
+            raise VtopSessionError(
+                "No login OTP is pending. Call login() first.", status_code=409
+            )
+
+        async with self._login_lock:
+            logged_in_student = await verify_login_otp(
+                self._client, self._pending_otp_csrf, otp
+            )
+            self._logged_in_student = logged_in_student
+            self._pending_otp_csrf = None
+            return logged_in_student
+
+    async def resend_login_otp(self) -> None:
+        """
+        Asks VTOP to send a fresh login OTP.
+
+        Raises:
+            VtopSessionError: If no OTP challenge is currently pending.
+            VtopLoginError: If VTOP declines to resend the OTP.
+        """
+        if self._pending_otp_csrf is None:
+            raise VtopSessionError(
+                "No login OTP is pending. Call login() first.", status_code=409
+            )
+
+        await resend_login_otp(self._client, self._pending_otp_csrf)
 
     async def _perform_login_sequence(self) -> LoggedInStudent:
         """
@@ -135,6 +210,14 @@ class VtopClient:
                     raise
                 await asyncio.sleep(1)  # Wait a bit before retrying captcha
 
+            except VtopLoginOtpRequiredError as e:
+                # Credentials and captcha were accepted; VTOP just wants an OTP.
+                # Stash the OTP page's CSRF token and hand control back to the
+                # caller so it can collect the OTP from the user.
+                print("VtopClient: VTOP requires an OTP to complete the login.")
+                self._pending_otp_csrf = e.csrf_token
+                raise
+
             except VtopLoginError as e:  # Typically for bad credentials
                 print(
                     f"VtopClient: Login failed due to invalid credentials or format: {e}"
@@ -163,10 +246,22 @@ class VtopClient:
         """
         Ensures the client is logged in. If not, performs login.
         This method is idempotent.
+
+        Raises:
+            VtopSessionError: If a login OTP is pending. Retrying the login
+                here would invalidate the OTP already sent to the user, so the
+                caller must resolve it via `verify_login_otp` instead.
         """
         # Check if already logged in and session is potentially valid
         if self._logged_in_student is not None:
             return self._logged_in_student
+
+        if self._pending_otp_csrf is not None:
+            raise VtopSessionError(
+                "Login is awaiting OTP verification. Call verify_login_otp() "
+                "with the OTP sent by VTOP before requesting data.",
+                status_code=409,
+            )
 
         async with self._login_lock:
             # Double-check after acquiring the lock, in case another coroutine logged in

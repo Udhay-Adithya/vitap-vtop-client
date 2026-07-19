@@ -120,6 +120,42 @@ class VtopCsrfError(VtopLoginError):
         super().__init__(message, status_code)
 
 
+class VtopLoginOtpRequiredError(VtopLoginError):
+    """Raised when VTOP requires an OTP to complete the login.
+
+    VTOP asks for an OTP after a period of inactivity or when the login
+    originates from a new IP address. Credentials and captcha have already
+    been accepted at this point; the caller must collect the OTP from the
+    user and pass it to `VtopClient.verify_login_otp`.
+
+    Carries the CSRF token scraped from the OTP page, which is the token that
+    must be submitted alongside the OTP.
+    """
+
+    def __init__(
+        self,
+        message: str,
+        status_code: int | None = None,
+        csrf_token: str | None = None,
+    ):
+        super().__init__(message, status_code)
+        self.csrf_token = csrf_token
+
+
+class VtopLoginOtpIncorrectError(VtopLoginError):
+    """Raised when the submitted login OTP is rejected by VTOP."""
+
+    def __init__(self, message: str, status_code: int | None = None):
+        super().__init__(message, status_code)
+
+
+class VtopLoginOtpExpiredError(VtopLoginError):
+    """Raised when the submitted login OTP has expired and must be resent."""
+
+    def __init__(self, message: str, status_code: int | None = None):
+        super().__init__(message, status_code)
+
+
 class VtopParsingError(VitapVtopClientError):
     """Raised when data parsing fails unexpectedly (e.g., new HTML format)."""
 

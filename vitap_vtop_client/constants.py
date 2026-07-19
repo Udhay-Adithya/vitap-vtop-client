@@ -18,6 +18,10 @@ VTOP_LOGIN_URL = "/vtop/login"
 VTOP_LOGIN_INIT_URL = "/vtop/init/page"
 VTOP_LOGIN_ERROR_URL = "/vtop/login/error"
 
+# Login OTP URL
+VTOP_VALIDATE_OTP_URL = "/vtop/validateSecurityOtp"
+VTOP_RESEND_OTP_URL = "/vtop/resendSecurityOtp"
+
 # Home Page URL
 VTOP_HOME_URL = "/vtop/home"
 

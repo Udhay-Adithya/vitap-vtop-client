@@ -1,7 +1,5 @@
 import httpx
 from vitap_vtop_client.constants import (
-    VTOP_BASE_URL,
-    VTOP_LOGIN_ERROR_URL,
     VTOP_LOGIN_URL,
     VTOP_CONTENT_URL,
     HEADERS,
@@ -10,10 +8,12 @@ from vitap_vtop_client.exceptions.exception import (
     VtopCaptchaSolvingError,
     VtopConnectionError,
     VtopLoginError,
+    VtopLoginOtpRequiredError,
 )
 from vitap_vtop_client.login.model.logged_in_student_model import LoggedInStudent
 from vitap_vtop_client.utils import find_login_response
 from vitap_vtop_client.utils import find_csrf
+from vitap_vtop_client.utils.is_otp_required import is_otp_required
 from vitap_vtop_client.utils.find_registration_number import find_registration_number
 
 
@@ -36,14 +36,15 @@ async def student_login(
         captcha_value (str): Value of the CAPTCHA image solved by the solver.
 
     Returns:
-        dict: A dictionary containing login success status and potentially the
-              post-login CSRF token. Example: {"success": True, "message": "Logged in", "post_login_csrf": "..."}
+        LoggedInStudent: The registration number and post-login CSRF token.
 
     Raises:
-        httpx.RequestError: If a network-related issue occurs during the POST request.
-        ValueError: If login fails due to invalid credentials or captcha.
-        RuntimeError: If the login succeeds but the expected post-login page or CSRF is not found.
-        Exception: For other unexpected issues.
+        VtopCaptchaSolvingError: If the submitted captcha answer was rejected.
+        VtopLoginOtpRequiredError: If VTOP requires an OTP to finish the login.
+            Credentials and captcha were accepted; the caller must collect the
+            OTP and call `verify_login_otp`.
+        VtopLoginError: If the credentials are rejected or login otherwise fails.
+        VtopConnectionError: If a network-related issue occurs during the POST.
     """
     try:
         data = {
@@ -54,42 +55,56 @@ async def student_login(
         }
         response = await client.post(VTOP_LOGIN_URL, data=data, headers=HEADERS)
 
-        if response.url == VTOP_BASE_URL + VTOP_CONTENT_URL:
+        if "error" in str(response.url):
+            if "Invalid Captcha" in response.text:
+                raise VtopCaptchaSolvingError("Invalid Captcha", status_code=401)
 
-            print(
-                f"Login successful for user {registration_number[:5]}****. Redirected to content page."
+            # VTOP may serve the OTP form on the error page even though the
+            # credentials and captcha were accepted.
+            if is_otp_required(response.text):
+                raise VtopLoginOtpRequiredError(
+                    "OTP verification is required to complete the login.",
+                    status_code=401,
+                    csrf_token=find_csrf(response.text),
+                )
+
+            error_message = (
+                find_login_response.login_error_identifier(response.text)
+                or "Unknown login error"
             )
-            # After successful login, we need to get the new CSRF token from the content page
-            # for subsequent requests.
-            content_resp = await client.get(VTOP_CONTENT_URL, headers=HEADERS)
-
-            # This should'nt be null
-            registration_number = find_registration_number(content_resp)
-            print(f"registration number is {registration_number[:5]}****")
-            post_login_csrf = find_csrf(content_resp.text)
-            logged_in_student = {
-                "registration_number": registration_number,
-                "post_login_csrf_token": post_login_csrf,
-            }
-            return LoggedInStudent(**logged_in_student)
-
-        elif response.url == VTOP_BASE_URL + VTOP_LOGIN_ERROR_URL:
-            error_message = find_login_response.login_error_identifier(response.text)
             print(f"Login Credential Error: {error_message}")
-            if error_message == "Invalid Captcha":
-                raise VtopCaptchaSolvingError(f"{error_message}", status_code=401)
-            else:
-                raise VtopLoginError(f"{error_message}", status_code=401)
+            raise VtopLoginError(f"{error_message}", status_code=401)
 
-        else:
-            # Landed on an unexpected page after login POST
-            print(
-                f"Login failed for user {registration_number}. Unexpected redirection to {response.url}. Status: {response.status_code}"
+        # The OTP form is sometimes inlined into the login page itself rather
+        # than served from the error route.
+        if is_otp_required(response.text):
+            raise VtopLoginOtpRequiredError(
+                "OTP verification is required to complete the login.",
+                status_code=401,
+                csrf_token=find_csrf(response.text),
             )
+
+        print(
+            f"Login successful for user {registration_number[:5]}****. Redirected to content page."
+        )
+        # After successful login, we need to get the new CSRF token from the content page
+        # for subsequent requests.
+        content_resp = await client.get(VTOP_CONTENT_URL, headers=HEADERS)
+
+        registration_number = find_registration_number(content_resp.text)
+        if not registration_number:
             raise VtopLoginError(
-                f"Login failed: Unexpected redirection after POST to {response.url}",
-                status_code=response.status_code,
+                "Login appeared to succeed but the registration number could "
+                "not be read from the content page.",
+                status_code=502,
             )
+        print(f"registration number is {registration_number[:5]}****")
+        post_login_csrf = find_csrf(content_resp.text)
+        logged_in_student = {
+            "registration_number": registration_number,
+            "post_login_csrf_token": post_login_csrf,
+        }
+        return LoggedInStudent(**logged_in_student)
 
     except httpx.RequestError as e:
         print(f"Login POST request failed: Network Error {e}")
