@@ -66,6 +66,17 @@ from .faculty import (
     FacultyModel,
     FacultyDetailsModel,
 )
+from .course_page import (
+    init_course_page,
+    fetch_courses_for_course_page,
+    fetch_slots_for_course_page,
+    fetch_course_detail,
+    download_course_material,
+    download_course_plan_excel,
+    CoursesResponseModel,
+    SlotsResponseModel,
+    CoursePageDetailModel,
+)
 from .digital_assignment import (
     fetch_all_digital_assignments,
     fetch_per_course_dassignments,
@@ -531,6 +542,131 @@ class VtopClient:
             client=self._client,
             registration_number=logged_in_info.registration_number,
             csrf_token=logged_in_info.post_login_csrf_token,
+        )
+
+    async def init_course_page(self) -> str:
+        """
+        Opens the course page.
+
+        VTOP requires this before it will answer `get_course_page_courses`
+        and `get_course_page_slots`.
+
+        Returns:
+            The course page markup.
+        """
+        logged_in_info = await self._ensure_logged_in()
+        return await init_course_page(
+            client=self._client,
+            username=logged_in_info.registration_number,
+            csrf_token=logged_in_info.post_login_csrf_token,
+        )
+
+    async def get_course_page_courses(
+        self, sem_sub_id: str
+    ) -> CoursesResponseModel:
+        """
+        Fetches the courses selectable on the course page for a semester.
+
+        Call `init_course_page` first.
+
+        Args:
+            sem_sub_id: The semester subject ID (e.g., "AP2023242").
+
+        Returns:
+            The selectable courses.
+        """
+        logged_in_info = await self._ensure_logged_in()
+        return await fetch_courses_for_course_page(
+            client=self._client,
+            username=logged_in_info.registration_number,
+            csrf_token=logged_in_info.post_login_csrf_token,
+            semSubID=sem_sub_id,
+        )
+
+    async def get_course_page_slots(
+        self, sem_sub_id: str, class_id: str
+    ) -> SlotsResponseModel:
+        """
+        Fetches the slots and class rows for a course.
+
+        Args:
+            sem_sub_id: The semester subject ID (e.g., "AP2023242").
+            class_id: The course value, from CourseOptionModel.value.
+
+        Returns:
+            The selectable slots and the class rows.
+        """
+        logged_in_info = await self._ensure_logged_in()
+        return await fetch_slots_for_course_page(
+            client=self._client,
+            username=logged_in_info.registration_number,
+            csrf_token=logged_in_info.post_login_csrf_token,
+            semSubID=sem_sub_id,
+            class_id=class_id,
+        )
+
+    async def get_course_detail(
+        self, sem_sub_id: str, erp_id: str, class_id: str
+    ) -> CoursePageDetailModel:
+        """
+        Fetches a course's detail page, with lectures and material links.
+
+        Args:
+            sem_sub_id: The semester subject ID (e.g., "AP2023242").
+            erp_id: The faculty ERP id, from CourseClassEntryModel.erp_id.
+            class_id: The class id, from CourseClassEntryModel.class_id.
+
+        Returns:
+            The course summary, lectures and download paths.
+        """
+        logged_in_info = await self._ensure_logged_in()
+        return await fetch_course_detail(
+            client=self._client,
+            username=logged_in_info.registration_number,
+            csrf_token=logged_in_info.post_login_csrf_token,
+            semSubID=sem_sub_id,
+            erp_id=erp_id,
+            class_id=class_id,
+        )
+
+    async def download_course_material(self, download_path: str) -> bytes:
+        """
+        Downloads a course material, syllabus or bundled material archive.
+
+        Args:
+            download_path: A path from CoursePageDetailModel, such as
+                download_all_path, syllabus_download_path, or a lecture's
+                reference material download_path.
+
+        Returns:
+            The raw file contents.
+        """
+        logged_in_info = await self._ensure_logged_in()
+        return await download_course_material(
+            client=self._client,
+            username=logged_in_info.registration_number,
+            csrf_token=logged_in_info.post_login_csrf_token,
+            download_path=download_path,
+        )
+
+    async def download_course_plan(self, sem_sub_id: str, class_id: str) -> bytes:
+        """
+        Downloads a course plan as an Excel workbook.
+
+        Args:
+            sem_sub_id: The semester subject ID (e.g., "AP2023242").
+            class_id: The class id, from CourseClassEntryModel.class_id.
+
+        Returns:
+            The raw workbook contents.
+        """
+        logged_in_info = await self._ensure_logged_in()
+        return await download_course_plan_excel(
+            client=self._client,
+            username=logged_in_info.registration_number,
+            csrf_token=logged_in_info.post_login_csrf_token,
+            semSubID=sem_sub_id,
+            class_id=class_id,
         )
 
     async def submit_general_outing(

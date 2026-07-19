@@ -111,3 +111,9 @@ DA_OTP_UPLOAD_URL = "/vtop/examinations/doDAssignmentOtpUpload"
 # Outing download URL
 DOWNLOAD_LEAVE_PASS_URL = "/vtop/hostel/downloadLeavePass"
 DOWNLOAD_OUTING_FORM_URL = "/vtop/hostel/downloadOutingForm"
+
+# Course Page URLs
+GET_COURSE_FOR_COURSE_PAGE_URL = "/vtop/getCourseForCoursePage"
+GET_SLOT_FOR_COURSE_PAGE_URL = "/vtop/getSlotIdForCoursePage"
+VIEW_COURSE_DETAIL_URL = "/vtop/processViewStudentCourseDetail"
+COURSE_PLAN_EXCEL_URL = "/vtop/academics/common/CoursePlanExcelDownload"
