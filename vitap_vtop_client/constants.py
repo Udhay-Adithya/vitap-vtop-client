@@ -100,3 +100,10 @@ PFP_PATH = "/vtop/users/image/?id="
 # Faculty URL
 FACULTY_SEARCH_URL = "/vtop/hrms/EmployeeSearchForStudent"
 FACULTY_DETAIL_URL = "/vtop/hrms/EmployeeSearch1ForStudent"
+
+# Digital Assignment URL
+DIGITAL_ASSIGNMENT_URL = "/vtop/examinations/doDigitalAssignment"
+PROCESS_DIGITAL_ASSIGNMENT_URL = "/vtop/examinations/processDigitalAssignment"
+PROCESS_DA_UPLOAD_URL = "/vtop/examinations/processDigitalAssignmentUpload"
+DA_UPLOAD_URL = "/vtop/examinations/doDAssignmentUploadMethod"
+DA_OTP_UPLOAD_URL = "/vtop/examinations/doDAssignmentOtpUpload"

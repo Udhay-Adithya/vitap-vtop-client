@@ -61,6 +61,15 @@ from .faculty import (
     FacultyModel,
     FacultyDetailsModel,
 )
+from .digital_assignment import (
+    fetch_all_digital_assignments,
+    fetch_per_course_dassignments,
+    fetch_da_or_qp_pdf,
+    upload_course_dassignment,
+    verify_assignment_upload_otp,
+    DigitalAssignmentModel,
+    AssignmentRecordModel,
+)
 
 
 class VtopClient:
@@ -517,6 +526,121 @@ class VtopClient:
             client=self._client,
             registration_number=logged_in_info.registration_number,
             csrf_token=logged_in_info.post_login_csrf_token,
+        )
+
+    async def get_digital_assignments(
+        self, sem_sub_id: str
+    ) -> List[DigitalAssignmentModel]:
+        """
+        Fetches every course's assignments for the given semester.
+
+        This issues one additional request per course, since VTOP serves the
+        course list and the per course assignments separately.
+
+        Args:
+            sem_sub_id: The semester subject ID (e.g., "AP2023242").
+
+        Returns:
+            A list of DigitalAssignmentModel with details populated.
+        """
+        logged_in_info = await self._ensure_logged_in()
+        return await fetch_all_digital_assignments(
+            client=self._client,
+            username=logged_in_info.registration_number,
+            csrf_token=logged_in_info.post_login_csrf_token,
+            semSubID=sem_sub_id,
+        )
+
+    async def get_course_assignments(
+        self, class_id: str
+    ) -> List[AssignmentRecordModel]:
+        """
+        Fetches the assignments for a single course.
+
+        Args:
+            class_id: The class id, from DigitalAssignmentModel.class_id.
+
+        Returns:
+            A list of AssignmentRecordModel, one per assignment.
+        """
+        logged_in_info = await self._ensure_logged_in()
+        return await fetch_per_course_dassignments(
+            client=self._client,
+            username=logged_in_info.registration_number,
+            csrf_token=logged_in_info.post_login_csrf_token,
+            class_id=class_id,
+        )
+
+    async def download_assignment_file(self, download_url: str) -> bytes:
+        """
+        Downloads an assignment question paper or a submitted assignment file.
+
+        Args:
+            download_url: The path from AssignmentRecordModel.qp_download_url
+                or AssignmentRecordModel.da_download_url.
+
+        Returns:
+            The raw file contents.
+        """
+        logged_in_info = await self._ensure_logged_in()
+        return await fetch_da_or_qp_pdf(
+            client=self._client,
+            username=logged_in_info.registration_number,
+            csrf_token=logged_in_info.post_login_csrf_token,
+            download_url=download_url,
+        )
+
+    async def upload_assignment(
+        self,
+        class_id: str,
+        mcode: str,
+        file_name: str,
+        file_bytes: bytes,
+    ) -> str:
+        """
+        Uploads a file as the submission for one assignment.
+
+        VTOP may hold the upload pending an OTP mailed to the student, in
+        which case this raises VtopDigitalAssignmentUploadOtpRequiredError;
+        follow up with `verify_assignment_upload_otp`.
+
+        Args:
+            class_id: The class id, from DigitalAssignmentModel.class_id.
+            mcode: The assignment code, from AssignmentRecordModel.mcode.
+            file_name: The file name, used to derive the content type.
+            file_bytes: The file contents. Max 4 MB, and one of pdf, doc,
+                docx, xls or xlsx.
+
+        Returns:
+            VTOP's response message, "Uploaded successfully" on success.
+        """
+        logged_in_info = await self._ensure_logged_in()
+        return await upload_course_dassignment(
+            client=self._client,
+            username=logged_in_info.registration_number,
+            csrf_token=logged_in_info.post_login_csrf_token,
+            class_id=class_id,
+            mcode=mcode,
+            file_name=file_name,
+            file_bytes=file_bytes,
+        )
+
+    async def verify_assignment_upload_otp(self, otp: str) -> str:
+        """
+        Confirms a held assignment upload with the OTP VTOP mailed.
+
+        Args:
+            otp: The OTP entered by the user.
+
+        Returns:
+            VTOP's response message, "Uploaded successfully" on success.
+        """
+        logged_in_info = await self._ensure_logged_in()
+        return await verify_assignment_upload_otp(
+            client=self._client,
+            username=logged_in_info.registration_number,
+            csrf_token=logged_in_info.post_login_csrf_token,
+            otp=otp,
         )
 
     async def search_faculty(self, search_term: str) -> FacultyModel:

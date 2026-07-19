@@ -156,6 +156,52 @@ class VtopLoginOtpExpiredError(VtopLoginError):
         super().__init__(message, status_code)
 
 
+class VtopDigitalAssignmentError(VitapVtopClientError):
+    """Raised for errors related to digital assignments."""
+
+    def __init__(self, message: str, status_code: int | None = None):
+        super().__init__(message, status_code)
+
+
+class VtopDigitalAssignmentFileNotFoundError(VtopDigitalAssignmentError):
+    """Raised when an assignment upload is attempted without file contents."""
+
+    def __init__(self, message: str, status_code: int | None = None):
+        super().__init__(message, status_code)
+
+
+class VtopDigitalAssignmentFileTypeNotSupportedError(VtopDigitalAssignmentError):
+    """Raised when the assignment file is not a type VTOP accepts."""
+
+    def __init__(self, message: str, status_code: int | None = None):
+        super().__init__(message, status_code)
+
+
+class VtopDigitalAssignmentFileSizeExceededError(VtopDigitalAssignmentError):
+    """Raised when the assignment file is larger than VTOP's 4 MB limit."""
+
+    def __init__(self, message: str, status_code: int | None = None):
+        super().__init__(message, status_code)
+
+
+class VtopDigitalAssignmentUploadOtpRequiredError(VtopDigitalAssignmentError):
+    """Raised when VTOP holds an assignment upload pending OTP confirmation.
+
+    The file has been received but is not submitted until the OTP mailed to
+    the student is passed to `VtopClient.verify_assignment_upload_otp`.
+    """
+
+    def __init__(self, message: str, status_code: int | None = None):
+        super().__init__(message, status_code)
+
+
+class VtopDigitalAssignmentUploadOtpIncorrectError(VtopDigitalAssignmentError):
+    """Raised when the assignment upload OTP is rejected by VTOP."""
+
+    def __init__(self, message: str, status_code: int | None = None):
+        super().__init__(message, status_code)
+
+
 class VtopParsingError(VitapVtopClientError):
     """Raised when data parsing fails unexpectedly (e.g., new HTML format)."""
 
