@@ -17,7 +17,10 @@ def parse_general_outing_requests(html: str) -> GeneralOutingModel:
             for row in rows:
                 cols = row.find_all("td")
 
+                leave_id = find_leave_id(cols[10])
+
                 request = GeneralOutingRequest(
+                    serial=cols[0].get_text().strip(),
                     registration_number=cols[1].get_text().strip(),
                     place_of_visit=cols[2].get_text().strip(),
                     purpose_of_visit=cols[3].get_text().strip(),
@@ -31,7 +34,8 @@ def parse_general_outing_requests(html: str) -> GeneralOutingModel:
                     .replace("\n", " ")
                     .replace("\t", "")
                     .strip(),
-                    leave_id=find_leave_id(cols[10]),
+                    leave_id=leave_id,
+                    can_download=bool(leave_id),
                 )
                 requests.append(request)
 
@@ -49,5 +53,6 @@ def find_leave_id(col_10):
     if a_tag:
         data_url = a_tag.get("data-url")
         return data_url.split("/")[-1]  # Get last segment of URL
-    else:
-        return "N/A"  # When element isn't found
+    # No download link means there is no leave pass to fetch. can_download
+    # carries that signal, so return an empty id rather than a sentinel.
+    return ""

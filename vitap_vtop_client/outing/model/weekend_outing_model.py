@@ -3,6 +3,7 @@ from pydantic import BaseModel, RootModel
 
 
 class WeekendOutingRequest(BaseModel):
+    serial: str = ""
     registration_number: str
     hostel_block: str
     room_number: str
@@ -15,6 +16,8 @@ class WeekendOutingRequest(BaseModel):
     booking_id: str
     action: str
     status: str
+    # True when the request is accepted and VTOP offers a form download.
+    can_download: bool = False
 
 
 class WeekendOutingModel(RootModel):

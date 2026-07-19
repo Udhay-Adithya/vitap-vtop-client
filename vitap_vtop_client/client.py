@@ -44,12 +44,17 @@ from .outing import (
     fetch_weekend_outing_requests,
     submit_general_outing_request,
     submit_weekend_outing_request,
+    delete_general_outing_request,
+    delete_weekend_outing_request,
+    fetch_general_outing_pdf,
+    fetch_weekend_outing_pdf,
     WeekendOutingModel,
     GeneralOutingModel,
 )
 from .payments import (
     fetch_pending_payments,
     fetch_payment_receipts,
+    fetch_payment_receipt_document,
     PendingPayment,
     PaymentReceipt,
 )
@@ -526,6 +531,174 @@ class VtopClient:
             client=self._client,
             registration_number=logged_in_info.registration_number,
             csrf_token=logged_in_info.post_login_csrf_token,
+        )
+
+    async def submit_general_outing(
+        self,
+        out_place: str,
+        purpose_of_visit: str,
+        outing_date: str,
+        out_time: str,
+        in_date: str,
+        in_time: str,
+    ) -> str:
+        """
+        Submits a general outing request.
+
+        Args:
+            out_place: The place being visited.
+            purpose_of_visit: The reason for the outing.
+            outing_date: The date of leaving, as VTOP expects it.
+            out_time: The time of leaving.
+            in_date: The date of returning.
+            in_time: The time of returning.
+
+        Returns:
+            VTOP's response message.
+        """
+        logged_in_info = await self._ensure_logged_in()
+        return await submit_general_outing_request(
+            client=self._client,
+            registration_number=logged_in_info.registration_number,
+            csrf_token=logged_in_info.post_login_csrf_token,
+            outPlace=out_place,
+            purposeOfVisit=purpose_of_visit,
+            outingDate=outing_date,
+            outTime=out_time,
+            inDate=in_date,
+            inTime=in_time,
+        )
+
+    async def submit_weekend_outing(
+        self,
+        out_place: str,
+        purpose_of_visit: str,
+        outing_date: str,
+        out_time: str,
+        contact_number: str,
+    ) -> str:
+        """
+        Submits a weekend outing request.
+
+        Args:
+            out_place: The place being visited.
+            purpose_of_visit: The reason for the outing.
+            outing_date: The date of the outing, as VTOP expects it.
+            out_time: The time of leaving.
+            contact_number: The student's contact number.
+
+        Returns:
+            VTOP's response message.
+        """
+        logged_in_info = await self._ensure_logged_in()
+        return await submit_weekend_outing_request(
+            client=self._client,
+            registration_number=logged_in_info.registration_number,
+            csrf_token=logged_in_info.post_login_csrf_token,
+            outPlace=out_place,
+            purposeOfVisit=purpose_of_visit,
+            outingDate=outing_date,
+            outTime=out_time,
+            contactNumber=contact_number,
+        )
+
+    async def delete_general_outing(self, leave_id: str) -> str:
+        """
+        Deletes a general outing request.
+
+        Args:
+            leave_id: The leave id, from GeneralOutingRequest.leave_id.
+
+        Returns:
+            VTOP's response message.
+        """
+        logged_in_info = await self._ensure_logged_in()
+        return await delete_general_outing_request(
+            client=self._client,
+            registration_number=logged_in_info.registration_number,
+            csrf_token=logged_in_info.post_login_csrf_token,
+            leave_id=leave_id,
+        )
+
+    async def delete_weekend_outing(self, booking_id: str) -> str:
+        """
+        Deletes a weekend outing request.
+
+        Args:
+            booking_id: The booking id, from WeekendOutingRequest.booking_id.
+
+        Returns:
+            VTOP's response message.
+        """
+        logged_in_info = await self._ensure_logged_in()
+        return await delete_weekend_outing_request(
+            client=self._client,
+            registration_number=logged_in_info.registration_number,
+            csrf_token=logged_in_info.post_login_csrf_token,
+            booking_id=booking_id,
+        )
+
+    async def download_general_outing_pass(self, leave_id: str) -> bytes:
+        """
+        Downloads the leave pass PDF for a general outing request.
+
+        Args:
+            leave_id: The leave id, from GeneralOutingRequest.leave_id. Check
+                can_download first.
+
+        Returns:
+            The raw PDF contents.
+        """
+        logged_in_info = await self._ensure_logged_in()
+        return await fetch_general_outing_pdf(
+            client=self._client,
+            registration_number=logged_in_info.registration_number,
+            csrf_token=logged_in_info.post_login_csrf_token,
+            leave_id=leave_id,
+        )
+
+    async def download_weekend_outing_form(self, booking_id: str) -> bytes:
+        """
+        Downloads the outing form PDF for a weekend outing request.
+
+        Args:
+            booking_id: The booking id, from WeekendOutingRequest.booking_id.
+                Check can_download first.
+
+        Returns:
+            The raw PDF contents.
+        """
+        logged_in_info = await self._ensure_logged_in()
+        return await fetch_weekend_outing_pdf(
+            client=self._client,
+            registration_number=logged_in_info.registration_number,
+            csrf_token=logged_in_info.post_login_csrf_token,
+            booking_id=booking_id,
+        )
+
+    async def download_payment_receipt(
+        self, receipt_no: str, application_number: str
+    ) -> str:
+        """
+        Downloads the printable document for a paid receipt.
+
+        VTOP serves this as an HTML page rather than a PDF.
+
+        Args:
+            receipt_no: The receipt number, from PaymentReceipt.receipt_no.
+            application_number: The student's application number, available
+                from StudentProfileModel.application_number.
+
+        Returns:
+            The receipt document markup.
+        """
+        logged_in_info = await self._ensure_logged_in()
+        return await fetch_payment_receipt_document(
+            client=self._client,
+            registration_number=logged_in_info.registration_number,
+            csrf_token=logged_in_info.post_login_csrf_token,
+            receipt_no=receipt_no,
+            application_number=application_number,
         )
 
     async def get_digital_assignments(

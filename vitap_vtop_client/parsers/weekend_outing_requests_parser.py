@@ -16,7 +16,13 @@ def parse_weekend_outing_requests(html: str) -> WeekendOutingModel:
             rows = table.find_all("tr")[1:]
             for row in rows:
                 cols = row.find_all("td")
+                booking_id = cols[10].get_text().strip()
+                status = (
+                    cols[12].get_text().replace("\n", " ").replace("\t", "").strip()
+                )
+
                 request = WeekendOutingRequest(
+                    serial=cols[0].get_text().strip(),
                     registration_number=cols[1].get_text().strip(),
                     hostel_block=cols[2].get_text().strip(),
                     room_number=cols[3].get_text().strip(),
@@ -26,13 +32,13 @@ def parse_weekend_outing_requests(html: str) -> WeekendOutingModel:
                     contact_number=cols[7].get_text().strip(),
                     parent_contact_number=cols[8].get_text().strip(),
                     date=cols[9].get_text().strip(),
-                    booking_id=cols[10].get_text().strip(),
+                    booking_id=booking_id,
                     action=cols[11].get_text().strip(),
-                    status=cols[12]
-                    .get_text()
-                    .replace("\n", " ")
-                    .replace("\t", "")
-                    .strip(),
+                    status=status,
+                    # VTOP only issues the outing form once the request is
+                    # accepted, so the status has to be checked too.
+                    can_download=bool(booking_id)
+                    and status.lower().strip() == "outing request accepted",
                 )
                 requests.append(request)
 

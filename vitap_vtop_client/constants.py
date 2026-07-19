@@ -107,3 +107,7 @@ PROCESS_DIGITAL_ASSIGNMENT_URL = "/vtop/examinations/processDigitalAssignment"
 PROCESS_DA_UPLOAD_URL = "/vtop/examinations/processDigitalAssignmentUpload"
 DA_UPLOAD_URL = "/vtop/examinations/doDAssignmentUploadMethod"
 DA_OTP_UPLOAD_URL = "/vtop/examinations/doDAssignmentOtpUpload"
+
+# Outing download URL
+DOWNLOAD_LEAVE_PASS_URL = "/vtop/hostel/downloadLeavePass"
+DOWNLOAD_OUTING_FORM_URL = "/vtop/hostel/downloadOutingForm"
