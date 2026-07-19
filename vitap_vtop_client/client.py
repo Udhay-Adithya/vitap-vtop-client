@@ -26,7 +26,12 @@ from .login import (
 
 from .utils import solve_captcha
 
-from .attendance import fetch_attendance, AttendanceModel
+from .attendance import (
+    fetch_attendance,
+    fetch_attendance_detail,
+    AttendanceModel,
+    AttendanceDetailModel,
+)
 from .biometric import fetch_biometric, BiometricModel
 from .timetable import fetch_timetable, TimetableModel
 from .grade_history import fetch_grade_history, GradeHistoryModel
@@ -312,6 +317,34 @@ class VtopClient:
             client=self._client,
             registration_number=logged_in_info.registration_number,
             semSubID=sem_sub_id,
+            csrf_token=logged_in_info.post_login_csrf_token,
+        )
+
+    async def get_attendance_detail(
+        self,
+        sem_sub_id: str,
+        course_id: str,
+        course_type: str,
+    ) -> list[AttendanceDetailModel]:
+        """
+        Fetches the per class attendance detail for a single course.
+
+        Args:
+            sem_sub_id: The semester subject ID (e.g., "AP2023242").
+            course_id: The course id, from AttendanceModel.course_id.
+            course_type: The short course type code, from
+                AttendanceModel.course_type_code.
+
+        Returns:
+            A list containing one AttendanceDetailModel per class held.
+        """
+        logged_in_info = await self._ensure_logged_in()
+        return await fetch_attendance_detail(
+            client=self._client,
+            registration_number=logged_in_info.registration_number,
+            semSubID=sem_sub_id,
+            course_id=course_id,
+            course_type=course_type,
             csrf_token=logged_in_info.post_login_csrf_token,
         )
 

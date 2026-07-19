@@ -1,10 +1,18 @@
 import httpx
 import time
 from datetime import datetime, timezone
-from vitap_vtop_client.attendance.model.attendance_model import AttendanceModel
+from vitap_vtop_client.attendance.model.attendance_model import (
+    AttendanceDetailModel,
+    AttendanceModel,
+)
 from vitap_vtop_client.exceptions.exception import VtopAttendanceError, VtopConnectionError, VtopParsingError
 from vitap_vtop_client.parsers import attendance_parser
-from vitap_vtop_client.constants import VIEW_ATTENDANCE_URL, ATTENDANCE_URL, HEADERS
+from vitap_vtop_client.constants import (
+    VIEW_ATTENDANCE_URL,
+    VIEW_ATTENDANCE_DETAIL_URL,
+    ATTENDANCE_URL,
+    HEADERS,
+)
 
 async def fetch_attendance(
     client: httpx.AsyncClient,
@@ -86,3 +94,64 @@ async def fetch_attendance(
     except Exception as e:
         print(f"An unexpected error occurred while fetching or parsing attendance: {e}")
         raise VtopAttendanceError(f"An unexpected error occurred while fetching attendance for semester {semSubID}: {e}") from e
+
+async def fetch_attendance_detail(
+    client: httpx.AsyncClient,
+    registration_number: str,
+    semSubID: str,
+    course_id: str,
+    course_type: str,
+    csrf_token: str
+) -> list[AttendanceDetailModel]:
+    """
+    Retrieves the per class attendance detail for a single course.
+
+    Parameters:
+        client (httpx.AsyncClient): The active httpx async client.
+        registration_number (str): The registration_number of the student.
+        semSubID (str): The identifier for the semester subject.
+        course_id (str): The course id, from AttendanceModel.course_id.
+        course_type (str): The short course type code, from
+            AttendanceModel.course_type_code.
+        csrf_token (str): The CSRF token.
+
+    Returns:
+        list[AttendanceDetailModel]: One entry per class held.
+
+    Raises:
+        VtopConnectionError: If an HTTP request fails.
+        VtopAttendanceError: If the request fails or returns unexpected content.
+        VtopParsingError: For parsing errors.
+    """
+    try:
+        data = {
+            "_csrf": csrf_token,
+            "semesterSubId": semSubID,
+            "registerNumber": registration_number,
+            "courseId": course_id,
+            "courseType": course_type,
+            "authorizedID": registration_number,
+            "x": datetime.now(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S GMT"),
+        }
+        response = await client.post(
+            VIEW_ATTENDANCE_DETAIL_URL, data=data, headers=HEADERS
+        )
+        response.raise_for_status()
+
+        return attendance_parser.parse_full_attendance(response.text)
+
+    except VtopParsingError as e:
+        raise e
+
+    except httpx.RequestError as e:
+        print(f"Attendance detail fetch failed: {e}")
+        raise VtopConnectionError(
+            f"Failed to fetch attendance detail: {e}",
+            original_exception=e,
+            status_code=502
+        )
+    except Exception as e:
+        print(f"An unexpected error occurred while fetching attendance detail: {e}")
+        raise VtopAttendanceError(
+            f"An unexpected error occurred while fetching attendance detail for course {course_id}: {e}"
+        ) from e
