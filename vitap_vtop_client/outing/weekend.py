@@ -10,7 +10,7 @@ from vitap_vtop_client.constants import (
 from .model.weekend_outing_model import WeekendOutingModel
 from vitap_vtop_client.parsers.outing_form_parser import parse_outing_form
 from vitap_vtop_client.parsers.weekend_outing_requests_parser import parse_weekend_outing_requests
-from vitap_vtop_client.utils.outing_response_checker import find_outing_response
+from vitap_vtop_client.parsers.outing_response_parser import parse_outing_response
 from vitap_vtop_client.exceptions.exception import (
     VtopConnectionError,
     VtopWeekendOutingError,
@@ -103,7 +103,7 @@ async def submit_weekend_outing_request(
             SAVE_WEEKEND_OUTING_URL, data=submit_data, headers=HEADERS
         )
         response.raise_for_status()
-        return find_outing_response(response.text)
+        return parse_outing_response(response.text)
 
     except VtopParsingError as e:
         raise e

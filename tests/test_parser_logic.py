@@ -544,3 +544,45 @@ def test_payment_receipts_skip_rows_without_a_receipt_button():
     )
 
     assert parse_payment_receipts(html) == []
+
+
+# --------------------------------------------------------------------------
+# Outing form (student details pre-fill). Live VTOP showed the general form
+# has no parentContactNumber input, and the weekend form renders nothing
+# outside its eligibility window; the parser must tolerate both.
+# --------------------------------------------------------------------------
+
+from vitap_vtop_client.exceptions import VtopParsingError as _VtopParsingError
+from vitap_vtop_client.parsers.outing_form_parser import parse_outing_form
+
+
+def test_outing_form_tolerates_missing_optional_inputs():
+    """
+    The live general form has no parentContactNumber input. The parser must
+    leave it empty rather than crash, which used to break general outing
+    submission entirely.
+    """
+    html = (
+        '<input id="regNo" value="00XXX0000">'
+        '<input id="name" value="Test Student">'
+        '<input id="applicationNo" value="123">'
+        '<input id="gender" value="MALE">'
+        '<input id="hostelBlock" value="MH-1">'
+        '<input id="roomNo" value="812">'
+        # no parentContactNumber input
+    )
+
+    info = parse_outing_form(html)
+
+    assert info.registration_number == "00XXX0000"
+    assert info.hostel_block == "MH-1"
+    assert info.parent_contact_number == ""
+
+
+def test_outing_form_errors_clearly_when_it_did_not_render():
+    """
+    Outside the weekend eligibility window VTOP serves no form fields. The
+    parser should raise a clear error, not an opaque NoneType crash.
+    """
+    with pytest.raises(_VtopParsingError, match="did not render"):
+        parse_outing_form("<html><body>Not eligible right now</body></html>")

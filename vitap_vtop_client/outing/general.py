@@ -13,7 +13,7 @@ from vitap_vtop_client.parsers.outing_form_parser import parse_outing_form
 from vitap_vtop_client.parsers.general_outing_requests_parser import (
     parse_general_outing_requests,
 )
-from vitap_vtop_client.utils.outing_response_checker import find_outing_response
+from vitap_vtop_client.parsers.outing_response_parser import parse_outing_response
 from vitap_vtop_client.exceptions.exception import (
     VtopConnectionError,
     VtopGeneralOutingError,
@@ -122,7 +122,7 @@ async def submit_general_outing_request(
         )
         response.raise_for_status()
 
-        return find_outing_response(response.text)
+        return parse_outing_response(response.text)
 
     except VtopParsingError as e:
         raise e
