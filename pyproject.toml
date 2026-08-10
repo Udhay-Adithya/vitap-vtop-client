@@ -9,6 +9,8 @@ homepage = "https://github.com/Udhay-Adithya/vitap-vtop-client"
 repository = "https://github.com/Udhay-Adithya/vitap-vtop-client"
 keywords = ["VIT-AP", "VTOP", "student portal", "API", "Python"]
 packages = [{ include = "vitap_vtop_client" }]
+# The bundled CA cert is package data and must ship in the wheel and sdist.
+include = [{ path = "vitap_vtop_client/certs/*.pem", format = ["sdist", "wheel"] }]
 
 [tool.poetry.dependencies]
 python = "^3.13.3"
@@ -20,6 +22,7 @@ Pillow = "11.2.1"
 numpy = "2.2.6"
 pandas = "2.2.3"
 python-dotenv = "1.1.0"
+certifi = "*"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.5"

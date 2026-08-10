@@ -3,6 +3,7 @@ import httpx
 import asyncio
 
 from .constants import VTOP_BASE_URL
+from .ssl_config import create_vtop_ssl_context
 
 from .exceptions import (
     VtopLoginError,
@@ -118,8 +119,14 @@ class VtopClient:
 
         self.username = registration_number.upper()
         self.password = password
+        # VTOP omits an intermediate CA from its TLS chain, so a custom SSL
+        # context (certifi roots + the bundled intermediate) is needed to
+        # verify it. See ssl_config for details.
         self._client = httpx.AsyncClient(
-            timeout=30.0, follow_redirects=True, base_url=VTOP_BASE_URL
+            timeout=30.0,
+            follow_redirects=True,
+            base_url=VTOP_BASE_URL,
+            verify=create_vtop_ssl_context(),
         )
         self._logged_in_student: LoggedInStudent | None = None
         self.max_login_retries = max_login_retries
