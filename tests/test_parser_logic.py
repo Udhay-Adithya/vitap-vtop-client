@@ -27,6 +27,10 @@ from vitap_vtop_client.parsers.digital_assignment_parser import (
 from vitap_vtop_client.parsers.faculty_parser import parse_all_faculty_search
 from vitap_vtop_client.parsers.grade_history_parser import parse_grade_history
 from vitap_vtop_client.parsers.outing_response_parser import parse_outing_response
+from vitap_vtop_client.parsers.payments_receipts_parser import parse_payment_receipts
+from vitap_vtop_client.parsers.weekend_outing_requests_parser import (
+    parse_weekend_outing_requests,
+)
 from vitap_vtop_client.parsers.semester_parser import (
     parse_semester_id_from_timetable,
 )
@@ -416,3 +420,127 @@ def test_course_detail_keeps_both_lecture_dates():
     assert lecture.date == "10-12-2025"
     assert lecture.formatted_date == "10-Dec-2025"
     assert lecture.reference_materials[0].download_path == "downloadPdf/A/B/19"
+
+
+# --------------------------------------------------------------------------
+# Regressions found by running against live VTOP. The synthetic markup here
+# mirrors the real structures those live responses turned out to have.
+# --------------------------------------------------------------------------
+
+
+def test_attendance_detail_skips_the_td_header_row():
+    """
+    Live VTOP renders the detail header with <td> cells inside the same table,
+    so the cell count does not skip it. A real row leads with a numeric serial.
+    """
+    html = (
+        '<table id="StudentAttendanceDetailDataTable">'
+        + row(["Sl.No.", "Date", "Slot", "Day / Time", "Status", "Remarks"])
+        + row(["1", "08-08-2026", "C1", "SAT / 10:00-10:50", "Present", ""])
+        + "</table>"
+    )
+
+    records = parse_full_attendance(html)
+
+    assert len(records) == 1
+    assert records[0].serial == "1"
+    assert records[0].status == "Present"
+
+
+def test_weekend_outing_reads_the_11_column_layout():
+    """
+    The live table has 11 columns and no contact or booking-id columns; the
+    booking id lives in the download link. The parser used to assume 13
+    columns and crashed on cols[12].
+    """
+    link = (
+        '<a data-leave-url="/vtop/hostel/downloadOutingForm/W25256643577" '
+        'href="javascript:void(0);">Download</a>'
+    )
+    html = (
+        '<table id="BookingRequests">'
+        + row(
+            ["S.No", "Registration Number", "Hostel Block", "Room Number",
+             "Place Of Visit", "Purpose Of Visit", "Time", "Date", "Action",
+             "Status", "Download OutPass"]
+        )
+        + row(
+            ["1", "00XXX0000", "MH-1", "812", "Vijayawada", "Shopping",
+             "10:30 AM- 4:30PM", "2026-07-26", "", "Outing Request Accepted", link]
+        )
+        + "</table>"
+    )
+
+    requests = parse_weekend_outing_requests(html).root
+
+    assert len(requests) == 1
+    entry = requests[0]
+    assert entry.hostel_block == "MH-1"
+    assert entry.date == "2026-07-26"
+    # Pulled out of the download link, not a column.
+    assert entry.booking_id == "W25256643577"
+    assert entry.can_download is True
+
+
+def test_weekend_outing_download_needs_an_accepted_status():
+    link = (
+        '<a data-leave-url="/vtop/hostel/downloadOutingForm/W1" '
+        'href="javascript:void(0);">Download</a>'
+    )
+    html = (
+        '<table id="BookingRequests">'
+        + row(["h"] * 11)
+        + row(
+            ["1", "00XXX0000", "MH-1", "812", "Vijayawada", "Shopping",
+             "10:30 AM", "2026-07-26", "", "Waiting for Warden Approval", link]
+        )
+        + "</table>"
+    )
+
+    entry = parse_weekend_outing_requests(html).root[0]
+
+    # The link is present but the request is not accepted yet.
+    assert entry.booking_id == "W1"
+    assert entry.can_download is False
+
+
+def test_payment_receipts_locate_columns_by_header():
+    """
+    Live VTOP inserted invoice and fee columns, pushing amount to index 5 and
+    the button to the last cell. Header lookup keeps the parser correct.
+    """
+    button = (
+        "<button onclick=\"javascript:doDuplicateReceipt('78323/27/AMR');\">"
+        "View</button>"
+    )
+    html = (
+        "<table>"
+        + row(
+            ["RECEIPT NUMBER", "DATE", "INVOICE NUMBER", "FEE GROUP",
+             "FEE SUBGROUP", "AMOUNT", "CAMPUS CODE", "VIEW"]
+        )
+        + row(
+            ["78323", "08-JUL-2026", "AM2600123276", "HOSTEL FEE",
+             "Hostelfee", "199300.0", "AMR", button]
+        )
+        + "</table>"
+    )
+
+    receipts = parse_payment_receipts(html)
+
+    assert len(receipts) == 1
+    assert receipts[0].amount == "199300.0"
+    assert receipts[0].campus_code == "AMR"
+    assert receipts[0].receipt_no == "78323/27/AMR"
+
+
+def test_payment_receipts_skip_rows_without_a_receipt_button():
+    """A totals or empty-state row must be skipped, not raise."""
+    html = (
+        "<table>"
+        + row(["RECEIPT NUMBER", "DATE", "AMOUNT", "CAMPUS CODE", "VIEW"])
+        + row(["", "", "Total", "", ""])
+        + "</table>"
+    )
+
+    assert parse_payment_receipts(html) == []

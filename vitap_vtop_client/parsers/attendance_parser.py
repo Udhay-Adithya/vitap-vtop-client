@@ -119,9 +119,16 @@ def parse_full_attendance(html: str) -> list[AttendanceDetailModel]:
             if len(cells) < 6:
                 continue
 
+            # VTOP renders the header row with <td> cells rather than <th> and
+            # inside the same table body, so it is not skipped by the cell
+            # count alone. A real row always leads with a numeric serial.
+            serial = _cell_text(cells[0])
+            if not serial.isdigit():
+                continue
+
             records.append(
                 AttendanceDetailModel(
-                    serial=_cell_text(cells[0]),
+                    serial=serial,
                     date=_cell_text(cells[1]),
                     slot=_cell_text(cells[2]),
                     day_time=_cell_text(cells[3]),
