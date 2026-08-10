@@ -1,0 +1,133 @@
+<html>
+<head>
+	
+		<link rel="stylesheet" href="assets/css/datatables.css" /> 	
+    
+  
+    	<script type="text/javascript" src="/vtop/assets/js/datatables.js"></script>		   	
+   	
+
+	 	<link rel="stylesheet" href="assets/css/datepicker3.css" />
+	 
+
+		<script src="assets/js/bootstrap-datepicker.js"></script>	
+   	
+</head>
+<body class="hold-transition skin-blue-light sidebar-mini fixed">
+	<div id="main-section">
+
+		<section class="content">
+			<div class="col-md-12 col-md-11" style="float: none; margin: auto;">
+
+				<div class="box box-info">
+					<div class="box-header with-border">
+						<h3 class="box-title">Biometric History</h3>
+					</div>
+
+					<div class="box-body">
+
+						<form role="form" method="post" autocomplete="off"
+							id="attHistoryFact" name="attHistoryFact">
+                    <input type="hidden" name="_csrf" value="00000000-0000-0000-0000-000000000000\" /> 
+							<input type="hidden" name="authorizedID" id="authorizedID"
+								value="00XXX0000" />
+
+
+
+							<div class="form-groups">
+								<label class="col-sm-3 control-label" style="text-align: left;">Date</label>
+								<div class="col-sm-5 form-group">
+									<input type="text" id="fromDate" class="form-control"
+										name="fromDate" value="" />
+
+								</div>
+							</div>
+
+
+							<div class="col-sm-3 form-group"
+								style="float: right; padding-left: 0; margin-right: 15px;">
+								<button class="btn btn-md btn-primary btn-block"
+									onclick="getStudViewBioList();" id="search" type="button">Search</button>
+							</div>
+
+							<div class=" form-groups" id="getStudBioList">
+
+								<strong id="infomsg"
+									style="color: red; width: 100%; float: left; text-align: center; padding-bottom: 10px; margin: 5px 0 5px 0;"></strong>
+								
+								<div style="float: left; width: 100%">
+									<div class="col-sm-8" style="margin: auto; float: none;">
+										
+									</div>
+								</div>
+
+
+							</div>
+
+						</form>
+					</div>
+				</div>
+			</div>
+
+
+
+		</section>
+
+		<script type="text/javascript">
+						/*<![CDATA[*/
+
+						$('#fromDate').datepicker({
+							autoclose : true,
+							format : 'dd/mm/yyyy'
+						});
+
+						function getStudViewBioList() {
+							$
+									.blockUI({
+										message : '<img src="assets/img/482.GIF"> loading... Just a moment...'
+									});
+
+							var vldFlg = 1;
+							var fromDate = document.getElementById("fromDate").value;
+							var id="00XXX0000";
+							var now = new Date();
+							var csrfName = "_csrf";
+					         var csrfValue = "17cc6c3e-a9b2-4102-a929-b985e70eb44b";
+
+						
+							if (vldFlg == 1) {
+								if (fromDate == '') {
+									vldFlg = 0;
+									$('#infomsg').html("Enter the Date");
+									$.unblockUI();
+								}
+							}
+
+							var dataParameter = csrfName + "=" + csrfValue+'&fromDate=' + fromDate + '&authorizedID='+ id + '&x='+ now.toUTCString();
+
+							if (vldFlg == 1) {
+								$('#infomsg').html("");
+								$.ajax({
+									url : "getStudBioHistory",
+									type : "POST",
+									data : dataParameter,
+									success : function(response) {
+										$("#getStudBioList").html(response);
+										$.unblockUI();
+
+									},
+									error : function(jqXHR, textStatus,
+											errorMessage) {
+										$.unblockUI();
+
+									}
+								});
+
+							}
+						}
+						/*]]>*/
+					</script>
+
+	</div>
+</body>
+</html>

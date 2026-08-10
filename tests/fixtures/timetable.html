@@ -1,0 +1,2564 @@
+<div class="form-group" id="getStudentDetails">
+								
+								<div  id="studentDetailsList" >
+										
+									<div>
+										<span style="font-size: 12px;"><b style="color: red;">Note:</b></span>
+										<ul style="font-size: 12px;"> 
+											<li style="text-align: justify;">Students are required to generate the invoice and then proceed to pay 
+												the required course fee.  Registration is confirmed only if status of the course is 
+												<Strong style="color: green;">'Registered and Approved'</Strong> (in regular cases) or 
+												<Strong style="color: green;">'Registered, Invoice Generated, Fees Paid and Approved'</Strong> 
+												(when there is a requirement for course fee payment).</li>
+											
+										</ul>
+									</div><br/>
+									
+									<div class="table-responsive">
+										<table class="table"
+										style="background-color: #fff; border: 1px solid #ddd; font-size: 12px; padding: 4px; text-align: center;">
+										<tr>
+												
+												<!-- <th:block th:if="${cancelbutton==2}">
+													<td colspan="16" style="background-color: #3c8dbc; border:1px solid #b2b2b2;">
+														<div class="cancle-generate">
+															<button th:onclick="cancleInvoiceGenerate();"
+																class="btn btn-md btn-danger btn-block"
+																style="text-align: center; width: auto;
+																float: none; margin: auto;">Cancel Invoice 
+															</button>
+														</div>
+													</td>
+												</th:block> -->
+										</tr>
+									
+										
+											<tr Style="background-color: #3c8dbc; color: #fff;border:1px solid #b2b2b2;">
+												<th style="vertical-align: middle; text-align: center; border-right: 1px solid #b2b2b2; padding: 5px; width: 1%;">Sl.No</th>
+												<th style="vertical-align: middle; text-align: center; border-right: 1px solid #b2b2b2; padding: 5px; width: 5%;">Class Group</th>
+												<th style="vertical-align: middle; text-align: center; border-right: 1px solid #b2b2b2; padding: 5px; width: 20%;">Course</th>
+												<th style="vertical-align: middle; text-align: center; border-right: 1px solid #b2b2b2; padding: 5px; width:0%;">L T P J C</th>
+												<th style="vertical-align: middle; text-align: center; border-right: 1px solid #b2b2b2; padding: 5px; width:5%;">Category</th>
+												<th style="vertical-align: middle; text-align: center; border-right: 1px solid #b2b2b2; padding: 5px; width:5%;">Course Option</th>
+												<th style="vertical-align: middle; text-align: center; border-right: 1px solid #b2b2b2; padding: 5px; width:5%;">Class Nbr</th>	
+												<th style="vertical-align: middle; text-align: center; border-right: 1px solid #b2b2b2; padding: 5px; width:10%;">Slot  - <br/>Venue</th>
+												<th style="vertical-align: middle; text-align: center; border-right: 1px solid #b2b2b2; padding: 5px; width:15%;">Faculty Details</th>
+												<th style="vertical-align: middle; text-align: center; border-right: 1px solid #b2b2b2; padding: 5px; width:10%;">
+													Registered / Updated Date &amp; Time 
+												</th>
+												<th style="vertical-align: middle; text-align: center; border-right: 1px solid #b2b2b2; padding: 5px; width:10%;">
+													Attendance Date - Type</th>
+												<th style="vertical-align: middle; text-align: center; border-right: 1px solid #b2b2b2; padding: 5px; width:10%;">Status &amp; Ref No </th>
+											</tr>
+										
+										<tr>
+											<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+												<p style="margin: 0px;">1</p>
+											</td>
+											<td style="text-align:left; vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+												<p style="margin: 0px;">General (Semester)</p>
+											</td>
+											
+											<td style="padding: 3px; font-size: 12px; border-color: #b2b2b2;vertical-align: middle;">
+												<p style="margin: 0px;">CAP4001 - Capstone</p>
+												<p style="margin: 0px; font-weight: bolder;"> ( Project ) </p>
+											</td>
+											
+											<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+												<p style="margin: 0px;">0 0 0 0 6.0</p>
+											</td>
+											<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+												
+												
+													<span>-</span>
+												
+												
+										
+												
+										
+											
+											</td>																
+											<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+												<p style="margin: 0px;">Regular</p>
+																								
+											</td>
+											<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+												<p style="margin: 0px;">AP2026272001557</p>
+											</td>
+											
+											<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+												<p style="margin: 0px;">NILL - </p><br/>
+												<p style="margin: 0px; font-weight: bolder;">NIL-ONL</p>
+											</td>
+											<td style="text-align:left; vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">			
+												
+												
+													
+														<p style="margin: 0px;">Project - </p><br/>
+														<p style="margin: 0px; font-weight: bolder;">SCOPE</p>
+													
+													
+														
+															<span>Project Title: <br>Narrative AI protection against threat of disinformation, misinformation and deepfakes</span>
+															<p>Guide: <br>Sibi Chakkaravarthy S - SCOPE</p>
+																																
+														
+																							
+											</td>
+											
+										
+											<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;white-space: nowrap;">
+												<p style="margin: 0px;">05-Jul-2026 09:48</p>
+											</td>
+											
+											<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 3px; white-space: nowrap;">
+												
+												<p style="margin: 0px;">
+													<span>06-Jul-2026</span><br/>
+													<strong> - Manual</strong>
+												</p>
+											</td>
+											
+											<td  style="text-align:left; vertical-align: middle; border: 1px solid #b2b2b2; border-right :2px solid #b2b2b2; padding: 5px;">
+												<p style="margin: 0px;">
+													<span style="color:green;">Registered, Invoice Generated, Approved by Academics and Faculty</span><br/>
+													 
+												</p>
+												
+											</td>
+										</tr>
+										
+										<tr>
+											<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+												<p style="margin: 0px;">2</p>
+											</td>
+											<td style="text-align:left; vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+												<p style="margin: 0px;">General (Semester)</p>
+											</td>
+											
+											<td style="padding: 3px; font-size: 12px; border-color: #b2b2b2;vertical-align: middle;">
+												<p style="margin: 0px;">CSE3009 - NoSQL Databases</p>
+												<p style="margin: 0px; font-weight: bolder;"> ( Embedded Theory ) </p>
+											</td>
+											
+											<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+												<p style="margin: 0px;">3 0 0 0 3.0</p>
+											</td>
+											<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+												
+												
+													<span>-</span>
+												
+												
+										
+												
+										
+											
+											</td>																
+											<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+												<p style="margin: 0px;">Regular</p>
+																								
+											</td>
+											<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+												<p style="margin: 0px;">AP2026272000746</p>
+											</td>
+											
+											<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+												<p style="margin: 0px;">C1+TCC1 - </p><br/>
+												<p style="margin: 0px; font-weight: bolder;">105-AB-2</p>
+											</td>
+											<td style="text-align:left; vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">			
+												
+													<p style="margin: 0px;">Madugula Kiran Kumar - </p><br/>
+													<p style="margin: 0px; font-weight: bolder;">SCOPE</p>
+												
+																							
+											</td>
+											
+										
+											<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;white-space: nowrap;">
+												<p style="margin: 0px;">05-Jul-2026 09:38</p>
+											</td>
+											
+											<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 3px; white-space: nowrap;">
+												
+												<p style="margin: 0px;">
+													<span>06-Jul-2026</span><br/>
+													<strong> - Manual</strong>
+												</p>
+											</td>
+											
+											<td  style="text-align:left; vertical-align: middle; border: 1px solid #b2b2b2; border-right :2px solid #b2b2b2; padding: 5px;">
+												<p style="margin: 0px;">
+													<span style="color:red;">Subject to Offering</span><br/>
+													 
+												</p>
+												
+											</td>
+										</tr>
+										
+										<tr>
+											<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+												<p style="margin: 0px;">3</p>
+											</td>
+											<td style="text-align:left; vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+												<p style="margin: 0px;">General (Semester)</p>
+											</td>
+											
+											<td style="padding: 3px; font-size: 12px; border-color: #b2b2b2;vertical-align: middle;">
+												<p style="margin: 0px;">CSE3009 - NoSQL Databases</p>
+												<p style="margin: 0px; font-weight: bolder;"> ( Embedded Lab ) </p>
+											</td>
+											
+											<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+												<p style="margin: 0px;">0 0 2 0 1.0</p>
+											</td>
+											<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+												
+												
+													<span>-</span>
+												
+												
+										
+												
+										
+											
+											</td>																
+											<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+												<p style="margin: 0px;">Regular</p>
+																								
+											</td>
+											<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+												<p style="margin: 0px;">AP2026272001422</p>
+											</td>
+											
+											<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">
+												<p style="margin: 0px;">L1+L2 - </p><br/>
+												<p style="margin: 0px; font-weight: bolder;">409-CB</p>
+											</td>
+											<td style="text-align:left; vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;">			
+												
+													<p style="margin: 0px;">Madugula Kiran Kumar - </p><br/>
+													<p style="margin: 0px; font-weight: bolder;">SCOPE</p>
+												
+																							
+											</td>
+											
+										
+											<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px;white-space: nowrap;">
+												<p style="margin: 0px;">05-Jul-2026 09:38</p>
+											</td>
+											
+											<td style="vertical-align: middle; border: 1px solid #b2b2b2; padding: 3px; white-space: nowrap;">
+												
+												<p style="margin: 0px;">
+													<span>06-Jul-2026</span><br/>
+													<strong> - Manual</strong>
+												</p>
+											</td>
+											
+											<td  style="text-align:left; vertical-align: middle; border: 1px solid #b2b2b2; border-right :2px solid #b2b2b2; padding: 5px;">
+												<p style="margin: 0px;">
+													<span style="color:red;">Subject to Offering</span><br/>
+													 
+												</p>
+												
+											</td>
+										</tr>
+										<tr>
+											<td
+												style="background-color: #3c8dbc; color: #fff;vertical-align: middle; border: 1px solid #b2b2b2; padding: 5px; font-size: 14px;"
+												colspan="16"><span>Total Number Of Credits: </span> <b><span>10.0</span></b></td>
+										</tr>
+										
+									<tr>
+										
+										<!-- <th:block th:if="${cancelbutton==2}">
+											<td colspan="16" style="background-color: #3c8dbc; border:1px solid #b2b2b2;">
+												<div class="cancle-generate">
+													<button th:onclick="cancleInvoiceGenerate();"
+														class="btn btn-md btn-danger btn-block"
+														style="text-align: center; width: auto;
+														float: none; margin: auto;">Cancel Invoice 
+													</button>
+												</div>
+											</td>
+										</th:block> -->
+									</tr>
+									
+									</table>
+									</div>						
+									
+	
+									<div class="table table-responsive" id="ttview" style="margin-top: 20px;float: left;width: 100%;">
+										 
+   		 
+   		 			 
+   		 					  		 							
+							<table id="timeTableStyle"
+								class="w3-table-all w3-card-4 w3-hoverable"
+								style="border: 2px solid #3c8dbc; text-align: center; font-size: 12px; margin-bottom: 20px;width:100%;">
+								
+								
+									
+								<tr>	
+									<td rowspan="2" bgcolor="#e2e2e2"
+										style="border: 1px solid #3c8dbc; text-align: center; 
+										vertical-align: middle; padding: 3px; width: 50px;">THEORY</td>
+									
+									<td bgcolor="#e2e2e2"
+										style="border: 1px solid #3c8dbc; text-align: center; 
+										vertical-align: middle; padding: 3px; width: 50px;">Start</td>
+									
+									
+										
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">08:00</td>
+										
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">09:00</td>
+										
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">09:01</td>
+										
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">10:00</td>
+										
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">10:01</td>
+										
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">11:00</td>
+										
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">11:01</td>
+										
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">12:00</td>
+										
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">12:01</td>
+											
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">-</td>
+										
+											
+										
+										
+										
+									
+										
+										
+											
+										
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">Lunch</td>
+											
+										
+										
+										
+									
+										
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">14:00</td>
+										
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">14:01</td>
+										
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">15:00</td>
+										
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">15:01</td>
+										
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">16:00</td>
+										
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">16:01</td>
+										
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">17:00</td>
+										
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">17:01</td>
+										
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">18:00</td>
+											
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">-</td>
+										
+											
+										
+										
+										
+									
+								</tr>
+								
+								<tr>
+									<td bgcolor="#e2e2e2"
+										style="border: 1px solid #3c8dbc; text-align: center; 
+										vertical-align: middle; padding: 3px; width: 50px;">End</td>
+																		
+									
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">08:50</td>
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">09:50</td>
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">09:51</td>
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">10:50</td>
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">10:51</td>
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">11:50</td>
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">11:51</td>
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">12:50</td>
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">12:51</td>
+											
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">-</td>
+										
+											
+										
+										
+											
+									
+										
+											
+										
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">Lunch</td>
+											
+										
+										
+											
+									
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">14:50</td>
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">14:51</td>
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">15:50</td>
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">15:51</td>
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">16:50</td>
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">16:51</td>
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">17:50</td>
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">17:51</td>
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">18:50</td>
+											
+										<td bgcolor="#CCCCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">-</td>
+										
+											
+										
+										
+											
+									
+									
+								</tr>
+								
+									
+								<tr>	
+									<td rowspan="2" bgcolor="#e2e2e2"
+										style="border: 1px solid #3c8dbc; text-align: center; 
+										vertical-align: middle; padding: 3px; width: 50px;">LAB</td>
+									
+									<td bgcolor="#e2e2e2"
+										style="border: 1px solid #3c8dbc; text-align: center; 
+										vertical-align: middle; padding: 3px; width: 50px;">Start</td>
+									
+									
+										
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">08:00</td>
+										
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">08:50</td>
+										
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">08:51</td>
+										
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">09:50</td>
+										
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">09:51</td>
+										
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">10:40</td>
+										
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">10:41</td>
+										
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">11:40</td>
+										
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">11:41</td>
+										
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">12:30</td>
+											
+										
+										
+											
+										
+										
+										
+									
+										
+										
+											
+										
+										
+											
+										
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">Lunch</td>
+										
+									
+										
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">14:00</td>
+										
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">14:01</td>
+										
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">14:50</td>
+										
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">14:51</td>
+										
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">15:50</td>
+										
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">15:51</td>
+										
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">16:40</td>
+										
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">16:41</td>
+										
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">17:40</td>
+										
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">18:30</td>
+											
+										
+										
+											
+										
+										
+										
+									
+								</tr>
+								
+								<tr>
+									<td bgcolor="#e2e2e2"
+										style="border: 1px solid #3c8dbc; text-align: center; 
+										vertical-align: middle; padding: 3px; width: 50px;">End</td>
+																		
+									
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">08:50</td>
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">09:40</td>
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">09:41</td>
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">10:40</td>
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">10:41</td>
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">11:30</td>
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">11:31</td>
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">12:30</td>
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">12:31</td>
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">13:10</td>
+											
+										
+										
+											
+										
+										
+											
+									
+										
+											
+										
+										
+											
+										
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">Lunch</td>
+											
+									
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">14:50</td>
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">14:51</td>
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">15:40</td>
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">15:41</td>
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">16:40</td>
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">16:41</td>
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">17:30</td>
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">17:31</td>
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">18:30</td>
+										<td bgcolor="#99CCFF"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">19:10</td>
+											
+										
+										
+											
+										
+										
+											
+									
+									
+								</tr>
+								
+								
+								
+									
+									
+										
+									<tr style="background-color: #FFFFCC;">
+									
+										<td rowspan="2" 
+											bgcolor="#e2e2e2"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">TUE</td>
+										<td bgcolor="#e2e2e2"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">THEORY</td>
+											
+										
+										
+											
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">TFF1</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">A1</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">-</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">B1</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">-</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">TC1</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">G1</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">D1</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">-</td>
+													
+											
+											
+											<td style="border: 1px solid #3c8dbc; text-align: center; 
+												vertical-align: middle; padding: 3px; width: 50px;">-</td>
+											
+										
+											
+											
+											
+											
+											<td bgcolor="#e2e2e2"
+												style="border: 1px solid #3c8dbc; text-align: center; 
+												vertical-align: middle; padding: 3px; width: 50px;">Lunch</td>
+										
+											
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">F2</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">-</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">A2</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">-</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">B2</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">-</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">TC2</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">G2</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">TDD2</td>
+													
+											
+											
+											<td style="border: 1px solid #3c8dbc; text-align: center; 
+												vertical-align: middle; padding: 3px; width: 50px;">-</td>
+											
+										
+										
+									</tr>
+									
+									
+									
+										
+									<tr style="background-color: #FFFFCC;">
+									
+										
+										<td bgcolor="#e2e2e2"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">LAB</td>
+											
+										
+										
+											
+											
+												
+												<td bgcolor="#CCFF33"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L1-CSE3009-ELA-409-CB-ALL</td>
+													
+												
+													
+											
+												
+												<td bgcolor="#CCFF33"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L2-CSE3009-ELA-409-CB-ALL</td>
+													
+												
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L3</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L4</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L5</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L6</td>
+													
+											
+											
+											
+											
+										
+											
+											
+											
+											
+											<td bgcolor="#e2e2e2"
+												style="border: 1px solid #3c8dbc; text-align: center; 
+												vertical-align: middle; padding: 3px; width: 50px;">Lunch</td>
+										
+											
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L31</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L32</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L33</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">-</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L34</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L35</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L36</td>
+													
+											
+											
+											
+											
+										
+										
+									</tr>
+									
+									
+									
+								
+									
+									
+										
+									<tr style="background-color: #FFFFCC;">
+									
+										<td rowspan="2" 
+											bgcolor="#e2e2e2"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">WED</td>
+										<td bgcolor="#e2e2e2"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">THEORY</td>
+											
+										
+										
+											
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">TGG1</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">D1</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">-</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">F1</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">-</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">E1</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">SC2</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">B1</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">-</td>
+													
+											
+											
+											<td style="border: 1px solid #3c8dbc; text-align: center; 
+												vertical-align: middle; padding: 3px; width: 50px;">-</td>
+											
+										
+											
+											
+											
+											
+											<td bgcolor="#e2e2e2"
+												style="border: 1px solid #3c8dbc; text-align: center; 
+												vertical-align: middle; padding: 3px; width: 50px;">Lunch</td>
+										
+											
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">D2</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">-</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">TF2</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">G2</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">E2</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">SC1</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">B2</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">-</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">TCC2</td>
+													
+											
+											
+											<td style="border: 1px solid #3c8dbc; text-align: center; 
+												vertical-align: middle; padding: 3px; width: 50px;">-</td>
+											
+										
+										
+									</tr>
+									
+									
+									
+										
+									<tr style="background-color: #FFFFCC;">
+									
+										
+										<td bgcolor="#e2e2e2"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">LAB</td>
+											
+										
+										
+											
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L7</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L8</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L9</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L10</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L11</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L12</td>
+													
+											
+											
+											
+											
+										
+											
+											
+											
+											
+											<td bgcolor="#e2e2e2"
+												style="border: 1px solid #3c8dbc; text-align: center; 
+												vertical-align: middle; padding: 3px; width: 50px;">Lunch</td>
+										
+											
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L37</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L38</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L39</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L40</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L41</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L42</td>
+													
+											
+											
+											
+											
+										
+										
+									</tr>
+									
+									
+									
+								
+									
+									
+										
+									<tr style="background-color: #FFFFCC;">
+									
+										<td rowspan="2" 
+											bgcolor="#e2e2e2"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">THU</td>
+										<td bgcolor="#e2e2e2"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">THEORY</td>
+											
+										
+										
+											
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">TEE1</td>
+													
+											
+												
+												<td bgcolor="#CCFF33"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">C1-CSE3009-ETH-105-AB-2-ALL</td>
+													
+												
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">-</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">TD1</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">TG1</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">TAA1</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">ECS</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">TBB1</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">CLUB</td>
+													
+											
+											
+											<td style="border: 1px solid #3c8dbc; text-align: center; 
+												vertical-align: middle; padding: 3px; width: 50px;">-</td>
+											
+										
+											
+											
+											
+											
+											<td bgcolor="#e2e2e2"
+												style="border: 1px solid #3c8dbc; text-align: center; 
+												vertical-align: middle; padding: 3px; width: 50px;">Lunch</td>
+										
+											
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">TE2</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">SE1</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">C2</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">-</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">TD2</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">TG2</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">A2</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">-</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">TFF2</td>
+													
+											
+											
+											<td style="border: 1px solid #3c8dbc; text-align: center; 
+												vertical-align: middle; padding: 3px; width: 50px;">-</td>
+											
+										
+										
+									</tr>
+									
+									
+									
+										
+									<tr style="background-color: #FFFFCC;">
+									
+										
+										<td bgcolor="#e2e2e2"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">LAB</td>
+											
+										
+										
+											
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L13</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L14</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L15</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L16</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L17</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L18</td>
+													
+											
+											
+											
+											
+										
+											
+											
+											
+											
+											<td bgcolor="#e2e2e2"
+												style="border: 1px solid #3c8dbc; text-align: center; 
+												vertical-align: middle; padding: 3px; width: 50px;">Lunch</td>
+										
+											
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L43</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L44</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L45</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L46</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L47</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L48</td>
+													
+											
+											
+											
+											
+										
+										
+									</tr>
+									
+									
+									
+								
+									
+									
+										
+									<tr style="background-color: #FFFFCC;">
+									
+										<td rowspan="2" 
+											bgcolor="#e2e2e2"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">FRI</td>
+										<td bgcolor="#e2e2e2"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">THEORY</td>
+											
+										
+										
+											
+											
+												
+												<td bgcolor="#CCFF33"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">TCC1-CSE3009-ETH-105-AB-2-ALL</td>
+													
+												
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">TB1</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">-</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">TA1</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">-</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">F1</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">-</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">TE1</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">SD2</td>
+													
+											
+											
+											<td style="border: 1px solid #3c8dbc; text-align: center; 
+												vertical-align: middle; padding: 3px; width: 50px;">-</td>
+											
+										
+											
+											
+											
+											
+											<td bgcolor="#e2e2e2"
+												style="border: 1px solid #3c8dbc; text-align: center; 
+												vertical-align: middle; padding: 3px; width: 50px;">Lunch</td>
+										
+											
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">C2</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">-</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">TB2</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">-</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">TA2</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">-</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">F2</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">-</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">TEE2</td>
+													
+											
+											
+											<td style="border: 1px solid #3c8dbc; text-align: center; 
+												vertical-align: middle; padding: 3px; width: 50px;">-</td>
+											
+										
+										
+									</tr>
+									
+									
+									
+										
+									<tr style="background-color: #FFFFCC;">
+									
+										
+										<td bgcolor="#e2e2e2"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">LAB</td>
+											
+										
+										
+											
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L19</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L20</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L21</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L22</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L23</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L24</td>
+													
+											
+											
+											
+											
+										
+											
+											
+											
+											
+											<td bgcolor="#e2e2e2"
+												style="border: 1px solid #3c8dbc; text-align: center; 
+												vertical-align: middle; padding: 3px; width: 50px;">Lunch</td>
+										
+											
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L49</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L50</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L51</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L52</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L53</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L54</td>
+													
+											
+											
+											
+											
+										
+										
+									</tr>
+									
+									
+									
+								
+									
+									
+										
+									<tr style="background-color: #FFFFCC;">
+									
+										<td rowspan="2" 
+											bgcolor="#e2e2e2"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">SAT</td>
+										<td bgcolor="#e2e2e2"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">THEORY</td>
+											
+										
+										
+											
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">TDD1</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">E1</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">SE2</td>
+													
+											
+												
+												<td bgcolor="#CCFF33"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">C1-CSE3009-ETH-105-AB-2-ALL</td>
+													
+												
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">-</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">TF1</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">G1</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">A1</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">-</td>
+													
+											
+											
+											<td style="border: 1px solid #3c8dbc; text-align: center; 
+												vertical-align: middle; padding: 3px; width: 50px;">-</td>
+											
+										
+											
+											
+											
+											
+											<td bgcolor="#e2e2e2"
+												style="border: 1px solid #3c8dbc; text-align: center; 
+												vertical-align: middle; padding: 3px; width: 50px;">Lunch</td>
+										
+											
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">D2</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">-</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">E2</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">SD1</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">TAA2</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">ECS</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">TBB2</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">CLUB</td>
+													
+											
+												
+												
+													
+												<td style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">TGG2</td>
+													
+											
+											
+											<td style="border: 1px solid #3c8dbc; text-align: center; 
+												vertical-align: middle; padding: 3px; width: 50px;">-</td>
+											
+										
+										
+									</tr>
+									
+									
+									
+										
+									<tr style="background-color: #FFFFCC;">
+									
+										
+										<td bgcolor="#e2e2e2"
+											style="border: 1px solid #3c8dbc; text-align: center; 
+											vertical-align: middle; padding: 3px; width: 50px;">LAB</td>
+											
+										
+										
+											
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L25</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L26</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L27</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L28</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L29</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L30</td>
+													
+											
+											
+											
+											
+										
+											
+											
+											
+											
+											<td bgcolor="#e2e2e2"
+												style="border: 1px solid #3c8dbc; text-align: center; 
+												vertical-align: middle; padding: 3px; width: 50px;">Lunch</td>
+										
+											
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L55</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L56</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L57</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L58</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">--</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L59</td>
+													
+											
+												
+												
+													
+												<td bgcolor="#f9efa4"
+														style="border: 1px solid #3c8dbc; text-align: center; 
+														vertical-align: middle; padding: 3px; width: 50px;">L60</td>
+													
+											
+											
+											
+											
+										
+										
+									</tr>
+									
+									
+									
+								
+							</table>
+															
+										
+									</div>
+									
+								</div>
+
+								
+							</div>

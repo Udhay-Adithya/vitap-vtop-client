@@ -1,0 +1,169 @@
+<div id="main-section">
+		<!-- Main content -->
+		<section class="content">
+			<div class="col-sm-12">
+				<div class="box box-info">
+
+					<div class="box-header with-border">
+						<h3 class="box-title" >Marks View</h3>
+					</div>
+					<div class="box-body">
+					<form role="form" id="studentMarkView" name="studentMarkView"
+						method="post" autocomplete="off">
+						<input type="hidden" name="authorizedID" id="authorizedID"
+								value="00XXX0000" />
+						<!-- th:object="${examSchedule}"> -->
+						<div class="col-md-12" style="margin-top: 20px; margin-left: 2px;">
+								
+								<div>
+									<div class="col-sm-6 col-sm-offset-3">
+										<div>
+											<label for="acadYear" class="col-sm-4 control-label">Select
+												Semester</label>
+
+											<div class="col-md-8">
+												<select class="form-control" name="semesterSubId"
+													id="semesterSubId"
+													data-validation-engine="validate[required]"
+													onchange="doViewExamMark();">
+													<option value="" selected="selected">-- Choose
+														Semester --</option>
+													<option value="AP2026272"
+														selected="selected">Fall Semester 2026-27</option>
+													<option value="AP20252610">Fall_Win Transport Semester 2026-27</option>
+													<option value="AP2025269">CDC PAT 2025-26</option>
+													<option value="AP2025267">Short Summer Semester II  2025-26</option>
+													<option value="AP2026271">Fast Track Fall Semester 2026-27</option>
+													<option value="AP2025268">Long Summer Semester 2025-26</option>
+													<option value="AP2025266">Short Summer Semester I 2025-26</option>
+													<option value="AP2025265">Winter Semester 2025-26 Freshers</option>
+													<option value="AP2025264">Winter Semester 2025-26</option>
+													<option value="AP2025263">Fall Semester 2025-26 Freshers</option>
+													<option value="AP2025262">Fall Semester  2025-26</option>
+													<option value="AP2024259">Special Arrear 2024-25</option>
+													<option value="AP2024258">Short Summer Semester II  2024-25</option>
+													<option value="AP2025261">Fast Track Fall 2025-26</option>
+													<option value="AP2024257">Short Summer Semester I 2024-25</option>
+													<option value="AP2024256">Long Summer Semester 2024-25</option>
+													<option value="AP2024255">Winter Semester 2024-25 Freshers</option>
+													<option value="AP2024254">Winter Semester 2024-25</option>
+													<option value="AP2024253">Fall Semester 2024-25 Freshers</option>
+													<option value="AP2024252">Fall Semester 2024-25</option>
+													<option value="AP20232412">Regular Arrear 2023-24</option>
+													<option value="AP2024251">Fast Track Fall Semester 2024-25</option>
+													<option value="AP2023249">Short Summer Semester II 2023-24</option>
+													<option value="AP2023248">Short Summer Semester I 2023-24</option>
+													<option value="AP20232410">Long Summer Semester 2023-24</option>
+													<option value="AP20232411">PREFERENCE 2023 BATCH</option>
+													<option value="AP2023247">Winter Semester 2023-24 Freshers</option>
+													<option value="AP2023246">Winter Semester 2023-24</option>
+													<option value="AP2023245">Intra Semester 2023-24</option>
+													<option value="AP2022233">Preference Purpose (2023-24)</option>
+													<option value="AP2023243">Fall Semester 2023-24 Freshers</option>
+													<option value="AP2023242">Fall Semester 2023-24</option>
+													<option value="AP2023244">Fast Track Fall Semester-II 2023-24</option>
+													<option value="AP20222310">Short Summer Semester II 2022-23</option>
+													<option value="AP2023241">Fast Track Fall Semester 2023-24</option>
+													<option value="AP2022239">Short Summer Semester I 2022-23</option>
+													<option value="AP2022238">Long Summer Semester 2022-23</option>
+													<option value="AP2022237">Winter Semester 2022-23 Freshers</option>
+													<option value="AP2022236">Winter Semester 2022-23</option>
+													<option value="AP2022235">Intra Semester 2022-23</option>
+													<option value="AP2022234">Fall Semester 2022-23 Freshers</option>
+													<option value="AP2022232">Fall Semester 2022-23</option>
+													<option value="AP2022231">Fast Track Fall Semester 2022-23</option>
+													<option value="AP2021227">Short Summer Semester 2021-22</option>
+													<option value="AP2021228">Long Summer Semester 2021-22</option>
+													<option value="AP2021229">Intra Semester 2021-22</option>
+													<option value="AP2021226">Winter Semester 2021-22</option>
+													<option value="AP2021225">Winter Semester 2021-22</option>
+													<option value="AP2021223">Fall Semester 2021-22</option>
+													<option value="AP2021222">Fall Semester 2021-22</option>
+													<option value="AP2021221">FAST TRACK FALL SEM (2021-22)</option>
+													<option value="AP2020217">SUMMER SEM1 (2020-21)</option>
+													<option value="AP2020215">WIN SEM (2020-21)</option>
+													<option value="AP2020213">INTRA SEM (2020-21)</option>
+													<option value="AP2020211">FALL SEM (2020-21)</option>
+													<option value="AP2019207">SUMMER SEM1 (2019-20)</option>
+													<option value="AP2019205">WIN SEM  (2019-20)</option>
+													<option value="AP2019201">FALL SEM (2019-20)</option>
+													<option value="AP2018198">SUMMER SEM2 (2018-19)</option>
+													<option value="AP2018197">SUMMER SEM1 (2018-19)</option>
+													<option value="AP2018199">LONG SEM (2018-19)</option>
+													<option value="AP2018195">WIN SEM (2018-19)</option>
+													<option value="AP2018191">FALL SEM (2018-19)</option>
+													<option value="AMR2018198">SUMMER SEM2 (2017-18)</option>
+													<option value="AMR2018197">SUMMER SEM1 (2017-18)</option>
+													<option value="AMR2017182">WIN SEM (2017-18)</option>
+													<option value="AMR2017181">FALL SEM (2017-18)</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="form-group col-sm-12"></div>
+									<span class="col-sm-12 col-md-12"
+										style="font-size: 20px; color: green; text-align: center;"></span> <span
+										class="col-sm-12 col-md-12"
+										style="font-size: 20px; color: red; text-align: center;">No data Found</span>
+									
+									<br/>
+									
+<!-- Research Courses -->
+
+								</div>
+						</div>
+
+					</form>
+
+				<noscript>
+					<h2 class="text-red">Enable JavaScript to Access VTOP</h2>
+				</noscript>
+				<!-- Custom Scripts for VTOP Pages-->
+
+				<script>
+					/*<![CDATA[*/
+
+					jQuery(document).ready(function() {
+						// binds form submission and fields to the validation engine								
+						jQuery("#studentMarkView").validationEngine('attach', {
+							autoHidePrompt : true,
+							binded : false,
+							onValidationComplete : function(form, status) {
+								if (status) {
+									doSavestudentMarkView();
+								}
+							}
+						});
+					});
+
+					function doViewExamMark() {
+						var myform = document.getElementById("studentMarkView");
+						var fd = new FormData(myform);
+						var csrfName = "_csrf";
+		                var csrfValue = "17cc6c3e-a9b2-4102-a929-b985e70eb44b";
+		                fd.append(csrfName,csrfValue);
+						$
+								.blockUI({
+									message : '<img src="assets/img/482.GIF"> loading... Just a moment...'
+								});
+						$.ajax({
+							url : "examinations/doStudentMarkView",
+							type : "POST",
+							data : fd,
+							cache : false,
+							processData : false,
+							contentType : false,
+							success : function(response) {
+								$.unblockUI();
+								$("#main-section").html(response);
+
+							}
+
+						});
+					}
+					/*]]>*/
+				</script>
+		
+	<!-- /.content-wrapper 
+		<footer class="main-footer" th:include="layouts/footer::footer"></footer>-->
+</div></div></div></section></div>

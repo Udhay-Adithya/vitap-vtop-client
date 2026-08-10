@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+		<link rel="stylesheet" href="assets/css/validationEngine.jquery.css"/>	
+		<link rel="stylesheet" href="assets/css/sweetalert.css" />	
+				<style>h3.box-title{ text-transform: capitalize;}</style>
+		
+		
+		<script src="assets/js/jquery.validationEngine.js"></script>
+		<script src="assets/js/sweetalert.min.js"></script>
+		<script src="assets/js/validate2.js"></script>	
+		<script type="text/javascript" src="/vtop/assets/js/jquery.validationEngine-en.js"></script>		
+   	
+	
+		<link rel="stylesheet" href="assets/css/datatables.css" /> 	
+    
+  
+    	<script type="text/javascript" src="/vtop/assets/js/datatables.js"></script>		   	
+   	
+
+
+<script type="text/javascript">
+
+// Disable right-click menu
+document.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+}, false);
+
+// Disable DevTools common shortcuts
+document.addEventListener('keydown', function (e) {
+
+    // Block F12
+    if (e.key === 'F12') {
+        e.preventDefault();
+    }
+
+    // Block Ctrl+Shift+I/J/C
+    if (e.ctrlKey && e.shiftKey &&
+       (e.key.toUpperCase() === 'I' ||
+        e.key.toUpperCase() === 'J' ||
+        e.key.toUpperCase() === 'C')) {
+        e.preventDefault();
+    }
+
+    // Block Ctrl+U (View Source)
+    if (e.ctrlKey && e.key.toUpperCase() === 'U') {
+        e.preventDefault();
+    }
+
+    // Block Ctrl+S (Save Page)
+    if (e.ctrlKey && e.key.toUpperCase() === 'S') {
+        e.preventDefault();
+    }
+}, false);
+
+</script>
+
+
+
+</head>
+<body class="hold-transition skin-blue-light sidebar-mini fixed">
+<div id="main-section">
+
+		<section class="content">
+			<div class="col-sm-12">
+				
+				<div class="box box-info">
+					<div class="box-header with-border">
+						<h3 class="box-title">Student Attendance Details</h3>
+					</div>
+
+					<div class="box-body">
+											
+							<form class="form-horizontal" method="post" id="viewStudentAttendance"
+								name="viewStudentAttendance" autocomplete="off">
+								<input type="hidden" name="_csrf" value="00000000-0000-0000-0000-000000000000\" />
+								<input type="hidden" name="authorizedID" id="authorizedID"
+									value="00XXX0000" />
+									
+									<div class="form-groups">
+										<label for="semesterSubId" class="col-md-3 control-label"
+											style="text-align: left;">Semester</label>
+										<div class="col-md-9 form-group">
+											<select class="form-select" 
+												name="semesterSubId" id="semesterSubId" 
+												onchange="processStudentAttendance()">
+												<option value="" selected="selected">-- Choose Semester --</option>								
+												<option value="AP2026272">Fall Semester 2026-27 - AMR</option>								
+												<option value="AP2025264">Winter Semester 2025-26 - AMR</option>								
+												<option value="AP2025262">Fall Semester  2025-26 - AMR</option>								
+												<option value="AP2024258">Short Summer Semester II  2024-25 - AMR</option>								
+												<option value="AP2024254">Winter Semester 2024-25 - AMR</option>								
+												<option value="AP2024252">Fall Semester 2024-25 - AMR</option>								
+												<option value="AP2023247">Winter Semester 2023-24 Freshers - AMR</option>								
+												<option value="AP2023243">Fall Semester 2023-24 Freshers - AMR</option>
+											</select>
+										</div>
+									</div>
+							</form>
+						
+						<div class="form-group" id="loadMyFragment">
+						
+							<div class="form-group" id="getStudentDetails">
+																
+								
+								
+							</div>
+						</div>
+						
+						
+						<div id="sdpAttendanceFragment">
+    <div class="modal" id="sdpAttendanceModal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 70%;">
+            <div class="modal-content">
+                <!-- Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title" style="font-weight: bold; text-decoration: underline;">
+                        SDP Attendance Detail
+                    </h4>
+                </div>
+                
+                <!-- SDP Info Section -->
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th style="width: 25%;">Title</th>
+                            <td style="width: 75%;"></td>
+                        </tr>
+                        <tr>
+                            <th>Guide Evaluation Status</th>
+                            <td>
+                                
+                                
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Date of Registration</th>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <!-- Attendance Summary -->
+                
+                
+                <!-- Footer -->
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="button" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+						<div id="StudentAttendanceDetailFragment">
+							<div class="modal" id="StudentAttendanceDetailModal">
+								<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" 
+									style="width: 75%; max-width: 75%;">
+									<div class="modal-content">
+									
+										<div class="modal-header">
+									    	<h4 class="modal-title" style="font-weight: bold; text-decoration:underline;">Attendance Detail</h4>
+										</div>
+										
+									    <div class="modal-body">
+									    
+									       	<table id="StudentCourseDetailDataTable" 
+									       		 class="table table-bordered responsive">
+									       		
+									       		<thead>
+													<tr style="background-color: #3c8dbc; border-color: #fff; color: #fff;">
+														<td style="width: 10%; text-align: center;"><b>Class Group</b></td>
+														<td style="width: 12%; text-align: center;"><b>Course Detail</b></td>
+														<td style="width: 12%; text-align: center;"><b>Class Detail</b></td>
+														<td style="width: 12%; text-align: center;"><b>Faculty Detail</b></td>
+														<td style="width: 10%; text-align: center;"><b>Registered Date &amp; Time</b></td>
+														<td style="width: 10%; text-align: center;"><b>Attendance Date / Type</b></td>
+														<td style="width: 13%; text-align: center;"><b>Attendance Status</b></td>
+														<td style="width: 12%; text-align: center;"><b>Debar Status</b></td>
+													</tr>
+												</thead>
+												
+												<tbody>
+													
+												</tbody>
+												
+											</table>
+												
+											
+											
+											<p style="color: red; font-weight: bold; text-align: center;">Yet to post.</p>
+										</div>
+											      
+										<div class="modal-footer">
+										    <button style="padding:3px 17px;font-size:13px;" 
+										       	class="btn btn-primary" type="button" 
+										       	name="studentAttendanceDetailCloseButton" 
+										       	id="studentAttendanceDetailCloseButton"
+										       	data-bs-dismiss="modal">Close</button>
+										</div>
+										
+									</div>
+								</div>
+							</div>
+															
+						</div>
+
+					</div>
+					
+				</div></div>
+				
+				
+		</section>
+
+				<noscript>
+					<h2 class="text-red">Enable JavaScript to Access VTOP</h2>
+				</noscript>
+				
+				<script type="text/javascript">
+					/*<![CDATA[*/
+						
+					$(document).ready(function()
+					{		
+					    $('#AttendanceDetailDataTable').dataTable({
+					    	  "autoWidth": false,
+					    	  "bFilter": false, 
+					    	  "bInfo" : false,
+					    	  "bPaginate": false,
+					    	  "bLengthChange": false,
+					    	  "ordering": false,
+							  "columnDefs": [
+							      {"width": "3%", "targets": 0}, //Sl.No.
+							      {"width": "10%", "targets": 1}, //Class Group
+					   		      {"width": "15%", "targets": 2}, //Course Detail
+					   		      {"width": "15%", "targets": 3}, //Class Detail
+					   		 	  {"width": "15%", "targets": 4}, //Faculty Detail	
+					   		 	  {"width": "8%", "targets": 5}, //Attended Classes
+					   		 	  {"width": "8%", "targets": 6}, //Total Classes
+					   		 	  {"width": "8%", "targets": 7}, //Attendance Percentage
+					   		 	  {"width": "10%", "targets": 8}, //Debar Status
+					   		 	  {"width": "8%", "targets": 9} //Attendance Detail
+					   	     ]
+					   	});
+					    
+					    $('#StudentCourseDetailDataTable').dataTable({
+					    	  "autoWidth": false,
+					    	  "bFilter": false, 
+					    	  "bInfo" : false,
+					    	  "bPaginate": false,
+					    	  "bLengthChange": false,
+					    	  "ordering": false,
+							  "columnDefs": [
+							      {"width": "10%", "targets": 0}, //Class Group
+					   		      {"width": "12%", "targets": 1}, //Course Detail
+					   		      {"width": "12%", "targets": 2}, //Class Detail
+					   		 	  {"width": "12%", "targets": 3}, //Faculty Detail	
+					   		 	  {"width": "10%", "targets": 4}, //Registered Date & Time
+					   		 	  {"width": "10%", "targets": 5}, //Attendance Date/Type
+					   		 	  {"width": "13%", "targets": 6}, //Attendance Status
+					   		 	  {"width": "12%", "targets": 7} //Debar Status
+					   	     ]
+					   	});
+					   
+					    $("#StudentAttendanceDetailDataTable").dataTable({
+					    	"autoWidth": false,
+					    	"bFilter": false, 
+					    	"bInfo" : false,
+					    	"bPaginate": false,
+					    	"bLengthChange": false,
+					    	"ordering": false,
+							"columnDefs": [
+							    {"width": "5%", "targets": 0},	//Sl.No.
+					   		    {"width": "8%", "targets": 1},	//Week Day
+					   		    {"width": "10%", "targets": 2},	//Slot
+					   			{"width": "20%", "targets": 3},	//Day & Time
+					   			{"width": "10%", "targets": 4}	//Status
+							]
+					   	});
+					    
+					});
+
+					function processStudentAttendance() 
+					{
+						var id="00XXX0000";
+						var now = new Date();
+						var csrfName = "_csrf";
+			            var csrfValue = "17cc6c3e-a9b2-4102-a929-b985e70eb44b";
+			            
+			            var semesterSubId = $("#semesterSubId").val();
+			            var params = csrfName +"="+ csrfValue +"&semesterSubId="+ semesterSubId 
+			            				+"&authorizedID="+ id +"&x="+ now.toUTCString();
+			            
+						$.blockUI({
+							message : '<img src="assets/img/482.GIF"> loading... Just a moment...'
+						});
+						
+						$.ajax({
+							url : "processViewStudentAttendance",
+							type : "POST",
+							data : params,
+							success : function(response) {
+								$("#loadMyFragment").html(response);
+								$.unblockUI();
+							},
+							error : function(jqXHR, textStatus, errorMessage) {
+								$.unblockUI();
+							}
+						});
+
+						$("html, body").animate({
+							scrollTop : 0
+						});
+					}
+					
+					function callStudentAttendanceDetailDisplay(semesterSubId, registerNumber, courseId, courseType)
+					{
+						var id = "00XXX0000";
+						var now = new Date();	
+						var csrfName = "_csrf";
+			            var csrfValue = "17cc6c3e-a9b2-4102-a929-b985e70eb44b";
+						
+						var params = csrfName + "=" + csrfValue 
+										+"&semesterSubId="+ semesterSubId +"&registerNumber="+ registerNumber 
+										+"&courseId="+ courseId +"&courseType="+ courseType 
+										+"&authorizedID="+ id +"&x="+ now.toUTCString();
+									
+						$.blockUI({
+							message : '<img src="assets/img/482.GIF"> loading... Just a moment...'
+						});
+						
+						$.ajax({
+							url : "processViewAttendanceDetail",
+							type : "POST",
+							data : params,
+							success : function(response) {
+								$("#StudentAttendanceDetailFragment").html(response);
+								$.unblockUI();
+								$("#StudentAttendanceDetailModal").modal("show");
+							},
+							error : function(jqXHR, textStatus, errorMessage) {
+								$.unblockUI();
+							}
+						});
+					}
+					
+					
+					function viewSDPAttendance() {
+					    var id = "00XXX0000";
+					    var now = new Date();
+					    var csrfName = "_csrf";
+					    var csrfValue = "17cc6c3e-a9b2-4102-a929-b985e70eb44b";
+					    var semesterSubId = $("#semesterSubId").val();
+					    var regNum=id;
+					    console.log(id);
+
+					    if (!semesterSubId) {
+					        alert("Please select a semester first.");
+					        return;
+					    }
+
+					    var params = csrfName + "=" + csrfValue + "&semesterSubId=" + semesterSubId + "&regNo=" + regNum+
+					                 "&authorizedID=" + id + "&x=" + now.toUTCString();
+
+					    $.blockUI({
+					        message: '<img src="assets/img/482.GIF"> loading...'
+					    });
+
+					    $.ajax({
+					        url: "processSdpAttendance",
+					        type: "POST",
+					        data: params,
+					        success: function(response) {
+					            $("#sdpAttendanceFragment").html(response);
+					            $.unblockUI();
+					            $("#sdpAttendanceModal").modal("show");
+					        /*     $('#punchDetailsCollapse').off('shown.bs.collapse').on('shown.bs.collapse', function () {
+					                setTimeout(function() {
+					                    if ($.fn.DataTable.isDataTable('#sdpCalendarTable')) {
+					                        $('#sdpCalendarTable').DataTable().destroy();
+					                    }
+					                    
+					                    var dateColumnIndex = 1;
+					                    var sortOrder = 'asc';
+					                    
+					                    $('#sdpCalendarTable').DataTable({
+					                        "autoWidth": false,
+					                        "bFilter": true,
+					                        "bInfo": true,
+					                        "bPaginate": true,
+					                        "pageLength": 10,
+					                        "bLengthChange": true,
+					                        "ordering": true,
+					                        "columnDefs": [
+					                            {"width": "8%", "targets": 0},
+					                            {"width": "12%", "targets": 1},
+					                            {"width": "12%", "targets": 2},
+					                            {"width": "15%", "targets": 3},
+					                            {"width": "25%", "targets": 4},
+					                            {"width": "13%", "targets": 5},
+					                            {"width": "15%", "targets": 6}
+					                        ]
+					                    });
+					                }, 200);
+					            }); */
+					        },
+					        error: function(jqXHR, textStatus, errorMessage) {
+					            $.unblockUI();
+					            alert("Error fetching SDP attendance.");
+					        }
+					    });
+					}
+					
+					
+					 document.addEventListener('DOMContentLoaded', function() {
+					        const attendanceLinks = document.querySelectorAll('.attendance-link');
+					        
+					        attendanceLinks.forEach(link => {
+					            link.addEventListener('click', function(e) {
+					                e.preventDefault();
+					                const targetId = this.getAttribute('data-bs-target');
+					                
+					                document.querySelectorAll('.collapse').forEach(collapse => {
+					                    if (collapse.id !== targetId.substring(1)) {
+					                        const bsCollapse = bootstrap.Collapse.getInstance(collapse);
+					                        if (bsCollapse) {
+					                            bsCollapse.hide();
+					                        }
+					                    }
+					                });
+					                
+					                const targetCollapse = document.querySelector(targetId);
+					                const bsCollapse = new bootstrap.Collapse(targetCollapse, {
+					                    toggle: true
+					                });
+					            });
+					        });
+					    });
+					/*]]>*/
+				</script>
+	</div>
+</body>
+</html>

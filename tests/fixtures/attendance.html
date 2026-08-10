@@ -1,0 +1,161 @@
+<div class="form-group" id="getStudentDetails">
+																
+								<div class="col-sm-12 form-group table-responsive" style="overflow-y: hidden;">
+								<h4 style="text-decoration: underline;"><b>Attendance Information:</b></h4>	
+								<h5>
+									<span><span style="color:red;">* Note:</span> As per norms, <b>Virtual Slots</b> &amp; <b>Medical Leave</b> are not included in attendance percentage calculation.</span>
+								</h5>
+								
+								<!-- <h5>
+									<span>* <b>CAT2/FAT Period Attendance Percentage </b>is Based on academic calendar dates let's say current date is between CAT1 and CAT2 it will show CAT2 period attendance.</span>
+								</h5> -->
+								<table id="AttendanceDetailDataTable" class="table table-bordered table-hover responsive">
+									 
+										<thead>
+											<tr style="background-color: #3c8dbc; border-color: #fff; color: #fff;">
+												<td style="width: 3%; text-align: center;"><b>Sl.No.</b></td>
+												<td style="width: 10%; text-align: center;"><b>Class Group</b></td>
+												<td style="width: 15%; text-align: center;"><b>Course Detail</b></td>
+												<td style="width: 15%; text-align: center;"><b>Class Detail</b></td>
+												<td style="width: 15%; text-align: center;"><b>Faculty Detail</b></td>
+												<td style="width: 8%; text-align: center;"><b>Attended Classes</b></td>
+												<td style="width: 8%; text-align: center;"><b>Total Classes</b></td>
+												<td style="width: 8%; text-align: center;"><b>Attendance Percentage</b></td>
+												<!-- <td style="width: 8%; text-align: center;"><b>CAT2/FAT Period Att. Percentage</b></td> -->
+												<td style="width: 10%; text-align: center;"><b>Debar Status</b></td>
+												<td style="width: 8%; text-align: center;"><b>Attendance Detail</b></td>
+											</tr>
+										</thead>
+										
+										<tbody>
+											<tr>
+												<td style="text-align: center;">
+													<span>1</span>
+												</td>
+												
+												<td style="text-align: center;">
+													<span>General (Semester)</span>
+												</td>
+												
+												<td>
+													<span>CSE3009 - NoSQL Databases - Embedded Theory</span>
+												</td>
+												
+												<td>
+													<span>AP2026272000746 - C1+TCC1 - 105</span>
+												</td>
+												
+												<td>
+													<span>Madugula Kiran Kumar - SCOPE</span>
+												</td>
+												
+												<td style="text-align: center;">
+													<span>7</span>
+													
+												</td>
+												
+												<td style="text-align: center;">
+													<span>12</span>
+													
+												</td>
+												
+												<td style="text-align: center;">
+													<span>
+														<span style="color: red; font-size: 20px;">59%</span>
+													</span>
+													
+												</td>
+												
+												<!-- <td style="text-align: center;">
+													<span th:if="${(attendancePeriodCalculationMapList != null) 
+																and attendancePeriodCalculationMapList.containsKey(e.getClassId())}" 
+														  	th:with="attnCalc = ${attendancePeriodCalculationMapList.get(e.getClassId())}">
+														<span th:style="${attnCalc[1] >= 75} ? 'color: green; font-size: 20px;' 
+																: 'color: red; font-size: 20px;'" 
+															th:utext="${attnCalc[1] +'&percnt;'}"></span>
+													</span>
+													<span th:if="${(attendancePeriodCalculationMapList == null) 
+																or (attendancePeriodCalculationMapList.containsKey(e.getClassId()) == false)}">-</span>
+												</td> -->
+												
+												<td>
+													
+													<span style="align: center; text-align: center;">-</span>
+												</td>
+												
+												<td style="text-align: center;">
+													<a id="studentAttendanceDetilShow_0" 
+														onclick="javascript: callStudentAttendanceDetailDisplay(&#39;AP2026272&#39;,&#39;00XXX0000&#39;,&#39;AM_CSE3009_00200&#39;,&#39;ETH&#39;);"
+														href="javascript:void(0);">
+														<span title="Show" class="glyphicon glyphicon-eye-open"></span>
+													</a>
+												</td>
+											</tr>
+											<tr>
+												<td style="text-align: center;">
+													<span>2</span>
+												</td>
+												
+												<td style="text-align: center;">
+													<span>General (Semester)</span>
+												</td>
+												
+												<td>
+													<span>CSE3009 - NoSQL Databases - Embedded Lab</span>
+												</td>
+												
+												<td>
+													<span>AP2026272001422 - L1+L2 - 409</span>
+												</td>
+												
+												<td>
+													<span>Madugula Kiran Kumar - SCOPE</span>
+												</td>
+												
+												<td style="text-align: center;">
+													<span>8</span>
+													
+												</td>
+												
+												<td style="text-align: center;">
+													<span>8</span>
+													
+												</td>
+												
+												<td style="text-align: center;">
+													<span>
+														<span style="color: green; font-size: 20px;">100%</span>
+													</span>
+													
+												</td>
+												
+												<!-- <td style="text-align: center;">
+													<span th:if="${(attendancePeriodCalculationMapList != null) 
+																and attendancePeriodCalculationMapList.containsKey(e.getClassId())}" 
+														  	th:with="attnCalc = ${attendancePeriodCalculationMapList.get(e.getClassId())}">
+														<span th:style="${attnCalc[1] >= 75} ? 'color: green; font-size: 20px;' 
+																: 'color: red; font-size: 20px;'" 
+															th:utext="${attnCalc[1] +'&percnt;'}"></span>
+													</span>
+													<span th:if="${(attendancePeriodCalculationMapList == null) 
+																or (attendancePeriodCalculationMapList.containsKey(e.getClassId()) == false)}">-</span>
+												</td> -->
+												
+												<td>
+													
+													<span style="align: center; text-align: center;">-</span>
+												</td>
+												
+												<td style="text-align: center;">
+													<a id="studentAttendanceDetilShow_1" 
+														onclick="javascript: callStudentAttendanceDetailDisplay(&#39;AP2026272&#39;,&#39;00XXX0000&#39;,&#39;AM_CSE3009_00200&#39;,&#39;ELA&#39;);"
+														href="javascript:void(0);">
+														<span title="Show" class="glyphicon glyphicon-eye-open"></span>
+													</a>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+									</div>
+								
+							</div>

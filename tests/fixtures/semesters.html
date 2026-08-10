@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+		
+		<link rel="stylesheet" href="assets/css/validationEngine.jquery.css"/>	
+		<link rel="stylesheet" href="assets/css/sweetalert.css" />	
+				<style>h3.box-title{ text-transform: capitalize;}</style>
+		
+    		
+		<script src="assets/js/jquery.validationEngine.js"></script>
+		<script src="assets/js/sweetalert.min.js"></script>
+		<script src="assets/js/validate2.js"></script>	
+		<script type="text/javascript" src="/vtop/assets/js/jquery.validationEngine-en.js"></script>		
+   	
+    
+</head>
+<body class="hold-transition skin-blue-light sidebar-mini fixed">
+<div id="main-section">
+
+		<section class="content">
+			<div class="col-sm-12">
+				
+				<div class="box box-info">
+					<div class="box-header with-border">
+						<h3 class="box-title">Time Table</h3>
+					</div>
+
+					<div class="box-body">
+												
+							<form class="form-horizontal" method="post" id="studentTimeTable"
+								name="studentTimeTable" autocomplete="off">
+								<input type="hidden" name="_csrf" value="00000000-0000-0000-0000-000000000000\" />
+								<input type="hidden" name="authorizedID" id="authorizedID"
+								value="00XXX0000" />
+								
+									<!-- Semester Sub Id -->
+									<div class="form-groups">
+										<label for="semesterSubId" class="col-md-3 control-label"
+											style="text-align: left;">Semester &nbsp;
+											<br/><span style="color: red; font-weight: normal;">* Only Registered Semester</span>
+										</label>
+											
+										<div class="col-md-9 form-group">
+											<select class="form-select" name="semesterSubId"
+												id="semesterSubId"
+												data-validation-engine="validate[required]"
+												onchange="processViewTimeTable();">
+												<option value="" selected="selected">--Choose Semester--</option>
+												<option value="AP2026272">Fall Semester 2026-27</option>
+												<option value="AP2025264">Winter Semester 2025-26</option>
+												<option value="AP2025262">Fall Semester  2025-26</option>
+												<option value="AP2024258">Short Summer Semester II  2024-25</option>
+												<option value="AP2024254">Winter Semester 2024-25</option>
+												<option value="AP2024252">Fall Semester 2024-25</option>
+												<option value="AP2023247">Winter Semester 2023-24 Freshers</option>
+												<option value="AP2023243">Fall Semester 2023-24 Freshers</option>
+											</select>
+
+										</div>
+									</div>
+									
+							</form>
+
+						<!-- loadMyFragment -->
+						<div class="form-group" id="loadMyFragment">
+							
+						</div>
+					</div>
+					</div>
+				</div>
+				</section>
+
+				<noscript>
+					<h2 class="text-red">Enable JavaScript to Access VTOP</h2>
+				</noscript>
+				
+				<script type="text/javascript">
+					/*<![CDATA[*/
+					function processViewTimeTable()
+					{						
+						var id = "00XXX0000";
+						var now = new Date();
+						var csrfName = "_csrf";
+			            var csrfValue = "17cc6c3e-a9b2-4102-a929-b985e70eb44b";
+						var semesterSubId = document.getElementById("semesterSubId").value;
+						
+							$.blockUI({
+								message : '<img src="assets/img/482.GIF"> loading... Just a moment...'
+							});
+							
+							$.ajax({
+								url : "processViewTimeTable",
+								type : "POST",
+								data : csrfName + "=" + csrfValue +"&semesterSubId="+ semesterSubId 
+											+'&authorizedID='+ id +'&x='+ now.toUTCString(),
+								success : function(response) {
+									$("#loadMyFragment").html(response);
+									$.unblockUI();
+								},
+								error : function(jqXHR, textStatus, errorMessage) {
+									$.unblockUI();
+								}
+							});
+	
+							$("html, body").animate({
+								scrollTop : 0
+							});
+						
+					}
+
+					function processViewInvoice()
+					{
+						var id = "00XXX0000";
+						var now = new Date();
+						var csrfName = "_csrf";
+			            var csrfValue = "17cc6c3e-a9b2-4102-a929-b985e70eb44b";
+						var semesterSubId = document.getElementById("semesterSubId").value;
+						var vldFlag = 1;
+						
+						if (semesterSubId == ''){
+							vldFlag=0;
+							swal("Select Semester","","warning");
+						}
+						
+						
+						if(vldFlag == 1)
+						{
+							$.blockUI({
+								message : '<img src="assets/img/482.GIF"> loading... Just a moment...'
+							});
+							
+							$.ajax({
+								url : "processViewInvoice",
+								type : "POST",
+								data : csrfName + "=" + csrfValue +"&semesterSubId="+ semesterSubId 
+											+'&authorizedID='+ id +'&x='+ now.toUTCString(),
+								success : function(response) {
+									$("#studentDetailsList").html(response);
+									$.unblockUI();
+								},
+								error : function(jqXHR, textStatus, errorMessage) {
+									$.unblockUI();
+								}
+							});
+
+							$("html, body").animate({
+								scrollTop : 0
+							});	
+						}
+					}
+
+					function cancleInvoiceGenerate()
+					{
+						var id = "00XXX0000";
+						var now = new Date();
+						var csrfName = "_csrf";
+			            var csrfValue = "17cc6c3e-a9b2-4102-a929-b985e70eb44b";
+						var semesterSubId = document.getElementById("semesterSubId").value;
+						var vldFlag = 1;
+						
+						if (semesterSubId == ''){
+							vldFlag=0;
+							swal("Select Semester","","warning");
+						}
+						
+						
+						if(vldFlag == 1)
+						{
+							$.blockUI({
+								message : '<img src="assets/img/482.GIF"> loading... Just a moment...'
+							});
+							
+							$.ajax({
+								url : "cancleInvoiceGenerate",
+								type : "POST",
+								data : csrfName + "=" + csrfValue +"&semesterSubId="+ semesterSubId 
+											+'&authorizedID='+ id +'&x='+ now.toUTCString(),
+								success : function(response) {
+									$("#studentDetailsList").html(response);
+									$.unblockUI();
+								},
+								error : function(jqXHR, textStatus, errorMessage) {
+									$.unblockUI();
+								}
+							});
+
+							$("html, body").animate({
+								scrollTop : 0
+							});	
+						}
+					}
+
+					/*]]>*/
+				</script>
+
+	</div>
+</body>
+</html>

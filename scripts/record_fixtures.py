@@ -27,6 +27,10 @@ from pathlib import Path
 # Allow running straight from a checkout without installing the package.
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from dotenv import load_dotenv  # noqa: E402
+
+load_dotenv()
+
 from vitap_vtop_client import VtopClient  # noqa: E402
 from vitap_vtop_client.exceptions import (  # noqa: E402
     VtopLoginOtpRequiredError,
@@ -42,7 +46,7 @@ FAKE_EMAIL = "test.student@vitapstudent.ac.in"
 FAKE_PHONE = "9000000000"
 
 
-def _scrub(html: str, real_username: str) -> str:
+def _scrub(html: str, real_username: str, real_name: str = "") -> str:
     """
     Strips personal data out of a captured response.
 
@@ -53,6 +57,14 @@ def _scrub(html: str, real_username: str) -> str:
     # The registration number, in whatever case VTOP echoed it back.
     for variant in {real_username, real_username.upper(), real_username.lower()}:
         html = html.replace(variant, FAKE_REG_NO)
+
+    # The student's full name, which VTOP embeds on several pages. Each
+    # whitespace collapsed word is removed so spacing quirks do not let a part
+    # of the name survive.
+    if real_name:
+        for word in real_name.split():
+            if len(word) >= 2:
+                html = re.sub(rf"\b{re.escape(word)}\b", FAKE_NAME, html, flags=re.IGNORECASE)
 
     # Any other registration number shaped token (e.g. a mentor's or a
     # classmate's on a shared roster page).
@@ -84,19 +96,19 @@ def _scrub(html: str, real_username: str) -> str:
     return html
 
 
-def _write(name: str, html: str, real_username: str) -> None:
+def _write(name: str, html: str, real_username: str, real_name: str) -> None:
     FIXTURE_DIR.mkdir(parents=True, exist_ok=True)
     path = FIXTURE_DIR / name
-    path.write_text(_scrub(html, real_username), encoding="utf-8")
+    path.write_text(_scrub(html, real_username, real_name), encoding="utf-8")
     print(f"  wrote {path.relative_to(FIXTURE_DIR.parent.parent)} ({len(html):,} bytes raw)")
 
 
-async def _capture(label: str, name: str, coro, real_username: str) -> None:
+async def _capture(label: str, name: str, coro, real_username: str, real_name: str) -> None:
     """Runs one capture, reporting rather than aborting when an endpoint fails."""
     print(f"- {label}")
     try:
         html = await coro
-        _write(name, html, real_username)
+        _write(name, html, real_username, real_name)
     except Exception as e:
         print(f"  SKIPPED: {type(e).__name__}: {e}")
 
@@ -126,6 +138,18 @@ async def main() -> None:
     csrf = student.post_login_csrf_token
     http = client._client
 
+    # The student's name is embedded on several pages, so it has to be scrubbed
+    # too. Fetch it up front and hand it to every capture.
+    real_name = ""
+    try:
+        profile = await client.get_profile()
+        real_name = profile.student_name or ""
+        if real_name:
+            print(f"Will scrub the name: {real_name[:3]}****")
+    except Exception as e:
+        print(f"WARNING: could not read the profile name to scrub it ({e}).")
+        print("Review the fixtures carefully before committing.")
+
     # Raw page captures, taken through the same requests the library makes so
     # the fixture matches what the parsers will actually receive.
     from vitap_vtop_client.constants import (
@@ -150,6 +174,7 @@ async def main() -> None:
         "semesters.html",
         post(TIME_TABLE_URL, {"verifyMenu": "true", "authorizedID": reg_no}),
         username,
+        real_name,
     )
 
     await _capture(
@@ -157,6 +182,7 @@ async def main() -> None:
         "attendance_page.html",
         post(ATTENDANCE_URL, {"verifyMenu": "true", "authorizedID": reg_no}),
         username,
+        real_name,
     )
 
     await _capture(
@@ -164,6 +190,7 @@ async def main() -> None:
         "grade_history.html",
         post(GRADE_HISTORY_URL, {"verifyMenu": "true", "authorizedID": reg_no}),
         username,
+        real_name,
     )
 
     await _capture(
@@ -171,6 +198,7 @@ async def main() -> None:
         "biometric_page.html",
         post(BIOMETRIC_LOG_URL, {"verifyMenu": "true", "authorizedID": reg_no}),
         username,
+        real_name,
     )
 
     # Semester scoped captures need a real semester id.
@@ -195,6 +223,7 @@ async def main() -> None:
                 name,
                 post(url, {"semesterSubId": sem_id, "authorizedID": reg_no}),
                 username,
+                real_name,
             )
     else:
         print("\nNo semesters returned; skipping semester scoped captures.")

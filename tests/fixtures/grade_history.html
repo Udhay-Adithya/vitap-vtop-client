@@ -1,0 +1,2794 @@
+<!DOCTYPE html>
+<!--
+  Author: Senthil Kumar D
+  Date  : 06/01/2018
+-->
+<html>
+<head>
+<script type="text/javascript" src="assets/js/jquery.validationEngine.js"charset="utf-8"></script>
+<script type="text/javascript" src="assets/js/jquery.validationEngine-en.js"charset="utf-8"></script>
+
+</head>
+<body class="hold-transition skin-blue-light sidebar-mini fixed">
+	<div id="main-section">
+		<section class="content">
+			<div class="col-md-12">
+				<div class="box box-info">
+					<div class="box-header with-border">
+						<h3 class="box-title">Student Grade History</h3>
+					</div>
+
+					<div class="box-body">
+						<form role="form" id="studentGradeView" name="studentGradeView"
+							method="post" autocomplete="off">
+							<input type="hidden" name="authorizedID" id="authorizedID"
+								value="00XXX0000" />
+							<div class="col-sm-12">
+								<div>
+									<div>
+										<div class="col-md-12">
+											<div align="center" id="fixedTableContainer"
+												class="fixedTableContainer">
+												<table class="customTable" style="align: center;">
+
+													<tr class="tableHeader">
+														<td>Reg.No.</td>
+														<td>Name</td>
+														<td>Programme and Branch</td>
+														<td>Programme Mode</td>
+														<td>Study System</td>
+														<td>Gender</td>
+														<td>YearJoined</td>
+														<td>Edu Status</td>
+														<td>School</td>
+														<td>Campus</td>
+													</tr>
+													<tr class="tableContent">
+														<td>00XXX0000</td>
+
+
+														<td>Test Student Test Student  Test Student</td>
+														<td>B.Tech. - Computer Science and Engineering</td>
+														<td>Regular</td>
+														<td>FFCS</td>
+														<td>MALE</td>
+														<td>2023</td>
+														<td>Admitted</td>
+														<td>SCOPE</td>
+
+														<td>AMR</td>
+													</tr>
+
+												</table>
+
+											</div>
+											<br />
+										</div>
+										<br />
+
+										<div class="col-md-12">
+											<div align="center" id="fixedTableContainer"
+												class="fixedTableContainer">
+												<table class="customTable" style="align: center;">
+													<tr class="tableHeader">
+														<td colspan="11">Effective Grades 
+														<!-- <span
+															style="float: right;"
+															th:if="${student.getStudySystem()}=='CAL' or  ${student.getStudySystem()}=='CBCS' or  ${student.getStudySystem()}=='FFCS'"> <a
+																class="btn btn-primary btn-success"
+																th:href="@{'javascript:vtopDownload(\''+'examinations/examGradeView/doDownloadStudentHistory'+'\')'}"><span
+																	class="glyphicon glyphicon-download-alt">&nbsp;Download
+																		History</span></a>
+														</span> 
+														
+														<span style="float: right;"
+															th:if="${student.getStudySystem()}!='CAL' and ${student.getStudySystem()}!='CBCS' and ${student.getStudySystem()}!='FFCS'"> <a
+																class="btn btn-primary btn-success"
+																th:href="@{'javascript:vtopDownload(\''+'examinations/examGradeView/doDownloadStudentHistoryNonCAL'+'\')'}"><span
+																	class="glyphicon glyphicon-download-alt">&nbsp;Download
+																		History</span></a>
+														</span> -->
+														
+														</td>
+													</tr>
+													<tr class="tableHeader">
+														<td style="width: 5%;">Sl.No.</td>
+														<td style="width: 8%;">Course Code</td>
+														<td style="width: 34%;">Course Title</td>
+														<td style="width: 5%;">Course Type</td>
+														<td style="width: 5%;">Credits</td>
+														<td style="width: 5%;">Grade</td>
+														<td style="width: 8%;">Exam Month</td>
+														<td style="width: 10%;">Result Declared</td>
+														<td style="width: 10%;">Course Distribution</td>
+														<td style="width: 5%;">Detail View</td>
+													</tr>
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">1</td>
+															<td style="width: 8%;"
+																class="textAlign-center">CSE1012</td>
+															<td style="width: 34%;">Problem Solving using Python</td>
+															<td style="width: 5%;"
+																class="textAlign-center">ETL</td>
+															<td style="width: 5%;" class="textAlign-center">4.0</td>
+															<td style="width: 5%;" class="textAlign-center">A</td>
+															<td style="width: 8%;" class="textAlign-center">Jan-2024</td>
+															<td style="width: 10%;" class="textAlign-center">29-Mar-2024</td>
+															<td style="width: 10%;"
+																class="textAlign-center">UC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																<button type="button" name="action"
+																	onclick="javascript:toggleDiv(&#39;CSE1012&#39;);"
+																	class="icon-button">
+																	<span
+																		class="glyphicon glyphicon-menu-down glyphiconDefault"></span>
+																</button>
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														<tr class="tableContent" style="display: none;"
+															id="detailsView_CSE1012">
+															<td colspan="11" align="center">
+																<div align="center">
+																	<table class="customTable-level1"
+																		style="align: center; width: 90%">
+																		<tr class="tableHeader-level1">
+																			<td style="width: 10%;">Course Code</td>
+																			<td style="width: 30%;">Course Title</td>
+																			<td style="width: 10%;">Course Type</td>
+																			<td style="width: 10%;">Credits</td>
+																			<td style="width: 10%;">Grade</td>
+																			<td style="width: 10%;">Exam Month</td>
+																			<td style="width: 10%;">Result Declared</td>
+																		</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE1012</td>
+																				<td style="width: 10%;">Problem Solving using Python</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETL</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">4.0</td>
+																				<td style="width: 10%;" class="textAlign-center">A</td>
+																				<td style="width: 10%;" class="textAlign-center">Jan-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">29-Mar-2024</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE1012</td>
+																				<td style="width: 10%;">Problem Solving using Python</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETH</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Jan-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">29-Mar-2024</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE1012</td>
+																				<td style="width: 10%;">Problem Solving using Python</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ELA</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Jan-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">29-Mar-2024</td>
+																			</tr>
+																		
+																	</table>
+																</div>
+															</td>
+														</tr>
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">2</td>
+															<td style="width: 8%;"
+																class="textAlign-center">ECE1002</td>
+															<td style="width: 34%;">Fundamentals of Electrical and Electronics Engineering</td>
+															<td style="width: 5%;"
+																class="textAlign-center">ETL</td>
+															<td style="width: 5%;" class="textAlign-center">4.0</td>
+															<td style="width: 5%;" class="textAlign-center">B</td>
+															<td style="width: 8%;" class="textAlign-center">Jan-2024</td>
+															<td style="width: 10%;" class="textAlign-center">29-Mar-2024</td>
+															<td style="width: 10%;"
+																class="textAlign-center">UC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																<button type="button" name="action"
+																	onclick="javascript:toggleDiv(&#39;ECE1002&#39;);"
+																	class="icon-button">
+																	<span
+																		class="glyphicon glyphicon-menu-down glyphiconDefault"></span>
+																</button>
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														<tr class="tableContent" style="display: none;"
+															id="detailsView_ECE1002">
+															<td colspan="11" align="center">
+																<div align="center">
+																	<table class="customTable-level1"
+																		style="align: center; width: 90%">
+																		<tr class="tableHeader-level1">
+																			<td style="width: 10%;">Course Code</td>
+																			<td style="width: 30%;">Course Title</td>
+																			<td style="width: 10%;">Course Type</td>
+																			<td style="width: 10%;">Credits</td>
+																			<td style="width: 10%;">Grade</td>
+																			<td style="width: 10%;">Exam Month</td>
+																			<td style="width: 10%;">Result Declared</td>
+																		</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">ECE1002</td>
+																				<td style="width: 10%;">Fundamentals of Electrical and Electronics Engineering</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETL</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">4.0</td>
+																				<td style="width: 10%;" class="textAlign-center">B</td>
+																				<td style="width: 10%;" class="textAlign-center">Jan-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">29-Mar-2024</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">ECE1002</td>
+																				<td style="width: 10%;">Fundamentals of Electrical and Electronics Engineering</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETH</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Jan-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">29-Mar-2024</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">ECE1002</td>
+																				<td style="width: 10%;">Fundamentals of Electrical and Electronics Engineering</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ELA</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Jan-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">29-Mar-2024</td>
+																			</tr>
+																		
+																	</table>
+																</div>
+															</td>
+														</tr>
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">3</td>
+															<td style="width: 8%;"
+																class="textAlign-center">ENG1002</td>
+															<td style="width: 34%;">English for Effective Communication</td>
+															<td style="width: 5%;"
+																class="textAlign-center">ETL</td>
+															<td style="width: 5%;" class="textAlign-center">3.0</td>
+															<td style="width: 5%;" class="textAlign-center">B</td>
+															<td style="width: 8%;" class="textAlign-center">Jan-2024</td>
+															<td style="width: 10%;" class="textAlign-center">29-Mar-2024</td>
+															<td style="width: 10%;"
+																class="textAlign-center">UC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																<button type="button" name="action"
+																	onclick="javascript:toggleDiv(&#39;ENG1002&#39;);"
+																	class="icon-button">
+																	<span
+																		class="glyphicon glyphicon-menu-down glyphiconDefault"></span>
+																</button>
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														<tr class="tableContent" style="display: none;"
+															id="detailsView_ENG1002">
+															<td colspan="11" align="center">
+																<div align="center">
+																	<table class="customTable-level1"
+																		style="align: center; width: 90%">
+																		<tr class="tableHeader-level1">
+																			<td style="width: 10%;">Course Code</td>
+																			<td style="width: 30%;">Course Title</td>
+																			<td style="width: 10%;">Course Type</td>
+																			<td style="width: 10%;">Credits</td>
+																			<td style="width: 10%;">Grade</td>
+																			<td style="width: 10%;">Exam Month</td>
+																			<td style="width: 10%;">Result Declared</td>
+																		</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">ENG1002</td>
+																				<td style="width: 10%;">English for Effective Communication</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETL</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">3.0</td>
+																				<td style="width: 10%;" class="textAlign-center">B</td>
+																				<td style="width: 10%;" class="textAlign-center">Jan-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">29-Mar-2024</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">ENG1002</td>
+																				<td style="width: 10%;">English for Effective Communication</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETH</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Jan-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">29-Mar-2024</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">ENG1002</td>
+																				<td style="width: 10%;">English for Effective Communication</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ELA</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Jan-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">29-Mar-2024</td>
+																			</tr>
+																		
+																	</table>
+																</div>
+															</td>
+														</tr>
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">4</td>
+															<td style="width: 8%;"
+																class="textAlign-center">MAT1001</td>
+															<td style="width: 34%;">Calculus for Engineers</td>
+															<td style="width: 5%;"
+																class="textAlign-center">ETL</td>
+															<td style="width: 5%;" class="textAlign-center">4.0</td>
+															<td style="width: 5%;" class="textAlign-center">A</td>
+															<td style="width: 8%;" class="textAlign-center">Jul-2025</td>
+															<td style="width: 10%;" class="textAlign-center">08-Aug-2025</td>
+															<td style="width: 10%;"
+																class="textAlign-center">UC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																<button type="button" name="action"
+																	onclick="javascript:toggleDiv(&#39;MAT1001&#39;);"
+																	class="icon-button">
+																	<span
+																		class="glyphicon glyphicon-menu-down glyphiconDefault"></span>
+																</button>
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														<tr class="tableContent" style="display: none;"
+															id="detailsView_MAT1001">
+															<td colspan="11" align="center">
+																<div align="center">
+																	<table class="customTable-level1"
+																		style="align: center; width: 90%">
+																		<tr class="tableHeader-level1">
+																			<td style="width: 10%;">Course Code</td>
+																			<td style="width: 30%;">Course Title</td>
+																			<td style="width: 10%;">Course Type</td>
+																			<td style="width: 10%;">Credits</td>
+																			<td style="width: 10%;">Grade</td>
+																			<td style="width: 10%;">Exam Month</td>
+																			<td style="width: 10%;">Result Declared</td>
+																		</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">MAT1001</td>
+																				<td style="width: 10%;">Calculus for Engineers</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETL</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">4.0</td>
+																				<td style="width: 10%;" class="textAlign-center">F</td>
+																				<td style="width: 10%;" class="textAlign-center">Jan-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">29-Mar-2024</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">MAT1001</td>
+																				<td style="width: 10%;">Calculus for Engineers</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETH</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Jan-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">29-Mar-2024</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">MAT1001</td>
+																				<td style="width: 10%;">Calculus for Engineers</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ELA</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Jan-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">29-Mar-2024</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">MAT1001</td>
+																				<td style="width: 10%;">Calculus for Engineers</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETL</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">4.0</td>
+																				<td style="width: 10%;" class="textAlign-center">A</td>
+																				<td style="width: 10%;" class="textAlign-center">Jul-2025</td>
+																				<td style="width: 10%;" class="textAlign-center">08-Aug-2025</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">MAT1001</td>
+																				<td style="width: 10%;">Calculus for Engineers</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETH</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Jul-2025</td>
+																				<td style="width: 10%;" class="textAlign-center">08-Aug-2025</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">MAT1001</td>
+																				<td style="width: 10%;">Calculus for Engineers</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ELA</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Jul-2025</td>
+																				<td style="width: 10%;" class="textAlign-center">08-Aug-2025</td>
+																			</tr>
+																		
+																	</table>
+																</div>
+															</td>
+														</tr>
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">5</td>
+															<td style="width: 8%;"
+																class="textAlign-center">PHY1008</td>
+															<td style="width: 34%;">Modern Physics</td>
+															<td style="width: 5%;"
+																class="textAlign-center">ETL</td>
+															<td style="width: 5%;" class="textAlign-center">4.0</td>
+															<td style="width: 5%;" class="textAlign-center">B</td>
+															<td style="width: 8%;" class="textAlign-center">Jan-2024</td>
+															<td style="width: 10%;" class="textAlign-center">29-Mar-2024</td>
+															<td style="width: 10%;"
+																class="textAlign-center">UC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																<button type="button" name="action"
+																	onclick="javascript:toggleDiv(&#39;PHY1008&#39;);"
+																	class="icon-button">
+																	<span
+																		class="glyphicon glyphicon-menu-down glyphiconDefault"></span>
+																</button>
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														<tr class="tableContent" style="display: none;"
+															id="detailsView_PHY1008">
+															<td colspan="11" align="center">
+																<div align="center">
+																	<table class="customTable-level1"
+																		style="align: center; width: 90%">
+																		<tr class="tableHeader-level1">
+																			<td style="width: 10%;">Course Code</td>
+																			<td style="width: 30%;">Course Title</td>
+																			<td style="width: 10%;">Course Type</td>
+																			<td style="width: 10%;">Credits</td>
+																			<td style="width: 10%;">Grade</td>
+																			<td style="width: 10%;">Exam Month</td>
+																			<td style="width: 10%;">Result Declared</td>
+																		</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">PHY1008</td>
+																				<td style="width: 10%;">Modern Physics</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETL</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">4.0</td>
+																				<td style="width: 10%;" class="textAlign-center">B</td>
+																				<td style="width: 10%;" class="textAlign-center">Jan-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">29-Mar-2024</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">PHY1008</td>
+																				<td style="width: 10%;">Modern Physics</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETH</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Jan-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">29-Mar-2024</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">PHY1008</td>
+																				<td style="width: 10%;">Modern Physics</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ELA</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Jan-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">29-Mar-2024</td>
+																			</tr>
+																		
+																	</table>
+																</div>
+															</td>
+														</tr>
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">6</td>
+															<td style="width: 8%;"
+																class="textAlign-center">STS1004</td>
+															<td style="width: 34%;">Introduction to Problem Solving</td>
+															<td style="width: 5%;"
+																class="textAlign-center">TH</td>
+															<td style="width: 5%;" class="textAlign-center">3.0</td>
+															<td style="width: 5%;" class="textAlign-center">A</td>
+															<td style="width: 8%;" class="textAlign-center">Jan-2024</td>
+															<td style="width: 10%;" class="textAlign-center">29-Mar-2024</td>
+															<td style="width: 10%;"
+																class="textAlign-center">UC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">7</td>
+															<td style="width: 8%;"
+																class="textAlign-center">CHY1009</td>
+															<td style="width: 34%;">Chemistry and Environmental Studies</td>
+															<td style="width: 5%;"
+																class="textAlign-center">ETL</td>
+															<td style="width: 5%;" class="textAlign-center">4.0</td>
+															<td style="width: 5%;" class="textAlign-center">B</td>
+															<td style="width: 8%;" class="textAlign-center">Jun-2024</td>
+															<td style="width: 10%;" class="textAlign-center">23-Aug-2024</td>
+															<td style="width: 10%;"
+																class="textAlign-center">UC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																<button type="button" name="action"
+																	onclick="javascript:toggleDiv(&#39;CHY1009&#39;);"
+																	class="icon-button">
+																	<span
+																		class="glyphicon glyphicon-menu-down glyphiconDefault"></span>
+																</button>
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														<tr class="tableContent" style="display: none;"
+															id="detailsView_CHY1009">
+															<td colspan="11" align="center">
+																<div align="center">
+																	<table class="customTable-level1"
+																		style="align: center; width: 90%">
+																		<tr class="tableHeader-level1">
+																			<td style="width: 10%;">Course Code</td>
+																			<td style="width: 30%;">Course Title</td>
+																			<td style="width: 10%;">Course Type</td>
+																			<td style="width: 10%;">Credits</td>
+																			<td style="width: 10%;">Grade</td>
+																			<td style="width: 10%;">Exam Month</td>
+																			<td style="width: 10%;">Result Declared</td>
+																		</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CHY1009</td>
+																				<td style="width: 10%;">Chemistry and Environmental Studies</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETL</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">4.0</td>
+																				<td style="width: 10%;" class="textAlign-center">B</td>
+																				<td style="width: 10%;" class="textAlign-center">Jun-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">23-Aug-2024</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CHY1009</td>
+																				<td style="width: 10%;">Chemistry and Environmental Studies</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETH</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Jun-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">23-Aug-2024</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CHY1009</td>
+																				<td style="width: 10%;">Chemistry and Environmental Studies</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ELA</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Jun-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">23-Aug-2024</td>
+																			</tr>
+																		
+																	</table>
+																</div>
+															</td>
+														</tr>
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">8</td>
+															<td style="width: 8%;"
+																class="textAlign-center">CSE2005</td>
+															<td style="width: 34%;">Object Oriented Programming</td>
+															<td style="width: 5%;"
+																class="textAlign-center">ETL</td>
+															<td style="width: 5%;" class="textAlign-center">4.0</td>
+															<td style="width: 5%;" class="textAlign-center">A</td>
+															<td style="width: 8%;" class="textAlign-center">Jun-2024</td>
+															<td style="width: 10%;" class="textAlign-center">23-Aug-2024</td>
+															<td style="width: 10%;"
+																class="textAlign-center">UC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																<button type="button" name="action"
+																	onclick="javascript:toggleDiv(&#39;CSE2005&#39;);"
+																	class="icon-button">
+																	<span
+																		class="glyphicon glyphicon-menu-down glyphiconDefault"></span>
+																</button>
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														<tr class="tableContent" style="display: none;"
+															id="detailsView_CSE2005">
+															<td colspan="11" align="center">
+																<div align="center">
+																	<table class="customTable-level1"
+																		style="align: center; width: 90%">
+																		<tr class="tableHeader-level1">
+																			<td style="width: 10%;">Course Code</td>
+																			<td style="width: 30%;">Course Title</td>
+																			<td style="width: 10%;">Course Type</td>
+																			<td style="width: 10%;">Credits</td>
+																			<td style="width: 10%;">Grade</td>
+																			<td style="width: 10%;">Exam Month</td>
+																			<td style="width: 10%;">Result Declared</td>
+																		</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE2005</td>
+																				<td style="width: 10%;">Object Oriented Programming</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETL</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">4.0</td>
+																				<td style="width: 10%;" class="textAlign-center">A</td>
+																				<td style="width: 10%;" class="textAlign-center">Jun-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">23-Aug-2024</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE2005</td>
+																				<td style="width: 10%;">Object Oriented Programming</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETH</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Jun-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">23-Aug-2024</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE2005</td>
+																				<td style="width: 10%;">Object Oriented Programming</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ELA</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Jun-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">23-Aug-2024</td>
+																			</tr>
+																		
+																	</table>
+																</div>
+															</td>
+														</tr>
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">9</td>
+															<td style="width: 8%;"
+																class="textAlign-center">ECE1003</td>
+															<td style="width: 34%;">Digital Logic Design</td>
+															<td style="width: 5%;"
+																class="textAlign-center">ETL</td>
+															<td style="width: 5%;" class="textAlign-center">4.0</td>
+															<td style="width: 5%;" class="textAlign-center">A</td>
+															<td style="width: 8%;" class="textAlign-center">Jul-2025</td>
+															<td style="width: 10%;" class="textAlign-center">08-Aug-2025</td>
+															<td style="width: 10%;"
+																class="textAlign-center">PC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																<button type="button" name="action"
+																	onclick="javascript:toggleDiv(&#39;ECE1003&#39;);"
+																	class="icon-button">
+																	<span
+																		class="glyphicon glyphicon-menu-down glyphiconDefault"></span>
+																</button>
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														<tr class="tableContent" style="display: none;"
+															id="detailsView_ECE1003">
+															<td colspan="11" align="center">
+																<div align="center">
+																	<table class="customTable-level1"
+																		style="align: center; width: 90%">
+																		<tr class="tableHeader-level1">
+																			<td style="width: 10%;">Course Code</td>
+																			<td style="width: 30%;">Course Title</td>
+																			<td style="width: 10%;">Course Type</td>
+																			<td style="width: 10%;">Credits</td>
+																			<td style="width: 10%;">Grade</td>
+																			<td style="width: 10%;">Exam Month</td>
+																			<td style="width: 10%;">Result Declared</td>
+																		</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">ECE1003</td>
+																				<td style="width: 10%;">Digital Logic Design</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETL</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">4.0</td>
+																				<td style="width: 10%;" class="textAlign-center">C</td>
+																				<td style="width: 10%;" class="textAlign-center">Jun-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">23-Aug-2024</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">ECE1003</td>
+																				<td style="width: 10%;">Digital Logic Design</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETH</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Jun-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">23-Aug-2024</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">ECE1003</td>
+																				<td style="width: 10%;">Digital Logic Design</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ELA</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Jun-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">23-Aug-2024</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">ECE1003</td>
+																				<td style="width: 10%;">Digital Logic Design</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETL</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">4.0</td>
+																				<td style="width: 10%;" class="textAlign-center">A</td>
+																				<td style="width: 10%;" class="textAlign-center">Jul-2025</td>
+																				<td style="width: 10%;" class="textAlign-center">08-Aug-2025</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">ECE1003</td>
+																				<td style="width: 10%;">Digital Logic Design</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETH</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Jul-2025</td>
+																				<td style="width: 10%;" class="textAlign-center">08-Aug-2025</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">ECE1003</td>
+																				<td style="width: 10%;">Digital Logic Design</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ELA</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Jul-2025</td>
+																				<td style="width: 10%;" class="textAlign-center">08-Aug-2025</td>
+																			</tr>
+																		
+																	</table>
+																</div>
+															</td>
+														</tr>
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">10</td>
+															<td style="width: 8%;"
+																class="textAlign-center">ENG2001</td>
+															<td style="width: 34%;">English for Professional Communication</td>
+															<td style="width: 5%;"
+																class="textAlign-center">ETL</td>
+															<td style="width: 5%;" class="textAlign-center">3.0</td>
+															<td style="width: 5%;" class="textAlign-center">B</td>
+															<td style="width: 8%;" class="textAlign-center">Jun-2024</td>
+															<td style="width: 10%;" class="textAlign-center">23-Aug-2024</td>
+															<td style="width: 10%;"
+																class="textAlign-center">UC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																<button type="button" name="action"
+																	onclick="javascript:toggleDiv(&#39;ENG2001&#39;);"
+																	class="icon-button">
+																	<span
+																		class="glyphicon glyphicon-menu-down glyphiconDefault"></span>
+																</button>
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														<tr class="tableContent" style="display: none;"
+															id="detailsView_ENG2001">
+															<td colspan="11" align="center">
+																<div align="center">
+																	<table class="customTable-level1"
+																		style="align: center; width: 90%">
+																		<tr class="tableHeader-level1">
+																			<td style="width: 10%;">Course Code</td>
+																			<td style="width: 30%;">Course Title</td>
+																			<td style="width: 10%;">Course Type</td>
+																			<td style="width: 10%;">Credits</td>
+																			<td style="width: 10%;">Grade</td>
+																			<td style="width: 10%;">Exam Month</td>
+																			<td style="width: 10%;">Result Declared</td>
+																		</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">ENG2001</td>
+																				<td style="width: 10%;">English for Professional Communication</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETL</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">3.0</td>
+																				<td style="width: 10%;" class="textAlign-center">B</td>
+																				<td style="width: 10%;" class="textAlign-center">Jun-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">23-Aug-2024</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">ENG2001</td>
+																				<td style="width: 10%;">English for Professional Communication</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETH</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Jun-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">23-Aug-2024</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">ENG2001</td>
+																				<td style="width: 10%;">English for Professional Communication</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ELA</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Jun-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">23-Aug-2024</td>
+																			</tr>
+																		
+																	</table>
+																</div>
+															</td>
+														</tr>
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">11</td>
+															<td style="width: 8%;"
+																class="textAlign-center">MAT1002</td>
+															<td style="width: 34%;">Applications of Differential and Difference Equations</td>
+															<td style="width: 5%;"
+																class="textAlign-center">TH</td>
+															<td style="width: 5%;" class="textAlign-center">4.0</td>
+															<td style="width: 5%;" class="textAlign-center">C</td>
+															<td style="width: 8%;" class="textAlign-center">Jun-2024</td>
+															<td style="width: 10%;" class="textAlign-center">23-Aug-2024</td>
+															<td style="width: 10%;"
+																class="textAlign-center">UC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">12</td>
+															<td style="width: 8%;"
+																class="textAlign-center">STS1009</td>
+															<td style="width: 34%;">Introduction to Quantitative, Logical and Verbal Ability</td>
+															<td style="width: 5%;"
+																class="textAlign-center">TH</td>
+															<td style="width: 5%;" class="textAlign-center">3.0</td>
+															<td style="width: 5%;" class="textAlign-center">B</td>
+															<td style="width: 8%;" class="textAlign-center">Jun-2024</td>
+															<td style="width: 10%;" class="textAlign-center">23-Aug-2024</td>
+															<td style="width: 10%;"
+																class="textAlign-center">UC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">13</td>
+															<td style="width: 8%;"
+																class="textAlign-center">CSE1022</td>
+															<td style="width: 34%;">Introduction to Programming</td>
+															<td style="width: 5%;"
+																class="textAlign-center">ETL</td>
+															<td style="width: 5%;" class="textAlign-center">3.0</td>
+															<td style="width: 5%;" class="textAlign-center">B</td>
+															<td style="width: 8%;" class="textAlign-center">Nov-2024</td>
+															<td style="width: 10%;" class="textAlign-center">06-Jan-2025</td>
+															<td style="width: 10%;"
+																class="textAlign-center">UC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																<button type="button" name="action"
+																	onclick="javascript:toggleDiv(&#39;CSE1022&#39;);"
+																	class="icon-button">
+																	<span
+																		class="glyphicon glyphicon-menu-down glyphiconDefault"></span>
+																</button>
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														<tr class="tableContent" style="display: none;"
+															id="detailsView_CSE1022">
+															<td colspan="11" align="center">
+																<div align="center">
+																	<table class="customTable-level1"
+																		style="align: center; width: 90%">
+																		<tr class="tableHeader-level1">
+																			<td style="width: 10%;">Course Code</td>
+																			<td style="width: 30%;">Course Title</td>
+																			<td style="width: 10%;">Course Type</td>
+																			<td style="width: 10%;">Credits</td>
+																			<td style="width: 10%;">Grade</td>
+																			<td style="width: 10%;">Exam Month</td>
+																			<td style="width: 10%;">Result Declared</td>
+																		</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE1022</td>
+																				<td style="width: 10%;">Introduction to Programming</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETL</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">3.0</td>
+																				<td style="width: 10%;" class="textAlign-center">B</td>
+																				<td style="width: 10%;" class="textAlign-center">Nov-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">06-Jan-2025</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE1022</td>
+																				<td style="width: 10%;">Introduction to Programming</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETH</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Nov-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">06-Jan-2025</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE1022</td>
+																				<td style="width: 10%;">Introduction to Programming</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ELA</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Nov-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">06-Jan-2025</td>
+																			</tr>
+																		
+																	</table>
+																</div>
+															</td>
+														</tr>
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">14</td>
+															<td style="width: 8%;"
+																class="textAlign-center">CSE2001</td>
+															<td style="width: 34%;">Data Structures and Algorithms</td>
+															<td style="width: 5%;"
+																class="textAlign-center">ETL</td>
+															<td style="width: 5%;" class="textAlign-center">4.0</td>
+															<td style="width: 5%;" class="textAlign-center">B</td>
+															<td style="width: 8%;" class="textAlign-center">Nov-2024</td>
+															<td style="width: 10%;" class="textAlign-center">06-Jan-2025</td>
+															<td style="width: 10%;"
+																class="textAlign-center">UC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																<button type="button" name="action"
+																	onclick="javascript:toggleDiv(&#39;CSE2001&#39;);"
+																	class="icon-button">
+																	<span
+																		class="glyphicon glyphicon-menu-down glyphiconDefault"></span>
+																</button>
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														<tr class="tableContent" style="display: none;"
+															id="detailsView_CSE2001">
+															<td colspan="11" align="center">
+																<div align="center">
+																	<table class="customTable-level1"
+																		style="align: center; width: 90%">
+																		<tr class="tableHeader-level1">
+																			<td style="width: 10%;">Course Code</td>
+																			<td style="width: 30%;">Course Title</td>
+																			<td style="width: 10%;">Course Type</td>
+																			<td style="width: 10%;">Credits</td>
+																			<td style="width: 10%;">Grade</td>
+																			<td style="width: 10%;">Exam Month</td>
+																			<td style="width: 10%;">Result Declared</td>
+																		</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE2001</td>
+																				<td style="width: 10%;">Data Structures and Algorithms</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETL</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">4.0</td>
+																				<td style="width: 10%;" class="textAlign-center">B</td>
+																				<td style="width: 10%;" class="textAlign-center">Nov-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">06-Jan-2025</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE2001</td>
+																				<td style="width: 10%;">Data Structures and Algorithms</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETH</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Nov-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">06-Jan-2025</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE2001</td>
+																				<td style="width: 10%;">Data Structures and Algorithms</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ELA</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Nov-2024</td>
+																				<td style="width: 10%;" class="textAlign-center">06-Jan-2025</td>
+																			</tr>
+																		
+																	</table>
+																</div>
+															</td>
+														</tr>
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">15</td>
+															<td style="width: 8%;"
+																class="textAlign-center">CSE3002</td>
+															<td style="width: 34%;">Artificial Intelligence</td>
+															<td style="width: 5%;"
+																class="textAlign-center">TH</td>
+															<td style="width: 5%;" class="textAlign-center">3.0</td>
+															<td style="width: 5%;" class="textAlign-center">A</td>
+															<td style="width: 8%;" class="textAlign-center">Nov-2024</td>
+															<td style="width: 10%;" class="textAlign-center">06-Jan-2025</td>
+															<td style="width: 10%;"
+																class="textAlign-center">PE</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">16</td>
+															<td style="width: 8%;"
+																class="textAlign-center">ECS2002</td>
+															<td style="width: 34%;">Engineering Clinics - System Design</td>
+															<td style="width: 5%;"
+																class="textAlign-center">PJT</td>
+															<td style="width: 5%;" class="textAlign-center">2.0</td>
+															<td style="width: 5%;" class="textAlign-center">S</td>
+															<td style="width: 8%;" class="textAlign-center">Nov-2024</td>
+															<td style="width: 10%;" class="textAlign-center">06-Jan-2025</td>
+															<td style="width: 10%;"
+																class="textAlign-center">UC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">17</td>
+															<td style="width: 8%;"
+																class="textAlign-center">MAT1003</td>
+															<td style="width: 34%;">Discrete Mathematical Structures</td>
+															<td style="width: 5%;"
+																class="textAlign-center">TH</td>
+															<td style="width: 5%;" class="textAlign-center">4.0</td>
+															<td style="width: 5%;" class="textAlign-center">B</td>
+															<td style="width: 8%;" class="textAlign-center">Nov-2024</td>
+															<td style="width: 10%;" class="textAlign-center">06-Jan-2025</td>
+															<td style="width: 10%;"
+																class="textAlign-center">PC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">18</td>
+															<td style="width: 8%;"
+																class="textAlign-center">MGT1001</td>
+															<td style="width: 34%;">Ethics and Values</td>
+															<td style="width: 5%;"
+																class="textAlign-center">LO</td>
+															<td style="width: 5%;" class="textAlign-center">2.0</td>
+															<td style="width: 5%;" class="textAlign-center">P</td>
+															<td style="width: 8%;" class="textAlign-center">Nov-2024</td>
+															<td style="width: 10%;" class="textAlign-center">06-Jan-2025</td>
+															<td style="width: 10%;"
+																class="textAlign-center">UC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">19</td>
+															<td style="width: 8%;"
+																class="textAlign-center">STS2008</td>
+															<td style="width: 34%;">Numerical Ability and Cognitive Intelligence</td>
+															<td style="width: 5%;"
+																class="textAlign-center">TH</td>
+															<td style="width: 5%;" class="textAlign-center">3.0</td>
+															<td style="width: 5%;" class="textAlign-center">B</td>
+															<td style="width: 8%;" class="textAlign-center">Nov-2024</td>
+															<td style="width: 10%;" class="textAlign-center">06-Jan-2025</td>
+															<td style="width: 10%;"
+																class="textAlign-center">UC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">20</td>
+															<td style="width: 8%;"
+																class="textAlign-center">CSE1005</td>
+															<td style="width: 34%;">Software Engineering</td>
+															<td style="width: 5%;"
+																class="textAlign-center">ETL</td>
+															<td style="width: 5%;" class="textAlign-center">4.0</td>
+															<td style="width: 5%;" class="textAlign-center">A</td>
+															<td style="width: 8%;" class="textAlign-center">Apr-2025</td>
+															<td style="width: 10%;" class="textAlign-center">11-Jun-2025</td>
+															<td style="width: 10%;"
+																class="textAlign-center">PC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																<button type="button" name="action"
+																	onclick="javascript:toggleDiv(&#39;CSE1005&#39;);"
+																	class="icon-button">
+																	<span
+																		class="glyphicon glyphicon-menu-down glyphiconDefault"></span>
+																</button>
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														<tr class="tableContent" style="display: none;"
+															id="detailsView_CSE1005">
+															<td colspan="11" align="center">
+																<div align="center">
+																	<table class="customTable-level1"
+																		style="align: center; width: 90%">
+																		<tr class="tableHeader-level1">
+																			<td style="width: 10%;">Course Code</td>
+																			<td style="width: 30%;">Course Title</td>
+																			<td style="width: 10%;">Course Type</td>
+																			<td style="width: 10%;">Credits</td>
+																			<td style="width: 10%;">Grade</td>
+																			<td style="width: 10%;">Exam Month</td>
+																			<td style="width: 10%;">Result Declared</td>
+																		</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE1005</td>
+																				<td style="width: 10%;">Software Engineering</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETL</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">4.0</td>
+																				<td style="width: 10%;" class="textAlign-center">A</td>
+																				<td style="width: 10%;" class="textAlign-center">Apr-2025</td>
+																				<td style="width: 10%;" class="textAlign-center">11-Jun-2025</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE1005</td>
+																				<td style="width: 10%;">Software Engineering</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETH</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Apr-2025</td>
+																				<td style="width: 10%;" class="textAlign-center">11-Jun-2025</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE1005</td>
+																				<td style="width: 10%;">Software Engineering</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ELA</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Apr-2025</td>
+																				<td style="width: 10%;" class="textAlign-center">11-Jun-2025</td>
+																			</tr>
+																		
+																	</table>
+																</div>
+															</td>
+														</tr>
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">21</td>
+															<td style="width: 8%;"
+																class="textAlign-center">CSE2007</td>
+															<td style="width: 34%;">Database Management Systems</td>
+															<td style="width: 5%;"
+																class="textAlign-center">ETL</td>
+															<td style="width: 5%;" class="textAlign-center">4.0</td>
+															<td style="width: 5%;" class="textAlign-center">A</td>
+															<td style="width: 8%;" class="textAlign-center">Apr-2025</td>
+															<td style="width: 10%;" class="textAlign-center">11-Jun-2025</td>
+															<td style="width: 10%;"
+																class="textAlign-center">PC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																<button type="button" name="action"
+																	onclick="javascript:toggleDiv(&#39;CSE2007&#39;);"
+																	class="icon-button">
+																	<span
+																		class="glyphicon glyphicon-menu-down glyphiconDefault"></span>
+																</button>
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														<tr class="tableContent" style="display: none;"
+															id="detailsView_CSE2007">
+															<td colspan="11" align="center">
+																<div align="center">
+																	<table class="customTable-level1"
+																		style="align: center; width: 90%">
+																		<tr class="tableHeader-level1">
+																			<td style="width: 10%;">Course Code</td>
+																			<td style="width: 30%;">Course Title</td>
+																			<td style="width: 10%;">Course Type</td>
+																			<td style="width: 10%;">Credits</td>
+																			<td style="width: 10%;">Grade</td>
+																			<td style="width: 10%;">Exam Month</td>
+																			<td style="width: 10%;">Result Declared</td>
+																		</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE2007</td>
+																				<td style="width: 10%;">Database Management Systems</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETL</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">4.0</td>
+																				<td style="width: 10%;" class="textAlign-center">A</td>
+																				<td style="width: 10%;" class="textAlign-center">Apr-2025</td>
+																				<td style="width: 10%;" class="textAlign-center">11-Jun-2025</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE2007</td>
+																				<td style="width: 10%;">Database Management Systems</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETH</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Apr-2025</td>
+																				<td style="width: 10%;" class="textAlign-center">11-Jun-2025</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE2007</td>
+																				<td style="width: 10%;">Database Management Systems</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ELA</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Apr-2025</td>
+																				<td style="width: 10%;" class="textAlign-center">11-Jun-2025</td>
+																			</tr>
+																		
+																	</table>
+																</div>
+															</td>
+														</tr>
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">22</td>
+															<td style="width: 8%;"
+																class="textAlign-center">CSE3008</td>
+															<td style="width: 34%;">Introduction to Machine Learning</td>
+															<td style="width: 5%;"
+																class="textAlign-center">ETL</td>
+															<td style="width: 5%;" class="textAlign-center">4.0</td>
+															<td style="width: 5%;" class="textAlign-center">B</td>
+															<td style="width: 8%;" class="textAlign-center">Apr-2025</td>
+															<td style="width: 10%;" class="textAlign-center">11-Jun-2025</td>
+															<td style="width: 10%;"
+																class="textAlign-center">UE</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																<button type="button" name="action"
+																	onclick="javascript:toggleDiv(&#39;CSE3008&#39;);"
+																	class="icon-button">
+																	<span
+																		class="glyphicon glyphicon-menu-down glyphiconDefault"></span>
+																</button>
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														<tr class="tableContent" style="display: none;"
+															id="detailsView_CSE3008">
+															<td colspan="11" align="center">
+																<div align="center">
+																	<table class="customTable-level1"
+																		style="align: center; width: 90%">
+																		<tr class="tableHeader-level1">
+																			<td style="width: 10%;">Course Code</td>
+																			<td style="width: 30%;">Course Title</td>
+																			<td style="width: 10%;">Course Type</td>
+																			<td style="width: 10%;">Credits</td>
+																			<td style="width: 10%;">Grade</td>
+																			<td style="width: 10%;">Exam Month</td>
+																			<td style="width: 10%;">Result Declared</td>
+																		</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE3008</td>
+																				<td style="width: 10%;">Introduction to Machine Learning</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETL</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">4.0</td>
+																				<td style="width: 10%;" class="textAlign-center">B</td>
+																				<td style="width: 10%;" class="textAlign-center">Apr-2025</td>
+																				<td style="width: 10%;" class="textAlign-center">11-Jun-2025</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE3008</td>
+																				<td style="width: 10%;">Introduction to Machine Learning</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETH</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Apr-2025</td>
+																				<td style="width: 10%;" class="textAlign-center">11-Jun-2025</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE3008</td>
+																				<td style="width: 10%;">Introduction to Machine Learning</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ELA</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Apr-2025</td>
+																				<td style="width: 10%;" class="textAlign-center">11-Jun-2025</td>
+																			</tr>
+																		
+																	</table>
+																</div>
+															</td>
+														</tr>
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">23</td>
+															<td style="width: 8%;"
+																class="textAlign-center">ECE2002</td>
+															<td style="width: 34%;">Computer Organization and Architecture</td>
+															<td style="width: 5%;"
+																class="textAlign-center">TH</td>
+															<td style="width: 5%;" class="textAlign-center">4.0</td>
+															<td style="width: 5%;" class="textAlign-center">B</td>
+															<td style="width: 8%;" class="textAlign-center">Apr-2025</td>
+															<td style="width: 10%;" class="textAlign-center">11-Jun-2025</td>
+															<td style="width: 10%;"
+																class="textAlign-center">PC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">24</td>
+															<td style="width: 8%;"
+																class="textAlign-center">EXC2054</td>
+															<td style="width: 34%;">The Gamers Crib (TGC)</td>
+															<td style="width: 5%;"
+																class="textAlign-center">NCC</td>
+															<td style="width: 5%;" class="textAlign-center">2.0</td>
+															<td style="width: 5%;" class="textAlign-center">P</td>
+															<td style="width: 8%;" class="textAlign-center">Apr-2025</td>
+															<td style="width: 10%;" class="textAlign-center">11-Jun-2025</td>
+															<td style="width: 10%;"
+																class="textAlign-center">UC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">25</td>
+															<td style="width: 8%;"
+																class="textAlign-center">MAT1011</td>
+															<td style="width: 34%;">Applied Statistics</td>
+															<td style="width: 5%;"
+																class="textAlign-center">ETL</td>
+															<td style="width: 5%;" class="textAlign-center">4.0</td>
+															<td style="width: 5%;" class="textAlign-center">B</td>
+															<td style="width: 8%;" class="textAlign-center">Apr-2025</td>
+															<td style="width: 10%;" class="textAlign-center">11-Jun-2025</td>
+															<td style="width: 10%;"
+																class="textAlign-center">UC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																<button type="button" name="action"
+																	onclick="javascript:toggleDiv(&#39;MAT1011&#39;);"
+																	class="icon-button">
+																	<span
+																		class="glyphicon glyphicon-menu-down glyphiconDefault"></span>
+																</button>
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														<tr class="tableContent" style="display: none;"
+															id="detailsView_MAT1011">
+															<td colspan="11" align="center">
+																<div align="center">
+																	<table class="customTable-level1"
+																		style="align: center; width: 90%">
+																		<tr class="tableHeader-level1">
+																			<td style="width: 10%;">Course Code</td>
+																			<td style="width: 30%;">Course Title</td>
+																			<td style="width: 10%;">Course Type</td>
+																			<td style="width: 10%;">Credits</td>
+																			<td style="width: 10%;">Grade</td>
+																			<td style="width: 10%;">Exam Month</td>
+																			<td style="width: 10%;">Result Declared</td>
+																		</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">MAT1011</td>
+																				<td style="width: 10%;">Applied Statistics</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETL</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">4.0</td>
+																				<td style="width: 10%;" class="textAlign-center">B</td>
+																				<td style="width: 10%;" class="textAlign-center">Apr-2025</td>
+																				<td style="width: 10%;" class="textAlign-center">11-Jun-2025</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">MAT1011</td>
+																				<td style="width: 10%;">Applied Statistics</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETH</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Apr-2025</td>
+																				<td style="width: 10%;" class="textAlign-center">11-Jun-2025</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">MAT1011</td>
+																				<td style="width: 10%;">Applied Statistics</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ELA</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Apr-2025</td>
+																				<td style="width: 10%;" class="textAlign-center">11-Jun-2025</td>
+																			</tr>
+																		
+																	</table>
+																</div>
+															</td>
+														</tr>
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">26</td>
+															<td style="width: 8%;"
+																class="textAlign-center">MGT1040</td>
+															<td style="width: 34%;">Entrepreneurship</td>
+															<td style="width: 5%;"
+																class="textAlign-center">TH</td>
+															<td style="width: 5%;" class="textAlign-center">2.0</td>
+															<td style="width: 5%;" class="textAlign-center">A</td>
+															<td style="width: 8%;" class="textAlign-center">Apr-2025</td>
+															<td style="width: 10%;" class="textAlign-center">11-Jun-2025</td>
+															<td style="width: 10%;"
+																class="textAlign-center">UC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">27</td>
+															<td style="width: 8%;"
+																class="textAlign-center">STS2009</td>
+															<td style="width: 34%;">Arithmetic Problem Solving Skills</td>
+															<td style="width: 5%;"
+																class="textAlign-center">TH</td>
+															<td style="width: 5%;" class="textAlign-center">3.0</td>
+															<td style="width: 5%;" class="textAlign-center">B</td>
+															<td style="width: 8%;" class="textAlign-center">Apr-2025</td>
+															<td style="width: 10%;" class="textAlign-center">11-Jun-2025</td>
+															<td style="width: 10%;"
+																class="textAlign-center">UC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">28</td>
+															<td style="width: 8%;"
+																class="textAlign-center">CSE2008</td>
+															<td style="width: 34%;">Operating Systems</td>
+															<td style="width: 5%;"
+																class="textAlign-center">ETL</td>
+															<td style="width: 5%;" class="textAlign-center">4.0</td>
+															<td style="width: 5%;" class="textAlign-center">B</td>
+															<td style="width: 8%;" class="textAlign-center">Nov-2025</td>
+															<td style="width: 10%;" class="textAlign-center">05-Jan-2026</td>
+															<td style="width: 10%;"
+																class="textAlign-center">PC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																<button type="button" name="action"
+																	onclick="javascript:toggleDiv(&#39;CSE2008&#39;);"
+																	class="icon-button">
+																	<span
+																		class="glyphicon glyphicon-menu-down glyphiconDefault"></span>
+																</button>
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														<tr class="tableContent" style="display: none;"
+															id="detailsView_CSE2008">
+															<td colspan="11" align="center">
+																<div align="center">
+																	<table class="customTable-level1"
+																		style="align: center; width: 90%">
+																		<tr class="tableHeader-level1">
+																			<td style="width: 10%;">Course Code</td>
+																			<td style="width: 30%;">Course Title</td>
+																			<td style="width: 10%;">Course Type</td>
+																			<td style="width: 10%;">Credits</td>
+																			<td style="width: 10%;">Grade</td>
+																			<td style="width: 10%;">Exam Month</td>
+																			<td style="width: 10%;">Result Declared</td>
+																		</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE2008</td>
+																				<td style="width: 10%;">Operating Systems</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETL</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">4.0</td>
+																				<td style="width: 10%;" class="textAlign-center">B</td>
+																				<td style="width: 10%;" class="textAlign-center">Nov-2025</td>
+																				<td style="width: 10%;" class="textAlign-center">05-Jan-2026</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE2008</td>
+																				<td style="width: 10%;">Operating Systems</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETH</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Nov-2025</td>
+																				<td style="width: 10%;" class="textAlign-center">05-Jan-2026</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE2008</td>
+																				<td style="width: 10%;">Operating Systems</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ELA</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Nov-2025</td>
+																				<td style="width: 10%;" class="textAlign-center">05-Jan-2026</td>
+																			</tr>
+																		
+																	</table>
+																</div>
+															</td>
+														</tr>
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">29</td>
+															<td style="width: 8%;"
+																class="textAlign-center">CSE2025</td>
+															<td style="width: 34%;">AWS Solution Architecture</td>
+															<td style="width: 5%;"
+																class="textAlign-center">TH</td>
+															<td style="width: 5%;" class="textAlign-center">3.0</td>
+															<td style="width: 5%;" class="textAlign-center">A</td>
+															<td style="width: 8%;" class="textAlign-center">Nov-2025</td>
+															<td style="width: 10%;" class="textAlign-center">05-Jan-2026</td>
+															<td style="width: 10%;"
+																class="textAlign-center">UE</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">30</td>
+															<td style="width: 8%;"
+																class="textAlign-center">CSE3003</td>
+															<td style="width: 34%;">Computer Networks</td>
+															<td style="width: 5%;"
+																class="textAlign-center">ETL</td>
+															<td style="width: 5%;" class="textAlign-center">4.0</td>
+															<td style="width: 5%;" class="textAlign-center">B</td>
+															<td style="width: 8%;" class="textAlign-center">Nov-2025</td>
+															<td style="width: 10%;" class="textAlign-center">05-Jan-2026</td>
+															<td style="width: 10%;"
+																class="textAlign-center">PC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																<button type="button" name="action"
+																	onclick="javascript:toggleDiv(&#39;CSE3003&#39;);"
+																	class="icon-button">
+																	<span
+																		class="glyphicon glyphicon-menu-down glyphiconDefault"></span>
+																</button>
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														<tr class="tableContent" style="display: none;"
+															id="detailsView_CSE3003">
+															<td colspan="11" align="center">
+																<div align="center">
+																	<table class="customTable-level1"
+																		style="align: center; width: 90%">
+																		<tr class="tableHeader-level1">
+																			<td style="width: 10%;">Course Code</td>
+																			<td style="width: 30%;">Course Title</td>
+																			<td style="width: 10%;">Course Type</td>
+																			<td style="width: 10%;">Credits</td>
+																			<td style="width: 10%;">Grade</td>
+																			<td style="width: 10%;">Exam Month</td>
+																			<td style="width: 10%;">Result Declared</td>
+																		</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE3003</td>
+																				<td style="width: 10%;">Computer Networks</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETL</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">4.0</td>
+																				<td style="width: 10%;" class="textAlign-center">B</td>
+																				<td style="width: 10%;" class="textAlign-center">Nov-2025</td>
+																				<td style="width: 10%;" class="textAlign-center">05-Jan-2026</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE3003</td>
+																				<td style="width: 10%;">Computer Networks</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETH</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Nov-2025</td>
+																				<td style="width: 10%;" class="textAlign-center">05-Jan-2026</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE3003</td>
+																				<td style="width: 10%;">Computer Networks</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ELA</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Nov-2025</td>
+																				<td style="width: 10%;" class="textAlign-center">05-Jan-2026</td>
+																			</tr>
+																		
+																	</table>
+																</div>
+															</td>
+														</tr>
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">31</td>
+															<td style="width: 8%;"
+																class="textAlign-center">CSE3004</td>
+															<td style="width: 34%;">Design and Analysis of Algorithms</td>
+															<td style="width: 5%;"
+																class="textAlign-center">ETL</td>
+															<td style="width: 5%;" class="textAlign-center">4.0</td>
+															<td style="width: 5%;" class="textAlign-center">B</td>
+															<td style="width: 8%;" class="textAlign-center">Nov-2025</td>
+															<td style="width: 10%;" class="textAlign-center">05-Jan-2026</td>
+															<td style="width: 10%;"
+																class="textAlign-center">PC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																<button type="button" name="action"
+																	onclick="javascript:toggleDiv(&#39;CSE3004&#39;);"
+																	class="icon-button">
+																	<span
+																		class="glyphicon glyphicon-menu-down glyphiconDefault"></span>
+																</button>
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														<tr class="tableContent" style="display: none;"
+															id="detailsView_CSE3004">
+															<td colspan="11" align="center">
+																<div align="center">
+																	<table class="customTable-level1"
+																		style="align: center; width: 90%">
+																		<tr class="tableHeader-level1">
+																			<td style="width: 10%;">Course Code</td>
+																			<td style="width: 30%;">Course Title</td>
+																			<td style="width: 10%;">Course Type</td>
+																			<td style="width: 10%;">Credits</td>
+																			<td style="width: 10%;">Grade</td>
+																			<td style="width: 10%;">Exam Month</td>
+																			<td style="width: 10%;">Result Declared</td>
+																		</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE3004</td>
+																				<td style="width: 10%;">Design and Analysis of Algorithms</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETL</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">4.0</td>
+																				<td style="width: 10%;" class="textAlign-center">B</td>
+																				<td style="width: 10%;" class="textAlign-center">Nov-2025</td>
+																				<td style="width: 10%;" class="textAlign-center">05-Jan-2026</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE3004</td>
+																				<td style="width: 10%;">Design and Analysis of Algorithms</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETH</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Nov-2025</td>
+																				<td style="width: 10%;" class="textAlign-center">05-Jan-2026</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE3004</td>
+																				<td style="width: 10%;">Design and Analysis of Algorithms</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ELA</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">Nov-2025</td>
+																				<td style="width: 10%;" class="textAlign-center">05-Jan-2026</td>
+																			</tr>
+																		
+																	</table>
+																</div>
+															</td>
+														</tr>
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">32</td>
+															<td style="width: 8%;"
+																class="textAlign-center">ECS3001</td>
+															<td style="width: 34%;">Engineering Clinics - II</td>
+															<td style="width: 5%;"
+																class="textAlign-center">PJT</td>
+															<td style="width: 5%;" class="textAlign-center">2.0</td>
+															<td style="width: 5%;" class="textAlign-center">A</td>
+															<td style="width: 8%;" class="textAlign-center">Nov-2025</td>
+															<td style="width: 10%;" class="textAlign-center">05-Jan-2026</td>
+															<td style="width: 10%;"
+																class="textAlign-center">UC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">33</td>
+															<td style="width: 8%;"
+																class="textAlign-center">FRL1005</td>
+															<td style="width: 34%;">German for Beginners</td>
+															<td style="width: 5%;"
+																class="textAlign-center">TH</td>
+															<td style="width: 5%;" class="textAlign-center">2.0</td>
+															<td style="width: 5%;" class="textAlign-center">C</td>
+															<td style="width: 8%;" class="textAlign-center">Nov-2025</td>
+															<td style="width: 10%;" class="textAlign-center">05-Jan-2026</td>
+															<td style="width: 10%;"
+																class="textAlign-center">UC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">34</td>
+															<td style="width: 8%;"
+																class="textAlign-center">STS3007</td>
+															<td style="width: 34%;">Advanced Competitive Coding - I</td>
+															<td style="width: 5%;"
+																class="textAlign-center">TH</td>
+															<td style="width: 5%;" class="textAlign-center">3.0</td>
+															<td style="width: 5%;" class="textAlign-center">B</td>
+															<td style="width: 8%;" class="textAlign-center">Nov-2025</td>
+															<td style="width: 10%;" class="textAlign-center">05-Jan-2026</td>
+															<td style="width: 10%;"
+																class="textAlign-center">UE</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">35</td>
+															<td style="width: 8%;"
+																class="textAlign-center">CSE1008</td>
+															<td style="width: 34%;">Theory of Computation</td>
+															<td style="width: 5%;"
+																class="textAlign-center">TH</td>
+															<td style="width: 5%;" class="textAlign-center">4.0</td>
+															<td style="width: 5%;" class="textAlign-center">B</td>
+															<td style="width: 8%;" class="textAlign-center">May-2026</td>
+															<td style="width: 10%;" class="textAlign-center">15-Jun-2026</td>
+															<td style="width: 10%;"
+																class="textAlign-center">PC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">36</td>
+															<td style="width: 8%;"
+																class="textAlign-center">CSE4004</td>
+															<td style="width: 34%;">Web Technologies</td>
+															<td style="width: 5%;"
+																class="textAlign-center">ETL</td>
+															<td style="width: 5%;" class="textAlign-center">4.0</td>
+															<td style="width: 5%;" class="textAlign-center">S</td>
+															<td style="width: 8%;" class="textAlign-center">May-2026</td>
+															<td style="width: 10%;" class="textAlign-center">15-Jun-2026</td>
+															<td style="width: 10%;"
+																class="textAlign-center">PC</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																<button type="button" name="action"
+																	onclick="javascript:toggleDiv(&#39;CSE4004&#39;);"
+																	class="icon-button">
+																	<span
+																		class="glyphicon glyphicon-menu-down glyphiconDefault"></span>
+																</button>
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														<tr class="tableContent" style="display: none;"
+															id="detailsView_CSE4004">
+															<td colspan="11" align="center">
+																<div align="center">
+																	<table class="customTable-level1"
+																		style="align: center; width: 90%">
+																		<tr class="tableHeader-level1">
+																			<td style="width: 10%;">Course Code</td>
+																			<td style="width: 30%;">Course Title</td>
+																			<td style="width: 10%;">Course Type</td>
+																			<td style="width: 10%;">Credits</td>
+																			<td style="width: 10%;">Grade</td>
+																			<td style="width: 10%;">Exam Month</td>
+																			<td style="width: 10%;">Result Declared</td>
+																		</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE4004</td>
+																				<td style="width: 10%;">Web Technologies</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETL</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">4.0</td>
+																				<td style="width: 10%;" class="textAlign-center">S</td>
+																				<td style="width: 10%;" class="textAlign-center">May-2026</td>
+																				<td style="width: 10%;" class="textAlign-center">15-Jun-2026</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE4004</td>
+																				<td style="width: 10%;">Web Technologies</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETH</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">May-2026</td>
+																				<td style="width: 10%;" class="textAlign-center">15-Jun-2026</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE4004</td>
+																				<td style="width: 10%;">Web Technologies</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ELA</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">May-2026</td>
+																				<td style="width: 10%;" class="textAlign-center">15-Jun-2026</td>
+																			</tr>
+																		
+																	</table>
+																</div>
+															</td>
+														</tr>
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">37</td>
+															<td style="width: 8%;"
+																class="textAlign-center">CSE4012</td>
+															<td style="width: 34%;">UI UX User Experience Design</td>
+															<td style="width: 5%;"
+																class="textAlign-center">ETL</td>
+															<td style="width: 5%;" class="textAlign-center">4.0</td>
+															<td style="width: 5%;" class="textAlign-center">B</td>
+															<td style="width: 8%;" class="textAlign-center">May-2026</td>
+															<td style="width: 10%;" class="textAlign-center">15-Jun-2026</td>
+															<td style="width: 10%;"
+																class="textAlign-center">PE</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																<button type="button" name="action"
+																	onclick="javascript:toggleDiv(&#39;CSE4012&#39;);"
+																	class="icon-button">
+																	<span
+																		class="glyphicon glyphicon-menu-down glyphiconDefault"></span>
+																</button>
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														<tr class="tableContent" style="display: none;"
+															id="detailsView_CSE4012">
+															<td colspan="11" align="center">
+																<div align="center">
+																	<table class="customTable-level1"
+																		style="align: center; width: 90%">
+																		<tr class="tableHeader-level1">
+																			<td style="width: 10%;">Course Code</td>
+																			<td style="width: 30%;">Course Title</td>
+																			<td style="width: 10%;">Course Type</td>
+																			<td style="width: 10%;">Credits</td>
+																			<td style="width: 10%;">Grade</td>
+																			<td style="width: 10%;">Exam Month</td>
+																			<td style="width: 10%;">Result Declared</td>
+																		</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE4012</td>
+																				<td style="width: 10%;">UI UX User Experience Design</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETL</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">4.0</td>
+																				<td style="width: 10%;" class="textAlign-center">B</td>
+																				<td style="width: 10%;" class="textAlign-center">May-2026</td>
+																				<td style="width: 10%;" class="textAlign-center">15-Jun-2026</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE4012</td>
+																				<td style="width: 10%;">UI UX User Experience Design</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETH</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">May-2026</td>
+																				<td style="width: 10%;" class="textAlign-center">15-Jun-2026</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE4012</td>
+																				<td style="width: 10%;">UI UX User Experience Design</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ELA</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">May-2026</td>
+																				<td style="width: 10%;" class="textAlign-center">15-Jun-2026</td>
+																			</tr>
+																		
+																	</table>
+																</div>
+															</td>
+														</tr>
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">38</td>
+															<td style="width: 8%;"
+																class="textAlign-center">CSE4037</td>
+															<td style="width: 34%;">Reinforcement Learning</td>
+															<td style="width: 5%;"
+																class="textAlign-center">ETP</td>
+															<td style="width: 5%;" class="textAlign-center">4.0</td>
+															<td style="width: 5%;" class="textAlign-center">B</td>
+															<td style="width: 8%;" class="textAlign-center">May-2026</td>
+															<td style="width: 10%;" class="textAlign-center">15-Jun-2026</td>
+															<td style="width: 10%;"
+																class="textAlign-center">PE</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																<button type="button" name="action"
+																	onclick="javascript:toggleDiv(&#39;CSE4037&#39;);"
+																	class="icon-button">
+																	<span
+																		class="glyphicon glyphicon-menu-down glyphiconDefault"></span>
+																</button>
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														<tr class="tableContent" style="display: none;"
+															id="detailsView_CSE4037">
+															<td colspan="11" align="center">
+																<div align="center">
+																	<table class="customTable-level1"
+																		style="align: center; width: 90%">
+																		<tr class="tableHeader-level1">
+																			<td style="width: 10%;">Course Code</td>
+																			<td style="width: 30%;">Course Title</td>
+																			<td style="width: 10%;">Course Type</td>
+																			<td style="width: 10%;">Credits</td>
+																			<td style="width: 10%;">Grade</td>
+																			<td style="width: 10%;">Exam Month</td>
+																			<td style="width: 10%;">Result Declared</td>
+																		</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE4037</td>
+																				<td style="width: 10%;">Reinforcement Learning</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETP</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">4.0</td>
+																				<td style="width: 10%;" class="textAlign-center">B</td>
+																				<td style="width: 10%;" class="textAlign-center">May-2026</td>
+																				<td style="width: 10%;" class="textAlign-center">15-Jun-2026</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE4037</td>
+																				<td style="width: 10%;">Reinforcement Learning</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETH</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">May-2026</td>
+																				<td style="width: 10%;" class="textAlign-center">15-Jun-2026</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">CSE4037</td>
+																				<td style="width: 10%;">Reinforcement Learning</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">EPJ</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">May-2026</td>
+																				<td style="width: 10%;" class="textAlign-center">15-Jun-2026</td>
+																			</tr>
+																		
+																	</table>
+																</div>
+															</td>
+														</tr>
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">39</td>
+															<td style="width: 8%;"
+																class="textAlign-center">MGT1023</td>
+															<td style="width: 34%;">Fundamentals of Human Resource Management</td>
+															<td style="width: 5%;"
+																class="textAlign-center">ETP</td>
+															<td style="width: 5%;" class="textAlign-center">4.0</td>
+															<td style="width: 5%;" class="textAlign-center">B</td>
+															<td style="width: 8%;" class="textAlign-center">May-2026</td>
+															<td style="width: 10%;" class="textAlign-center">15-Jun-2026</td>
+															<td style="width: 10%;"
+																class="textAlign-center">UE</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																<button type="button" name="action"
+																	onclick="javascript:toggleDiv(&#39;MGT1023&#39;);"
+																	class="icon-button">
+																	<span
+																		class="glyphicon glyphicon-menu-down glyphiconDefault"></span>
+																</button>
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														<tr class="tableContent" style="display: none;"
+															id="detailsView_MGT1023">
+															<td colspan="11" align="center">
+																<div align="center">
+																	<table class="customTable-level1"
+																		style="align: center; width: 90%">
+																		<tr class="tableHeader-level1">
+																			<td style="width: 10%;">Course Code</td>
+																			<td style="width: 30%;">Course Title</td>
+																			<td style="width: 10%;">Course Type</td>
+																			<td style="width: 10%;">Credits</td>
+																			<td style="width: 10%;">Grade</td>
+																			<td style="width: 10%;">Exam Month</td>
+																			<td style="width: 10%;">Result Declared</td>
+																		</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">MGT1023</td>
+																				<td style="width: 10%;">Fundamentals of Human Resource Management</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETP</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">4.0</td>
+																				<td style="width: 10%;" class="textAlign-center">B</td>
+																				<td style="width: 10%;" class="textAlign-center">May-2026</td>
+																				<td style="width: 10%;" class="textAlign-center">15-Jun-2026</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">MGT1023</td>
+																				<td style="width: 10%;">Fundamentals of Human Resource Management</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">ETH</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">May-2026</td>
+																				<td style="width: 10%;" class="textAlign-center">15-Jun-2026</td>
+																			</tr>
+																		
+																			<tr class="tableContent-level1">
+																				<td style="width: 10%;"
+																					class="textAlign-center">MGT1023</td>
+																				<td style="width: 10%;">Fundamentals of Human Resource Management</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center">EPJ</td>
+																				<td style="width: 10%;"
+																					class="textAlign-center"></td>
+																				<td style="width: 10%;" class="textAlign-center">-</td>
+																				<td style="width: 10%;" class="textAlign-center">May-2026</td>
+																				<td style="width: 10%;" class="textAlign-center">15-Jun-2026</td>
+																			</tr>
+																		
+																	</table>
+																</div>
+															</td>
+														</tr>
+
+													
+														<tr class="tableContent">
+															<td style="width: 5%;" class="textAlign-center">40</td>
+															<td style="width: 8%;"
+																class="textAlign-center">STS4006</td>
+															<td style="width: 34%;">Advanced Competitive Coding - II</td>
+															<td style="width: 5%;"
+																class="textAlign-center">TH</td>
+															<td style="width: 5%;" class="textAlign-center">3.0</td>
+															<td style="width: 5%;" class="textAlign-center">B</td>
+															<td style="width: 8%;" class="textAlign-center">May-2026</td>
+															<td style="width: 10%;" class="textAlign-center">15-Jun-2026</td>
+															<td style="width: 10%;"
+																class="textAlign-center">UE</td>
+															<td style="width: 5%;" class="textAlign-center">
+																<!--  <a th:href="'javascript:toggleDiv(\''+ ${stdHistory.courseCatalogCode} + '\');'"
+																 style="background-color: #ccc; padding: 5px 10px;">Show / Hide</a> -->
+																
+															</td>
+														</tr>
+														<!-- </th:block>-->
+
+														
+
+													
+												</table>
+											</div>
+											<br />
+											<!-- <div id="legend" style="color: red;">
+												<ul>
+													<li><span
+														style="font-weight: bold; text-decoration: underline;">N1
+													</span>: Student fails to clear one or more components of a course</li>
+													<li><span
+														style="font-weight: bold; text-decoration: underline;">N2
+													</span>: Student who has been debarred due to lack of attendance</li>
+													<li><span
+														style="font-weight: bold; text-decoration: underline;">N3
+													</span>: Student who has been absent in the Final Assessment Test</li>
+													<li><span
+														style="font-weight: bold; text-decoration: underline;">N4
+													</span>: Student debarred in Final Assessment Test due to
+														indiscipline/malpractice</li>
+												</ul>
+											</div> -->
+											
+											<br />
+											
+
+											<!-- <div th:if="${curriculamDetailsDto}" align="center"
+												id="fixedTableContainer" class="fixedTableContainer">
+												<table class="customTable" style="align: center;">
+													<tr class="tableHeader">
+														<td colspan="3">Curriculum Details</td>
+													</tr>
+													<tr class="tableHeader">
+														<td>Curriculum Distribution Type</td>
+														<td>Credits Required</td>
+														<td>Credits Earned</td>
+													</tr>
+													<tr class="tableContent"
+														th:each="cCategory,itr:${curriculamDetailsDto.creditDetais}">
+														<td>
+														<span  th:text="${cCategory.value.creditTypeDesc}"></span>
+														<span th:if="${#dates.format(student.getStudyStartDate(), 'yyyy')}>=2019"
+														style="color: red;">
+														<span th:if="${cCategory.key=='BC'} or ${cCategory.key=='FCNG'}">
+														( Not mandatory and not affect the CGPA)
+														</span>
+														<span th:if="${cCategory.key=='NC' or cCategory.key=='NGCR'}">
+														( Mandatory and not affect the CGPA)
+														</span>
+														</span>
+														
+														<span th:if="${#dates.format(student.getStudyStartDate(), 'yyyy')}<2019">
+														
+														</span>
+														</td>
+														<td th:text="${cCategory.value.creditsActual}"></td>
+														<td th:text="${cCategory.value.creditsEarned}"
+															th:style="${cCategory.value.creditsEarnedStyle}"></td>
+													</tr>
+													<tr class="fixedContent tableContent">
+														<td th:text="'Total Credits'"></td>
+														<td th:text="${curriculamDetailsDto.totalCreditsActual}"></td>
+														<td th:text="${curriculamDetailsDto.totalCreditsEarned}"
+															th:style="${curriculamDetailsDto.totalCreditsEarnedStyle}"></td>
+													</tr>
+												</table>
+											</div> -->
+											<!-- <br />
+
+											<div th:if="${basketDetails}" align="center"
+												id="fixedTableContainer" class="fixedTableContainer">
+												<table class="customTable" style="align: center;">
+													<tr class="tableHeader">
+														<td colspan="4">Basket Details</td>
+													</tr>
+													<tr class="tableHeader">
+														<td>Basket Title</td>
+														<td>Distribution Type</td>
+														<td>Credits Required</td>
+														<td>Credits Earned</td>
+													</tr>
+													<tr th:each="bCourse, ite : ${basketDetails}"
+														class="tableContent">
+														<td th:text="${bCourse.basketDesc}"></td>
+														<td th:text="${bCourse.basketCurriculumType}"></td>
+														<td th:text="${bCourse.requiredCredits}"></td>
+														<td th:text="${bCourse.earnedCredits}"
+															th:style="${bCourse.earnedCreditsStyle}"></td>
+													</tr>
+												</table>
+											</div> -->
+
+											<br />
+											<div>
+										<div class=" col-md-12">
+											<div class="box  col-md-12"
+												style="border-bottom: 1px solid orange; border-left: 1px solid orange; border-right: 1px solid orange;border-top: 3px solid orange;">
+												<div class="box-header ">
+													<h3 class="box-title" style="font-weight: bold;">CGPA
+														Details</h3>
+												</div>
+												<div class="box-body table-responsive ">
+													<table class="table table-hover table-bordered"
+														style="border-bottom-color: #b1dfff; border-left-color: #b1dfff; border-right-color: #b1dfff;">
+														<thead style="background-color: #626D71">
+															<tr
+																style="color: #fff; font-weight: bold; white-space: nowrap;background-color:orange; ">
+																<td>Credits Registered</td>
+																<td>Credits Earned</td>
+																<td>CGPA</td>
+																<td>S Grades</td>
+																<td>A Grades</td>
+																<td>B Grades</td>
+																<td>C Grades</td>
+																<td>D Grades</td>
+																<td>E Grades</td>
+																<td>F Grades</td>
+																<td>N Grades</td>
+
+															</tr>
+														</thead>
+														<tbody>
+
+															<tr style="font-weight: bold;">
+																<td>137.0</td>
+																<td>137.0</td>
+																<td>8.32</td>
+																<td>2</td>
+																<td>11</td>
+																<td>23</td>
+																<td>2</td>
+																<td>0</td>
+																<td>0</td>
+																<td>0</td>
+																<td>0</td>
+
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+
+									</div>
+									<br />
+											<br />
+											  
+
+
+
+
+										 	 
+
+											  
+
+
+										</div>
+
+									</div>
+
+
+								</div>
+							</div>
+
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</section>
+		<noscript>
+			<h2 class="text-red">Enable JavaScript to Access VTOP</h2>
+		</noscript>
+		<!-- Custom Scripts for VTOP Pages-->
+
+		<script>
+			/*<![CDATA[*/
+
+			jQuery(document).ready(function() {
+				// binds form submission and fields to the validation engine								
+				jQuery("#studentGradeView").validationEngine('attach', {
+					autoHidePrompt : true,
+					binded : false,
+					onValidationComplete : function(form, status) {
+						if (status) {
+							getGradeViewDetails();
+						}
+					}
+				});
+			});
+
+			function doViewExamGrade() {
+				var myform = document.getElementById("studentGradeView");
+				var fd = new FormData(myform);
+				var csrfName = "_csrf";
+	            var csrfValue = "17cc6c3e-a9b2-4102-a929-b985e70eb44b";
+	            fd.append(csrfName,csrfValue);
+				$
+						.blockUI({
+							message : '<img src="assets/img/482.GIF"> loading... Just a moment...'
+						});
+				$.ajax({
+					url : "examinations/examGradeView/doStudentGradeView",
+					type : "POST",
+					data : fd,
+					cache : false,
+					processData : false,
+					contentType : false,
+					success : function(response) {
+						$.unblockUI();
+						$("#main-section").html(response);
+
+					}
+
+				});
+			};
+			function getGradeViewDetails() {
+				var myform = document.getElementById("studentGradeView");
+				var regNo = document.getElementById("regNo").value;
+				var authorizedID = document.getElementById("authorizedID").value;
+				var now = new Date();
+				var csrfName = "_csrf";
+	            var csrfValue = "17cc6c3e-a9b2-4102-a929-b985e70eb44b";
+	            
+				var params = "authorizedID=" + authorizedID + "&x="
+						+ now.toUTCString() + "&regNo=" + regNo+"&"+csrfName+"="+csrfValue;
+				$
+						.blockUI({
+							message : '<img src="assets/img/482.GIF"> loading... Just a moment...'
+						});
+				$.ajax({
+					url : "examinations/examGradeView/getGradeViewDetails",
+					type : "POST",
+					data : params,
+					success : function(response) {
+						$.unblockUI();
+						$("#main-section").html(response);
+
+					}
+
+				});
+			};
+
+			function toggleDiv(divId) {
+				var toggleId = "detailsView_" + divId;
+				var displaySts = $("#" + toggleId).css("display");
+				if (displaySts == 'none') {
+					var a = $("[id*='detailsView_']");
+					var i;
+					for (i = 0; i < a.length; i++) {
+						var el = a[i];
+						$(el).attr('style', "display: none;");
+					}
+
+					$("#" + toggleId).attr('style', "display: contents;");
+				} else {
+					$("#" + toggleId).attr('style', "display: none;");
+				}
+
+			}
+
+			/*]]>*/
+		</script>
+	</div>
+</body>
+</html>
