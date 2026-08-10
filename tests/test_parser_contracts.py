@@ -116,3 +116,30 @@ def test_marks_parse_from_a_real_response(fixture):
         assert subject.course_code
         for detail in subject.details:
             assert detail.mark_title
+
+
+def test_grade_view_parses_from_a_real_response(fixture):
+    from vitap_vtop_client.parsers.grade_view_parser import parse_grade_view
+
+    courses = parse_grade_view(fixture("grade_view.html"))
+
+    assert courses, "no graded courses found in the recorded grade view"
+    for course in courses:
+        assert course.course_code
+        assert course.grade
+        # course_id is needed to open the detail; losing it breaks that.
+        assert course.course_id, f"{course.course_code} has no course_id"
+
+
+def test_grade_view_detail_parses_from_a_real_response(fixture):
+    from vitap_vtop_client.parsers.grade_view_parser import parse_grade_view_detail
+
+    detail = parse_grade_view_detail(fixture("grade_view_detail.html"))
+
+    assert detail.marks, "no mark components found; the marks table was missed"
+    for mark in detail.marks:
+        assert mark.mark_title
+        assert mark.max_mark
+    assert detail.total, "the course total was not read"
+    # The statistics table (nested inside the grade table) must be found too.
+    assert detail.statistics.grade_ranges, "class grade cutoffs were not parsed"

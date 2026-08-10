@@ -1,0 +1,559 @@
+<div id="main-section">
+		<section class="content">
+		<link rel="stylesheet" href="assets/css/legend.css" />
+		<style>.legend .lightGreen {background-color: #C0D8C0;}</style>
+			<div class="col-md-12">
+				<div class="box box-info">
+					<div class="box-header with-border">
+						<h3 class="box-title">Result - Grade View</h3>
+					</div>
+
+					<div class="box-body">
+						<form role="form" id="studentGradeView" name="studentGradeView"
+							method="post" autocomplete="off">
+							<input type="hidden" name="authorizedID" id="authorizedID"
+								value="00XXX0000" />
+							<!-- th:object="${examSchedule}"> -->
+							<div class="col-md-12"
+								style="margin-top: 20px; margin-left: 1px;">
+								<div>
+									<div class="col-sm-6 col-sm-offset-3">
+										<div>
+											<label for="acadYear" class="col-sm-4 control-label">Select
+												Semester</label>
+
+											<div class="col-md-8">
+												<select class="form-control" name="semesterSubId"
+													id="semesterSubId"
+													data-validation-engine="validate[required]"
+													onchange="doViewExamGrade();">
+													<option value="" selected="selected">-- Choose
+														Semester --</option>
+													<option value="AP2026272">Fall Semester 2026-27</option>
+													<option value="AP20252610">Fall_Win Transport Semester 2026-27</option>
+													<option value="AP2025269">CDC PAT 2025-26</option>
+													<option value="AP2025267">Short Summer Semester II  2025-26</option>
+													<option value="AP2026271">Fast Track Fall Semester 2026-27</option>
+													<option value="AP2025268">Long Summer Semester 2025-26</option>
+													<option value="AP2025266">Short Summer Semester I 2025-26</option>
+													<option value="AP2025265">Winter Semester 2025-26 Freshers</option>
+													<option value="AP2025264"
+														selected="selected">Winter Semester 2025-26</option>
+													<option value="AP2025263">Fall Semester 2025-26 Freshers</option>
+													<option value="AP2025262">Fall Semester  2025-26</option>
+													<option value="AP2024259">Special Arrear 2024-25</option>
+													<option value="AP2024258">Short Summer Semester II  2024-25</option>
+													<option value="AP2025261">Fast Track Fall 2025-26</option>
+													<option value="AP2024257">Short Summer Semester I 2024-25</option>
+													<option value="AP2024256">Long Summer Semester 2024-25</option>
+													<option value="AP2024255">Winter Semester 2024-25 Freshers</option>
+													<option value="AP2024254">Winter Semester 2024-25</option>
+													<option value="AP2024253">Fall Semester 2024-25 Freshers</option>
+													<option value="AP2024252">Fall Semester 2024-25</option>
+													<option value="AP20232412">Regular Arrear 2023-24</option>
+													<option value="AP2024251">Fast Track Fall Semester 2024-25</option>
+													<option value="AP2023249">Short Summer Semester II 2023-24</option>
+													<option value="AP2023248">Short Summer Semester I 2023-24</option>
+													<option value="AP20232410">Long Summer Semester 2023-24</option>
+													<option value="AP20232411">PREFERENCE 2023 BATCH</option>
+													<option value="AP2023247">Winter Semester 2023-24 Freshers</option>
+													<option value="AP2023246">Winter Semester 2023-24</option>
+													<option value="AP2023245">Intra Semester 2023-24</option>
+													<option value="AP2022233">Preference Purpose (2023-24)</option>
+													<option value="AP2023243">Fall Semester 2023-24 Freshers</option>
+													<option value="AP2023242">Fall Semester 2023-24</option>
+													<option value="AP2023244">Fast Track Fall Semester-II 2023-24</option>
+													<option value="AP20222310">Short Summer Semester II 2022-23</option>
+													<option value="AP2023241">Fast Track Fall Semester 2023-24</option>
+													<option value="AP2022239">Short Summer Semester I 2022-23</option>
+													<option value="AP2022238">Long Summer Semester 2022-23</option>
+													<option value="AP2022237">Winter Semester 2022-23 Freshers</option>
+													<option value="AP2022236">Winter Semester 2022-23</option>
+													<option value="AP2022235">Intra Semester 2022-23</option>
+													<option value="AP2022234">Fall Semester 2022-23 Freshers</option>
+													<option value="AP2022232">Fall Semester 2022-23</option>
+													<option value="AP2022231">Fast Track Fall Semester 2022-23</option>
+													<option value="AP2021227">Short Summer Semester 2021-22</option>
+													<option value="AP2021228">Long Summer Semester 2021-22</option>
+													<option value="AP2021229">Intra Semester 2021-22</option>
+													<option value="AP2021226">Winter Semester 2021-22</option>
+													<option value="AP2021225">Winter Semester 2021-22</option>
+													<option value="AP2021223">Fall Semester 2021-22</option>
+													<option value="AP2021222">Fall Semester 2021-22</option>
+													<option value="AP2021221">FAST TRACK FALL SEM (2021-22)</option>
+													<option value="AP2020217">SUMMER SEM1 (2020-21)</option>
+													<option value="AP2020215">WIN SEM (2020-21)</option>
+													<option value="AP2020213">INTRA SEM (2020-21)</option>
+													<option value="AP2020211">FALL SEM (2020-21)</option>
+													<option value="AP2019207">SUMMER SEM1 (2019-20)</option>
+													<option value="AP2019205">WIN SEM  (2019-20)</option>
+													<option value="AP2019201">FALL SEM (2019-20)</option>
+													<option value="AP2018198">SUMMER SEM2 (2018-19)</option>
+													<option value="AP2018197">SUMMER SEM1 (2018-19)</option>
+													<option value="AP2018199">LONG SEM (2018-19)</option>
+													<option value="AP2018195">WIN SEM (2018-19)</option>
+													<option value="AP2018191">FALL SEM (2018-19)</option>
+													<option value="AMR2018198">SUMMER SEM2 (2017-18)</option>
+													<option value="AMR2018197">SUMMER SEM1 (2017-18)</option>
+													<option value="AMR2017182">WIN SEM (2017-18)</option>
+													<option value="AMR2017181">FALL SEM (2017-18)</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="form-group col-sm-12"></div>
+									<span class="col-sm-12 col-md-12"
+										style="font-size: 20px; color: green; text-align: center;"></span> <span
+										class="col-sm-12 col-md-12"
+										style="font-size: 20px; color: red; text-align: center;"></span>
+
+
+									<div class="row">
+										<div class="col-md-12">
+											<div class="col-md-12">
+												<div class="box-body table-responsive ">
+													<table class="table table-hover table-bordered"
+														style="border-bottom-color: #b1dfff; border-left-color: #b1dfff; border-right-color: #b1dfff;">
+														<tr style="background-color: #3c8dbc; color: white;">
+															<th rowspan="2">Sl.No.</th>
+															<th rowspan="2">Course Code</th>
+															<th rowspan="2">Course Title</th>
+															<th rowspan="2">Course Type</th>
+															<!-- <th colspan="4" align="center">Credits</th> -->
+															<th rowspan="2">Grading Type</th>
+															<th rowspan="2">Grand Total</th>
+															<th rowspan="2">Grade</th>
+															<th rowspan="2">View Mark</th>
+
+														</tr>
+														<!-- <tr style="background-color: #3c8dbc; color: white;">
+															<th>L</th>
+															<th>P</th>
+															<th>J</th>
+															<th>C</th>
+														</tr> -->
+														<tr></tr>
+														
+															<tr>
+																<td height="50">1</td>
+																<td>CSE1008</td>
+																<td>Theory of Computation</td>
+																<td>Theory Only</td>
+																<!-- <td th:text="${std.getL()}"></td>
+																<td th:text="${std.getP()}"></td>
+																<td th:text="${std.getJ()}"></td>
+																<td th:text="${std.getC()}"></td> -->
+																<td>RG</td>
+																<td>63</td>
+																<td>B</td>
+																<td>
+																	<button type="button" name="action"
+																		class="btn btn-primary btn-block"
+																		onclick="doViewExamGrade();">
+																		<span class="glyphicon glyphicon-minus"></span>
+																	</button></td>
+															</tr>
+															
+																<tr>
+																	<td colspan="14" align="center">
+																		<table class="table table-striped table-bordered "
+																			style="width: 90%; margin-top: 20px; text-align: center; border-bottom-color: #DCDCDC; border-left-color: #DCDCDC; border-right-color: #DCDCDC;">
+																			<tr
+																				style="background-color: #DCDCDC; text-align: center;">
+																				<th rowspan="2" style="text-align: center;">Class
+																					Strength</th>
+																				<th rowspan="2" style="text-align: center;">Grading
+																					Strength</th>
+																				<th rowspan="2" style="text-align: center;">Mean</th>
+																				<th rowspan="2" style="text-align: center;">SD</th>
+																				<th rowspan="1" colspan="7"
+																					style="text-align: center;">Range of Grades</th>
+																			</tr>
+																			<tr
+																				style="background-color: #DCDCDC; text-align: center;">
+																				<th style="text-align: center;">S</th>
+																				<th style="text-align: center;">A</th>
+																				<th style="text-align: center;">B</th>
+																				<th style="text-align: center;">C</th>
+																				<th style="text-align: center;">D</th>
+																				<th style="text-align: center;">E</th>
+																				<th style="text-align: center;">F</th>
+																			</tr>
+																			<tr>
+																				<td>71</td>
+																				<td>62</td>
+																				<td>60.4</td>
+																				<td>13.71</td>
+																				<td><span>&gt;=81</span>
+																					<span style="color: red;">#</span></td>
+																				<td><span>&gt;=67 and &lt;81</span>
+																				</td>
+																				<td><span>&gt;=54 and &lt;67</span>
+																				</td>
+																				<td><span>&gt;=47 and &lt;54</span>
+																				</td>
+																				<td><span>&gt;=40 and &lt;47</span>
+																				</td>
+																				<td><span>&gt;=33 and &lt;40</span>
+																				</td>
+																				<td><span>&lt;33</span>
+																				</td>
+																			</tr>
+																			<tr>
+																				<td colspan="11" align="center"><span
+																					style="color: red;"> # As Per 'S' Grade
+																						Policy</span></td>
+																			</tr>
+																		</table>
+																	</td>
+
+																</tr>
+																
+
+
+
+															
+
+															
+																<tr>
+																	<td colspan="14" align="center">
+																		<table class="table table-striped table-bordered "
+																			style="width: 90%; margin-top: 20px; border-bottom-color: #DCDCDC; border-left-color: #DCDCDC; border-right-color: #DCDCDC;">
+																			<tr style="background-color: #DCDCDC;">
+																				<th colspan="3">Class Number : AP2025264000388</th>
+																				<th colspan="4">Course Type : Theory Only</th>
+																			</tr>
+																			<tr style="background-color: #DCDCDC;">
+																				<th>Sl.No.</th>
+																				<th>Mark Title</th>
+																				<th>Max. Mark</th>
+																				<th>Weightage %</th>
+																				<th>Status</th>
+																				<th>Scored Mark</th>
+																				<th>Weightage Mark</th>
+																			</tr>
+																			<tr>
+																				<td><output>1</output></td>
+																				<td><output>CAT1</output></td>
+																				<td><output>50</output></td>
+																				<td><output>15</output></td>
+																				<td><output>Present</output></td>
+																				<td><output>16.0</output></td>
+																				<td><output>4.8</output></td>
+
+																			</tr>
+																			<tr>
+																				<td><output>2</output></td>
+																				<td><output>CAT2</output></td>
+																				<td><output>50</output></td>
+																				<td><output>15</output></td>
+																				<td><output>Present</output></td>
+																				<td><output>18.0</output></td>
+																				<td><output>5.4</output></td>
+
+																			</tr>
+																			<tr>
+																				<td><output>3</output></td>
+																				<td><output>FAT</output></td>
+																				<td><output>100</output></td>
+																				<td><output>40</output></td>
+																				<td><output>Present</output></td>
+																				<td><output>67.0</output></td>
+																				<td><output>26.8</output></td>
+
+																			</tr>
+																			<tr>
+																				<td><output>4</output></td>
+																				<td><output>QUIZ1</output></td>
+																				<td><output>30</output></td>
+																				<td><output>10</output></td>
+																				<td><output>Present</output></td>
+																				<td><output>25.0</output></td>
+																				<td><output>8.33</output></td>
+
+																			</tr>
+																			<tr>
+																				<td><output>5</output></td>
+																				<td><output>QUIZ2</output></td>
+																				<td><output>30</output></td>
+																				<td><output>10</output></td>
+																				<td><output>Present</output></td>
+																				<td><output>25.0</output></td>
+																				<td><output>8.33</output></td>
+
+																			</tr>
+																			<tr>
+																				<td><output>6</output></td>
+																				<td><output>QUIZ3</output></td>
+																				<td><output>10</output></td>
+																				<td><output>10</output></td>
+																				<td><output>Present</output></td>
+																				<td><output>9.0</output></td>
+																				<td><output>9</output></td>
+
+																			</tr>
+																			
+
+																			<tr align="center">
+
+																				<th colspan="6"><span
+																					style="float: right; font-size: 18px;">Total</span></th>
+																				<th
+																					style="font-size: 18px;">63</th>
+
+																			</tr>
+
+
+																		</table>
+
+
+																	</td>
+																</tr>
+															
+														
+															<tr>
+																<td height="50">2</td>
+																<td>CSE4004</td>
+																<td>Web Technologies</td>
+																<td>Embedded Theory and Lab</td>
+																<!-- <td th:text="${std.getL()}"></td>
+																<td th:text="${std.getP()}"></td>
+																<td th:text="${std.getJ()}"></td>
+																<td th:text="${std.getC()}"></td> -->
+																<td>RG</td>
+																<td>90</td>
+																<td>S</td>
+																<td><button type="button" name="action"
+																		class="btn btn-primary btn-block"
+																		onclick="javascript:getGradeViewDetails(&#39;AM_CSE4004_00400&#39;);">
+																		<span class="glyphicon glyphicon-plus"></span>
+																	</button>
+																	</td>
+															</tr>
+															
+																
+																
+
+
+
+															
+
+															
+														
+															<tr>
+																<td height="50">3</td>
+																<td>CSE4012</td>
+																<td>UI UX User Experience Design</td>
+																<td>Embedded Theory and Lab</td>
+																<!-- <td th:text="${std.getL()}"></td>
+																<td th:text="${std.getP()}"></td>
+																<td th:text="${std.getJ()}"></td>
+																<td th:text="${std.getC()}"></td> -->
+																<td>RG</td>
+																<td>78</td>
+																<td>B</td>
+																<td><button type="button" name="action"
+																		class="btn btn-primary btn-block"
+																		onclick="javascript:getGradeViewDetails(&#39;AM_CSE4012_00100&#39;);">
+																		<span class="glyphicon glyphicon-plus"></span>
+																	</button>
+																	</td>
+															</tr>
+															
+																
+																
+
+
+
+															
+
+															
+														
+															<tr>
+																<td height="50">4</td>
+																<td>CSE4037</td>
+																<td>Reinforcement Learning</td>
+																<td>Embedded Theory and Project</td>
+																<!-- <td th:text="${std.getL()}"></td>
+																<td th:text="${std.getP()}"></td>
+																<td th:text="${std.getJ()}"></td>
+																<td th:text="${std.getC()}"></td> -->
+																<td>RG</td>
+																<td>75</td>
+																<td>B</td>
+																<td><button type="button" name="action"
+																		class="btn btn-primary btn-block"
+																		onclick="javascript:getGradeViewDetails(&#39;AM_CSE4037_00210&#39;);">
+																		<span class="glyphicon glyphicon-plus"></span>
+																	</button>
+																	</td>
+															</tr>
+															
+																
+																
+
+
+
+															
+
+															
+														
+															<tr>
+																<td height="50">5</td>
+																<td>MGT1023</td>
+																<td>Fundamentals of Human Resource Management</td>
+																<td>Embedded Theory and Project</td>
+																<!-- <td th:text="${std.getL()}"></td>
+																<td th:text="${std.getP()}"></td>
+																<td th:text="${std.getJ()}"></td>
+																<td th:text="${std.getC()}"></td> -->
+																<td>RG</td>
+																<td>85</td>
+																<td>B</td>
+																<td><button type="button" name="action"
+																		class="btn btn-primary btn-block"
+																		onclick="javascript:getGradeViewDetails(&#39;AM_MGT1023_00100&#39;);">
+																		<span class="glyphicon glyphicon-plus"></span>
+																	</button>
+																	</td>
+															</tr>
+															
+																
+																
+
+
+
+															
+
+															
+														
+															<tr>
+																<td height="50">6</td>
+																<td>STS4006</td>
+																<td>Advanced Competitive Coding - II</td>
+																<td>Theory Only</td>
+																<!-- <td th:text="${std.getL()}"></td>
+																<td th:text="${std.getP()}"></td>
+																<td th:text="${std.getJ()}"></td>
+																<td th:text="${std.getC()}"></td> -->
+																<td>AG</td>
+																<td>77</td>
+																<td>B</td>
+																<td><button type="button" name="action"
+																		class="btn btn-primary btn-block"
+																		onclick="javascript:getGradeViewDetails(&#39;AM_STS4006_00200&#39;);">
+																		<span class="glyphicon glyphicon-plus"></span>
+																	</button>
+																	</td>
+															</tr>
+															
+																
+																
+
+
+
+															
+
+															
+														
+														<!-- <tr align="center">
+															<td colspan="14"><span
+																style="font-size: 18px; font-weight: bold;"
+																th:text="'GPA : '+${gpa}"></span></td>
+														</tr> -->
+													</table>
+												</div>
+									<div class="col-sm-12">
+								<div class="col-sm-12">
+									<ul class="legend">
+										<li><span class="lightGreen"></span> &nbsp;&nbsp;&nbsp;Course not included in GPA/CGPA</li>
+									</ul></div>
+											</div>
+										</div>
+									</div>
+								</div>
+						</div>	</div>
+
+						</form>
+					</div>
+				</div>
+			</div>
+		</section>
+		<noscript>
+			<h2 class="text-red">Enable JavaScript to Access VTOP</h2>
+		</noscript>
+
+		<!-- Custom Scripts for VTOP Pages-->
+
+		<script>
+			/*<![CDATA[*/
+
+			jQuery(document).ready(function() {
+				// binds form submission and fields to the validation engine								
+				jQuery("#studentGradeView").validationEngine('attach', {
+					autoHidePrompt : true,
+					binded : false,
+					onValidationComplete : function(form, status) {
+						if (status) {
+							doViewExamGrade();
+						}
+					}
+				});
+			});
+
+			function doViewExamGrade() {
+				var myform = document.getElementById("studentGradeView");
+				var fd = new FormData(myform);
+				var csrfName = "_csrf";
+	            var csrfValue = "22128dcd-80b5-4cff-976c-f127e6f57c88";
+	            fd.append(csrfName,csrfValue);
+				$
+						.blockUI({
+							message : '<img src="assets/img/482.GIF"> loading... Just a moment...'
+						});
+				$.ajax({
+					url : "examinations/examGradeView/doStudentGradeView",
+					type : "POST",
+					data : fd,
+					cache : false,
+					processData : false,
+					contentType : false,
+					success : function(response) {
+						$.unblockUI();
+						$("#main-section").html(response);
+
+					}
+
+				});
+			};
+			function getGradeViewDetails(courseId) {
+				var myform = document.getElementById("studentGradeView");
+				var semesterSubId = document.getElementById("semesterSubId").value;
+				var authorizedID = document.getElementById("authorizedID").value;
+				var now = new Date();
+				var csrfName = "_csrf";
+	            var csrfValue = "22128dcd-80b5-4cff-976c-f127e6f57c88";
+	            
+				var params = "authorizedID="+authorizedID+"&x="+now.toUTCString()+"&semesterSubId=" + semesterSubId + "&courseId="
+						+ courseId+"&"+csrfName+"="+csrfValue;
+				$
+						.blockUI({
+							message : '<img src="assets/img/482.GIF"> loading... Just a moment...'
+						});
+				$.ajax({
+					url : "examinations/examGradeView/getGradeViewDetails",
+					type : "POST",
+					data : params,
+					success : function(response) {
+						$.unblockUI();
+						$("#main-section").html(response);
+
+					}
+
+				});
+			};
+			/*]]>*/
+		</script>
+
+
+	</div>

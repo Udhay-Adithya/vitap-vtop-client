@@ -60,6 +60,12 @@ from .payments import (
     PaymentReceipt,
 )
 from .semester import fetch_semesters, SemesterData
+from .grade_view import (
+    fetch_grade_view,
+    fetch_grade_view_detail,
+    GradeViewCourse,
+    GradeViewDetail,
+)
 from .faculty import (
     fetch_faculty_search,
     fetch_all_faculty,
@@ -421,6 +427,54 @@ class VtopClient:
             username=logged_in_info.registration_number,
             semSubID=sem_sub_id,
             csrf_token=logged_in_info.post_login_csrf_token,
+        )
+
+    async def get_grade_view(self, sem_sub_id: str) -> List[GradeViewCourse]:
+        """
+        Fetches the graded courses for a semester.
+
+        Grades appear only once a semester has ended; the current semester
+        returns nothing until results are published. Each course carries a
+        course_id for `get_grade_view_detail`.
+
+        Args:
+            sem_sub_id: The semester subject ID (e.g., "AP2025264").
+
+        Returns:
+            A list of GradeViewCourse, one per graded course.
+        """
+        logged_in_info = await self._ensure_logged_in()
+        return await fetch_grade_view(
+            client=self._client,
+            username=logged_in_info.registration_number,
+            csrf_token=logged_in_info.post_login_csrf_token,
+            semSubID=sem_sub_id,
+        )
+
+    async def get_grade_view_detail(
+        self, sem_sub_id: str, course_id: str
+    ) -> GradeViewDetail:
+        """
+        Fetches the mark breakdown and class statistics for one course.
+
+        This is the data behind an expandable tile on the grade view page: the
+        per-component marks (CAT, FAT, quizzes) plus the class mean, standard
+        deviation and grade cutoffs.
+
+        Args:
+            sem_sub_id: The semester subject ID (e.g., "AP2025264").
+            course_id: The course id, from GradeViewCourse.course_id.
+
+        Returns:
+            The GradeViewDetail for the course.
+        """
+        logged_in_info = await self._ensure_logged_in()
+        return await fetch_grade_view_detail(
+            client=self._client,
+            username=logged_in_info.registration_number,
+            csrf_token=logged_in_info.post_login_csrf_token,
+            semSubID=sem_sub_id,
+            course_id=course_id,
         )
 
     async def get_grade_history(self) -> GradeHistoryModel:

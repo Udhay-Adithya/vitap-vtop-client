@@ -117,3 +117,8 @@ GET_COURSE_FOR_COURSE_PAGE_URL = "/vtop/getCourseForCoursePage"
 GET_SLOT_FOR_COURSE_PAGE_URL = "/vtop/getSlotIdForCoursePage"
 VIEW_COURSE_DETAIL_URL = "/vtop/processViewStudentCourseDetail"
 COURSE_PLAN_EXCEL_URL = "/vtop/academics/common/CoursePlanExcelDownload"
+
+# Grade View URLs
+GRADE_VIEW_URL = "/vtop/examinations/examGradeView/StudentGradeView"
+DO_GRADE_VIEW_URL = "/vtop/examinations/examGradeView/doStudentGradeView"
+GRADE_VIEW_DETAIL_URL = "/vtop/examinations/examGradeView/getGradeViewDetails"

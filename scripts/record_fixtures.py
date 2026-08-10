@@ -31,10 +31,17 @@ from dotenv import load_dotenv  # noqa: E402
 
 load_dotenv()
 
+from datetime import datetime, timezone  # noqa: E402
+
 from vitap_vtop_client import VtopClient  # noqa: E402
 from vitap_vtop_client.exceptions import (  # noqa: E402
     VtopLoginOtpRequiredError,
 )
+from vitap_vtop_client.parsers import grade_view_parser  # noqa: E402
+
+
+def _timestamp() -> str:
+    return datetime.now(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S GMT")
 
 FIXTURE_DIR = Path(__file__).resolve().parent.parent / "tests" / "fixtures"
 
@@ -227,6 +234,51 @@ async def main() -> None:
             )
     else:
         print("\nNo semesters returned; skipping semester scoped captures.")
+
+    # Grade view needs a *completed* semester, since the current one has no
+    # published grades. Walk the list and capture the first that has any.
+    from vitap_vtop_client.constants import (
+        DO_GRADE_VIEW_URL,
+        GRADE_VIEW_DETAIL_URL,
+        GRADE_VIEW_URL,
+    )
+
+    print("\nLooking for a semester with published grades:")
+    for semester in semesters.semesters:
+        await client._client.post(
+            GRADE_VIEW_URL,
+            data={"verifyMenu": "true", "authorizedID": reg_no, "_csrf": csrf},
+            headers=HEADERS,
+        )
+        resp = await client._client.post(
+            DO_GRADE_VIEW_URL,
+            files={
+                "authorizedID": (None, reg_no),
+                "semesterSubId": (None, semester.id),
+                "_csrf": (None, csrf),
+            },
+            headers=HEADERS,
+        )
+        courses = grade_view_parser.parse_grade_view(resp.text)
+        if not courses:
+            continue
+
+        print(f"- grades found in {semester.id} ({semester.name})")
+        _write("grade_view.html", resp.text, username, real_name)
+
+        detail = await client._client.post(
+            GRADE_VIEW_DETAIL_URL,
+            content=(
+                f"authorizedID={reg_no}&x={_timestamp()}"
+                f"&semesterSubId={semester.id}&courseId={courses[0].course_id}"
+                f"&_csrf={csrf}"
+            ),
+            headers={**HEADERS, "Content-Type": "application/x-www-form-urlencoded"},
+        )
+        _write("grade_view_detail.html", detail.text, username, real_name)
+        break
+    else:
+        print("- no semester had published grades; skipping grade view")
 
     await client.close()
 
