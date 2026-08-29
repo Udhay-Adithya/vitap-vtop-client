@@ -122,7 +122,10 @@ async def submit_general_outing_request(
         )
         response.raise_for_status()
 
-        return parse_outing_response(response.text)
+        return parse_outing_response(
+            response.text,
+            "Outing applied successfully. It is now waiting for your mentor's approval.",
+        )
 
     except VtopParsingError as e:
         raise e

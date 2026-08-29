@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "vitap-vtop-client"
-version = "0.3.0"
+version = "0.4.0"
 description = "A Pythonic interface to interact with the VIT-AP VTOP student portal."
 authors = ["Udhay Adithya udhayxd@gamil.com"]
 license = "MIT"

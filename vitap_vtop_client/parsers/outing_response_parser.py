@@ -1,74 +1,102 @@
 from bs4 import BeautifulSoup
 
-_OUTCOME_WORDS = ("Successfully", "Applied", "Deleted")
-_FAILURE_WORDS = ("Error", "Failed")
+# Phrases that mark an outing outcome as OK or pending — not an error.
+#
+# VTOP styles the "Waiting for ... Approval" pending status in red, which a
+# naive parser reads as an error (treating every red span as one).
+_POSITIVE_PHRASES = ("successfully", "waiting for", "accepted")
 
 # Boilerplate shown on the outing form that is not an error message.
 _FORM_NOTICES = ("disciplinary measures", "logs will be retained")
 
 
-def parse_outing_response(html: str) -> str:
+def _is_positive_outcome(text: str) -> bool:
+    lowered = text.lower()
+    return any(phrase in lowered for phrase in _POSITIVE_PHRASES)
+
+
+def parse_outing_response(html: str, page_reload_message: str) -> str:
     """
     Reads the outcome of an outing submission or deletion.
 
-    VTOP has no consistent response shape here. Weekend outings return a
-    coloured span, general outings return a SweetAlert modal, and a failed
-    submission may simply re-render the form page. Each of those is checked in
-    turn.
+    VTOP no longer returns a distinct confirmation for these actions — the
+    SweetAlert popups are commented out server side, and the save/delete
+    handlers simply reload the outing page
+    (`$("#main-section").html(response)`). So the response is the full outing
+    page: the request form plus the `BookingRequests` table, whose status column
+    carries per-request statuses ("Waiting for Mentor's Approval" in red,
+    "Leave Request Accepted" in green). Those are not the result of the current
+    action and must be ignored.
 
     Args:
         html (str): The raw HTML returned by the outing endpoint.
+        page_reload_message (str): What to report when VTOP simply reloads the
+            page, which is the normal successful outcome. The caller supplies
+            it because the HTML cannot distinguish an apply from a delete.
 
     Returns:
         str: The message from VTOP, prefixed with "Error: " when the response
-            indicates a failure, or a description of why it could not be read.
+            indicates a genuine failure, or `page_reload_message` on success.
     """
     soup = BeautifulSoup(html, "lxml")
 
-    # Explicit error styling wins over everything else.
-    for span in soup.select(
-        "span[style*='color: red'], span[style*='color:red'], .error, .alert-danger"
-    ):
-        text = span.get_text(strip=True)
-        if text:
-            return f"Error: {text}"
+    # The status spans inside the requests table are per-request statuses, not
+    # the result of this action. Collect them so they can be skipped below.
+    requests_table = soup.find(id="BookingRequests")
+    table_spans = (
+        set(id(span) for span in requests_table.find_all("span"))
+        if requests_table is not None
+        else set()
+    )
 
-    # Weekend outing: a green span carrying the outcome.
-    for span in soup.select(
-        "span.col-md-12[style*='color: green'], span.col-md-12[style*='color:green']"
-    ):
-        text = span.get_text(strip=True)
-        if text and any(word in text for word in _OUTCOME_WORDS):
-            return text
+    def outside_table(element) -> bool:
+        return id(element) not in table_spans
 
-    # General outing: a SweetAlert modal heading.
+    # 1. An explicit success message shown outside the requests list: a
+    #    SweetAlert heading, or a green form level span (older VTOP responses,
+    #    and any delete popup that is still enabled).
     for heading in soup.select("div.sweet-alert h2"):
         text = heading.get_text(strip=True)
         if text:
             return text
 
-    # Fall back to any heading that reads like an outcome.
-    for heading in soup.find_all("h2"):
-        text = heading.get_text(strip=True)
-        if text and any(
-            word in text for word in _OUTCOME_WORDS + _FAILURE_WORDS
-        ):
+    for span in soup.select(
+        "span[style*='color: green'], span[style*='color:green']"
+    ):
+        text = span.get_text(strip=True)
+        if text and outside_table(span) and _is_positive_outcome(text):
             return text
 
-    # The form page coming back usually means the submission was rejected.
-    if "outingForm" in html and "Weekend Outing Request" in html:
-        for span in soup.select(
-            "span.col-sm-12[style*='color'], span.col-md-12[style*='color']"
-        ):
-            text = span.get_text(strip=True)
-            if text and not any(notice in text for notice in _FORM_NOTICES):
-                return f"Error: {text}"
+    # 2. A genuine form level error: a red / alert message OUTSIDE the requests
+    #    list that is not itself a positive outcome and not boilerplate. The
+    #    pending "Waiting for ... Approval" status lives inside the table and is
+    #    skipped, so it is never reported as an error.
+    for element in soup.select(
+        ".alert-danger, .error, span[style*='color: red'], span[style*='color:red']"
+    ):
+        text = element.get_text(strip=True)
+        if not text or not outside_table(element):
+            continue
+        if _is_positive_outcome(text):
+            continue
+        if any(notice in text for notice in _FORM_NOTICES):
+            continue
+        return f"Error: {text}"
 
+    # 3. The requests list came back with no form level message — the page
+    #    reloaded, which is the normal successful outcome.
+    if requests_table is not None or "BookingRequests" in html:
+        return page_reload_message
+
+    # 3b. Only the bare form came back (no requests list, no message). This is
+    #     abnormal and usually means the submission did not go through.
+    if "outingForm" in html:
         return (
-            "Submission may have failed - form page was returned. "
+            "Submission may have failed - the form page was returned. "
             "Please check outing history to verify."
         )
 
+    # 4. Nothing recognisable.
     return (
         "Unable to parse response from server. "
         "Please check outing history to verify submission."

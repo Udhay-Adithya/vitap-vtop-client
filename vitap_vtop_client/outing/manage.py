@@ -62,7 +62,9 @@ async def delete_general_outing_request(
         )
         response.raise_for_status()
 
-        return parse_outing_response(response.text)
+        return parse_outing_response(
+            response.text, "Outing request deleted successfully."
+        )
 
     except httpx.RequestError as e:
         print(f"General outing deletion failed: {e}")
@@ -112,7 +114,9 @@ async def delete_weekend_outing_request(
         )
         response.raise_for_status()
 
-        return parse_outing_response(response.text)
+        return parse_outing_response(
+            response.text, "Outing request deleted successfully."
+        )
 
     except httpx.RequestError as e:
         print(f"Weekend outing deletion failed: {e}")

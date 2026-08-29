@@ -2,7 +2,7 @@ from typing import List
 import httpx
 import asyncio
 
-from .constants import VTOP_BASE_URL
+from .constants import VTOP_BASE_URL, DEFAULT_USER_AGENT
 from .ssl_config import create_vtop_ssl_context
 
 from .exceptions import (
@@ -106,6 +106,7 @@ class VtopClient:
         password: str,
         max_login_retries: int = 3,
         captcha_retries: int = 5,
+        user_agent: str | None = None,
     ):
         """
         Initializes the VtopClient.
@@ -115,6 +116,11 @@ class VtopClient:
             password: The VTOP password.
             max_login_retries: Maximum number of overall login attempts.
             captcha_retries: Maximum number of captcha fetch/solve attempts per login.
+            user_agent: Browser identity every request on this session carries.
+                VTOP binds a session to the User-Agent that created it, so this
+                is fixed for the life of the client and anything reusing the
+                session out of process (an in-app VTOP WebView) must send the
+                identical value. Defaults to `DEFAULT_USER_AGENT`.
         """
         if not registration_number or not password:
             raise VtopLoginError(
@@ -128,11 +134,20 @@ class VtopClient:
         # VTOP omits an intermediate CA from its TLS chain, so a custom SSL
         # context (certifi roots + the bundled intermediate) is needed to
         # verify it. See ssl_config for details.
+        self._user_agent = (user_agent or "").strip() or DEFAULT_USER_AGENT
+
+        async def _pin_user_agent(request: httpx.Request) -> None:
+            # Fetch functions pass their own headers, which httpx merges with
+            # request headers winning. Rewriting here runs after that merge, so
+            # every request on this session carries the same identity.
+            request.headers["User-Agent"] = self._user_agent
+
         self._client = httpx.AsyncClient(
             timeout=30.0,
             follow_redirects=True,
             base_url=VTOP_BASE_URL,
             verify=create_vtop_ssl_context(),
+            event_hooks={"request": [_pin_user_agent]},
         )
         self._logged_in_student: LoggedInStudent | None = None
         self.max_login_retries = max_login_retries
@@ -146,6 +161,40 @@ class VtopClient:
     def otp_pending(self) -> bool:
         """True when VTOP is waiting on an OTP to finish the login."""
         return self._pending_otp_csrf is not None
+
+    @property
+    def is_authenticated(self) -> bool:
+        """True when this client holds a live, logged-in session."""
+        return self._logged_in_student is not None
+
+    @property
+    def user_agent(self) -> str:
+        """The browser identity every request on this session carries."""
+        return self._user_agent
+
+    def get_cookie(self) -> str:
+        """
+        Returns this session's cookies as a `Cookie` header value.
+
+        Lets something outside this client reuse the authenticated session —
+        an in-app VTOP WebView, for example — without logging in again. The
+        consumer must also send the same `User-Agent` (see `user_agent`),
+        because VTOP binds a session to the identity that created it.
+
+        Returns:
+            str: e.g. `"JSESSIONID=...; other=..."`, empty if there are none.
+
+        Raises:
+            VtopSessionError: If the client is not logged in yet.
+        """
+        if not self.is_authenticated:
+            raise VtopSessionError(
+                "Not logged in. Call login() before exporting session cookies.",
+                status_code=409,
+            )
+        return "; ".join(
+            f"{cookie.name}={cookie.value}" for cookie in self._client.cookies.jar
+        )
 
     async def login(self) -> LoggedInStudent:
         """
@@ -513,11 +562,15 @@ class VtopClient:
             A StudentProfileModel containing the parsed student details.
         """
         logged_in_info = await self._ensure_logged_in()
-        return await fetch_profile(
+        profile = await fetch_profile(
             client=self._client,
             registration_number=logged_in_info.registration_number,
             csrf_token=logged_in_info.post_login_csrf_token,
         )
+        # The profile page never renders the registration number, so attach the
+        # one captured from `authorizedIDX` at login.
+        profile.registration_number = logged_in_info.registration_number
+        return profile
 
     async def get_exam_schedule(self, sem_sub_id: str) -> ExamScheduleModel:
         """

@@ -103,7 +103,10 @@ async def submit_weekend_outing_request(
             SAVE_WEEKEND_OUTING_URL, data=submit_data, headers=HEADERS
         )
         response.raise_for_status()
-        return parse_outing_response(response.text)
+        return parse_outing_response(
+            response.text,
+            "Outing applied successfully. It is now waiting for your warden's approval.",
+        )
 
     except VtopParsingError as e:
         raise e

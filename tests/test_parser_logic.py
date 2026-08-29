@@ -311,6 +311,10 @@ def test_upload_response_states(html, expected):
 # --------------------------------------------------------------------------
 
 
+APPLIED = "Outing applied successfully. It is now waiting for approval."
+DELETED = "Outing request deleted successfully."
+
+
 @pytest.mark.parametrize(
     "html,expected",
     [
@@ -323,12 +327,11 @@ def test_upload_response_states(html, expected):
             '<div class="sweet-alert"><h2>Leave Applied Successfully</h2></div>',
             "Leave Applied Successfully",
         ),
-        ("<h2>Request Deleted Successfully</h2>", "Request Deleted Successfully"),
     ],
 )
 def test_outing_response_shapes(html, expected):
     """VTOP answers these endpoints in several different shapes."""
-    assert parse_outing_response(html) == expected
+    assert parse_outing_response(html, APPLIED) == expected
 
 
 def test_outing_response_ignores_the_form_boilerplate():
@@ -342,8 +345,63 @@ def test_outing_response_ignores_the_form_boilerplate():
         "</span></html>"
     )
 
-    assert "disciplinary" not in parse_outing_response(html)
-    assert "may have failed" in parse_outing_response(html)
+    assert "disciplinary" not in parse_outing_response(html, APPLIED)
+    assert "may have failed" in parse_outing_response(html, APPLIED)
+
+
+def test_pending_approval_status_is_not_an_error():
+    """
+    After applying, VTOP reloads the outing page and the new request shows
+    "Waiting for Mentor's Approval" in a RED span inside the requests table.
+    Red means pending here, not error — reporting it as one is the bug this
+    guards against.
+    """
+    html = (
+        '<div id="main-section"><form id="outingForm"></form>'
+        '<table id="BookingRequests">'
+        "<tr><th>S.No</th><th>Status</th></tr>"
+        '<tr><td>1</td><td><span><span style="color: red">'
+        "Waiting for Mentor&#39;s Approval</span></span></td></tr>"
+        "</table></div>"
+    )
+
+    result = parse_outing_response(html, APPLIED)
+
+    assert result == APPLIED
+    assert "Error" not in result
+
+
+def test_accepted_status_in_table_does_not_leak():
+    """An approved request in the list is a status, not this action's result."""
+    html = (
+        '<table id="BookingRequests">'
+        '<tr><td>1</td><td><span style="color: green;">Leave Request Accepted'
+        "</span></td></tr></table>"
+    )
+
+    assert parse_outing_response(html, APPLIED) == APPLIED
+
+
+def test_genuine_error_outside_the_table_is_still_reported():
+    html = (
+        '<div id="main-section">'
+        '<span style="color: red">You have already applied for this date</span>'
+        '<table id="BookingRequests">'
+        '<tr><td>1</td><td><span style="color: red">Waiting for Mentor&#39;s '
+        "Approval</span></td></tr></table></div>"
+    )
+
+    result = parse_outing_response(html, APPLIED)
+
+    assert result.startswith("Error:")
+    assert "already applied" in result
+
+
+def test_delete_reports_the_delete_message():
+    """Apply and delete return identical HTML; the caller supplies the wording."""
+    html = '<div id="main-section"><table id="BookingRequests"></table></div>'
+
+    assert parse_outing_response(html, DELETED) == DELETED
 
 
 # --------------------------------------------------------------------------

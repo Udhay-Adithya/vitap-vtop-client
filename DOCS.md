@@ -102,8 +102,29 @@ The main class for interacting with VTOP.
 ```python
 from vitap_vtop_client.client import VtopClient
 Constructor
-VtopClient(username: str, password: str, max_login_retries: int = 3, captcha_retries: int = 5)
+VtopClient(
+    username: str,
+    password: str,
+    max_login_retries: int = 3,
+    captcha_retries: int = 5,
+    user_agent: str | None = None,
+)
 ```
+
+**`user_agent`** — the browser identity every request on this session carries.
+VTOP binds a session to the User-Agent that created it, so it is fixed for the
+life of the client, and anything reusing the session out of process must send
+the identical value. Pass the real device's User-Agent when you know it;
+otherwise `DEFAULT_USER_AGENT` is used.
+
+#### Session properties and helpers
+
+-   `client.is_authenticated` (bool) — whether a live session is held.
+-   `client.user_agent` (str) — the identity described above.
+-   `client.get_cookie()` (str) — this session's cookies as a `Cookie` header
+    value, e.g. `"JSESSIONID=..."`, so something outside the client (an in-app
+    VTOP WebView) can reuse the session without logging in again. It must send
+    the same `user_agent`. Raises `VtopSessionError` if not logged in yet.
 
 #### `get_attendance(sem_sub_id: str)`
 Fetches attendance data for the specified semester.
@@ -193,6 +214,7 @@ Fetches the complete student profile, including personal details, mentor informa
     ```python
     # ... inside async with VtopClient ...
     profile = await client.get_profile()
+    print(f"Registration number: {profile.registration_number}")
     print(f"Name: {profile.student_name}")
     print(f"Email: {profile.email}")
     if profile.mentor_details:
@@ -333,7 +355,13 @@ except Exception as e: # General Python errors
 Many functions require a `sem_sub_id` to specify the semester. These IDs are specific to VIT-AP's VTOP system.
 
 Fetch them with `get_semesters()`, which reads the semesters VTOP currently
-offers for your account:
+offers for your account.
+
+It tries the timetable page first (that list is scoped to your own semesters),
+then falls back to the marks and exam schedule pages, which render the full
+institutional list. Without the fallback the list comes back empty for students
+who have no timetable yet — freshers especially — which looked like
+"No semesters available":
 
 ```python
 async with VtopClient("username", "password") as client:

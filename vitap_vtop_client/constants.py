@@ -1,7 +1,28 @@
+# User-Agent used when the caller does not supply one.
+#
+# VTOP binds a session to the User-Agent that created it, so this has to be a
+# single stable string rather than something chosen per request: anything
+# reusing the session out of process (for example an in-app VTOP WebView) must
+# be able to send the identical value. Callers that know the real device should
+# pass its User-Agent to VtopClient instead; this is the fallback for tools and
+# tests.
+DEFAULT_USER_AGENT = (
+    "Mozilla/5.0 (Linux; Android 14; Pixel 7) AppleWebKit/537.36 "
+    "(KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36"
+)
+
 HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+    "User-Agent": DEFAULT_USER_AGENT,
     "Connection": "close",
 }
+
+
+def build_headers(user_agent: str | None = None) -> dict[str, str]:
+    """Returns the shared request headers, optionally with a caller's User-Agent."""
+    headers = dict(HEADERS)
+    if user_agent and user_agent.strip():
+        headers["User-Agent"] = user_agent
+    return headers
 
 # Main URL
 VTOP_BASE_URL = "https://vtop.vitap.ac.in"
