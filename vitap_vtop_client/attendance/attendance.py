@@ -5,14 +5,17 @@ from vitap_vtop_client.attendance.model.attendance_model import (
     AttendanceDetailModel,
     AttendanceModel,
 )
+from vitap_vtop_client.attendance.model.capstone_model import CapstoneAttendanceModel
 from vitap_vtop_client.exceptions.exception import VtopAttendanceError, VtopConnectionError, VtopParsingError
 from vitap_vtop_client.parsers import attendance_parser
 from vitap_vtop_client.constants import (
     VIEW_ATTENDANCE_URL,
     VIEW_ATTENDANCE_DETAIL_URL,
     ATTENDANCE_URL,
+    SDP_ATTENDANCE_URL,
     HEADERS,
 )
+from vitap_vtop_client.parsers import capstone_attendance_parser
 
 async def fetch_attendance(
     client: httpx.AsyncClient,
@@ -154,4 +157,76 @@ async def fetch_attendance_detail(
         print(f"An unexpected error occurred while fetching attendance detail: {e}")
         raise VtopAttendanceError(
             f"An unexpected error occurred while fetching attendance detail for course {course_id}: {e}"
+        ) from e
+
+
+# VTOP serves the capstone fragment only to an AJAX request, matching what the
+# attendance page's viewSDPAttendance() sends.
+_AJAX_HEADERS = {
+    **HEADERS,
+    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+    "X-Requested-With": "XMLHttpRequest",
+}
+
+
+async def fetch_capstone_attendance(
+    client: httpx.AsyncClient,
+    registration_number: str,
+    semSubID: str,
+    csrf_token: str,
+) -> CapstoneAttendanceModel | None:
+    """
+    Retrieves capstone/SDP attendance for a semester.
+
+    This is separate from course attendance: it is per semester rather than per
+    course, and counts present / on duty / absent instead of attended / total.
+    Only students registered for a capstone or SDP have it.
+
+    Parameters:
+        client (httpx.AsyncClient): The active httpx async client.
+        registration_number (str): The registration_number of the student.
+        semSubID (str): The identifier for the semester subject.
+        csrf_token (str): The CSRF token.
+
+    Returns:
+        CapstoneAttendanceModel | None: The attendance, or None when the student
+            has no capstone registered for this semester.
+
+    Raises:
+        VtopConnectionError: If an HTTP request fails.
+        VtopAttendanceError: If the request fails or returns unexpected content.
+        VtopParsingError: For parsing errors.
+    """
+    try:
+        # VTOP's own JS sends the registration number twice, as regNo and as
+        # authorizedID. Both are required.
+        data = {
+            "_csrf": csrf_token,
+            "semesterSubId": semSubID,
+            "regNo": registration_number,
+            "authorizedID": registration_number,
+            "x": datetime.now(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S GMT"),
+        }
+        response = await client.post(
+            SDP_ATTENDANCE_URL, data=data, headers=_AJAX_HEADERS
+        )
+        response.raise_for_status()
+
+        return capstone_attendance_parser.parse_capstone_attendance(response.text)
+
+    except VtopParsingError as e:
+        raise e
+
+    except httpx.RequestError as e:
+        print(f"Capstone attendance fetch failed: {e}")
+        raise VtopConnectionError(
+            f"Failed to fetch capstone attendance: {e}",
+            original_exception=e,
+            status_code=502,
+        )
+    except Exception as e:
+        print(f"An unexpected error occurred while fetching capstone attendance: {e}")
+        raise VtopAttendanceError(
+            f"An unexpected error occurred while fetching capstone attendance "
+            f"for semester {semSubID}: {e}"
         ) from e

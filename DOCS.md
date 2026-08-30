@@ -142,6 +142,35 @@ Fetches attendance data for the specified semester.
         print(f"Course: {course_attendance.course_name}, Percentage: {course_attendance.attendance_percentage}%")
     ```
 
+#### `get_capstone_attendance(sem_sub_id: str)`
+Fetches capstone/SDP attendance for a semester.
+
+This is deliberately **separate** from `get_attendance`. Capstone attendance is
+per semester rather than per course — it has no course code, faculty or slot,
+and counts present / on duty / absent instead of attended / total — so it does
+not fit `AttendanceModel`. VTOP returns the tally and the day-by-day calendar in
+one response, so both arrive in a single call.
+
+-   **Parameters:**
+    -   `sem_sub_id` (str): The semester ID (e.g., `"AP2026272"`).
+-   **Returns:** `CapstoneAttendanceModel | None` — `None` when the student has
+    no capstone registered for that semester (most students).
+-   **Raises:** `VtopAttendanceError`, `VtopConnectionError`, `VtopParsingError`.
+-   **Example:**
+    ```python
+    # ... inside async with VtopClient ...
+    capstone = await client.get_capstone_attendance("AP2026272")
+    if capstone is None:
+        print("No capstone registered this semester")
+    else:
+        s = capstone.summary
+        print(f"{capstone.info.title}: {s.percentage}% "
+              f"(present {s.present}, OD {s.on_duty}, absent {s.absent})")
+        for punch in capstone.punches:
+            # status is "Present" / "Absent" / "On Duty", or "" on a holiday
+            print(punch.date, punch.day_type, punch.status or "-", punch.punch_time)
+    ```
+
 #### `get_biometric(date: str)`
 Fetches biometric (entry/exit) logs for a specific date.
 

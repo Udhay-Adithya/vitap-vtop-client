@@ -86,6 +86,8 @@ GET_EXAM_SCHEDULE_URL = "/vtop/examinations/doSearchExamScheduleForStudent"
 ATTENDANCE_URL = "/vtop/academics/common/StudentAttendance"
 VIEW_ATTENDANCE_URL = "/vtop/processViewStudentAttendance"
 VIEW_ATTENDANCE_DETAIL_URL = "/vtop/processViewAttendanceDetail"
+# Capstone/SDP attendance, reached from a button on the attendance page.
+SDP_ATTENDANCE_URL = "/vtop/processSdpAttendance"
 
 # Course Page URL
 COURSE_PAGE_URL = "/vtop/academics/common/StudentCoursePage"

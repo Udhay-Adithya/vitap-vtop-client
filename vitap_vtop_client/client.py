@@ -30,8 +30,10 @@ from .utils import solve_captcha
 from .attendance import (
     fetch_attendance,
     fetch_attendance_detail,
+    fetch_capstone_attendance,
     AttendanceModel,
     AttendanceDetailModel,
+    CapstoneAttendanceModel,
 )
 from .biometric import fetch_biometric, BiometricModel
 from .timetable import fetch_timetable, TimetableModel
@@ -439,6 +441,33 @@ class VtopClient:
             semSubID=sem_sub_id,
             course_id=course_id,
             course_type=course_type,
+            csrf_token=logged_in_info.post_login_csrf_token,
+        )
+
+    async def get_capstone_attendance(
+        self, sem_sub_id: str
+    ) -> CapstoneAttendanceModel | None:
+        """
+        Fetches capstone/SDP attendance for the given semester.
+
+        This is deliberately separate from `get_attendance`: capstone attendance
+        is per semester rather than per course, and counts present / on duty /
+        absent instead of attended / total, so it does not fit AttendanceModel.
+        VTOP returns the tally and the day-by-day calendar together, so both
+        arrive in one call.
+
+        Args:
+            sem_sub_id: The semester subject ID (e.g., "AP2026272").
+
+        Returns:
+            The CapstoneAttendanceModel, or None when the student has no
+            capstone registered for that semester.
+        """
+        logged_in_info = await self._ensure_logged_in()
+        return await fetch_capstone_attendance(
+            client=self._client,
+            registration_number=logged_in_info.registration_number,
+            semSubID=sem_sub_id,
             csrf_token=logged_in_info.post_login_csrf_token,
         )
 

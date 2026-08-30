@@ -143,3 +143,23 @@ def test_grade_view_detail_parses_from_a_real_response(fixture):
     assert detail.total, "the course total was not read"
     # The statistics table (nested inside the grade table) must be found too.
     assert detail.statistics.grade_ranges, "class grade cutoffs were not parsed"
+
+
+def test_capstone_attendance_parses_from_a_real_response(fixture):
+    from vitap_vtop_client.parsers.capstone_attendance_parser import (
+        parse_capstone_attendance,
+    )
+
+    result = parse_capstone_attendance(fixture("capstone_attendance.html"))
+
+    # The fixture is only recorded for a student who has a capstone, so a None
+    # here means the parser stopped recognising a real response.
+    assert result is not None, "the summary table was not found"
+    assert result.summary.present, "the present tally was not read"
+    assert result.punches, "no calendar rows were parsed"
+    for punch in result.punches:
+        assert punch.date
+        assert punch.day_type
+        # "-" is VTOP's placeholder and must never reach the model.
+        assert punch.status != "-"
+        assert punch.punch_time != "-"

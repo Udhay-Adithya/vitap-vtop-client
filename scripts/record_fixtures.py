@@ -235,6 +235,34 @@ async def main() -> None:
     else:
         print("\nNo semesters returned; skipping semester scoped captures.")
 
+    # Capstone/SDP attendance. Only students registered for a capstone have it,
+    # so an empty result here is normal rather than a failure.
+    from vitap_vtop_client.constants import SDP_ATTENDANCE_URL
+
+    if semesters.semesters:
+        newest = semesters.semesters[0].id
+        print("\nCapstone/SDP attendance:")
+        resp = await client._client.post(
+            SDP_ATTENDANCE_URL,
+            data={
+                "_csrf": csrf,
+                "semesterSubId": newest,
+                "regNo": reg_no,
+                "authorizedID": reg_no,
+                "x": _timestamp(),
+            },
+            headers={
+                **HEADERS,
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                "X-Requested-With": "XMLHttpRequest",
+            },
+        )
+        if "sdpCalendarTable" in resp.text:
+            print(f"- capstone attendance found in {newest}")
+            _write("capstone_attendance.html", resp.text, username, real_name)
+        else:
+            print("- no capstone registered; skipping that fixture")
+
     # Grade view needs a *completed* semester, since the current one has no
     # published grades. Walk the list and capture the first that has any.
     from vitap_vtop_client.constants import (
