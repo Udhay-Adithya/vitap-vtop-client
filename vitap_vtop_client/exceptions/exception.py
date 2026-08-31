@@ -202,6 +202,13 @@ class VtopDigitalAssignmentUploadOtpIncorrectError(VtopDigitalAssignmentError):
         super().__init__(message, status_code)
 
 
+class VtopCalendarError(VitapVtopClientError):
+    """Raised for errors related to the academic calendar."""
+
+    def __init__(self, message: str, status_code: int | None = None):
+        super().__init__(message, status_code)
+
+
 class VtopParsingError(VitapVtopClientError):
     """Raised when data parsing fails unexpectedly (e.g., new HTML format)."""
 

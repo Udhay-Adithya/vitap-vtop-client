@@ -145,3 +145,13 @@ COURSE_PLAN_EXCEL_URL = "/vtop/academics/common/CoursePlanExcelDownload"
 GRADE_VIEW_URL = "/vtop/examinations/examGradeView/StudentGradeView"
 DO_GRADE_VIEW_URL = "/vtop/examinations/examGradeView/doStudentGradeView"
 GRADE_VIEW_DETAIL_URL = "/vtop/examinations/examGradeView/getGradeViewDetails"
+
+# Academic calendar URLs.
+#
+# The page itself lives under academics/common, but its AJAX calls use relative
+# urls, which the browser resolves against /vtop/content — so the endpoints sit
+# at /vtop/ directly, not under academics/common.
+CALENDAR_PREVIEW_URL = "/vtop/academics/common/CalendarPreview"
+CALENDAR_CLASS_GROUPS_URL = "/vtop/getDateForSemesterPreview"
+CALENDAR_MONTHS_URL = "/vtop/getListForSemester"
+VIEW_CALENDAR_URL = "/vtop/processViewCalendar"

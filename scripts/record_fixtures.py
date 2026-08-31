@@ -235,6 +235,44 @@ async def main() -> None:
     else:
         print("\nNo semesters returned; skipping semester scoped captures.")
 
+    # Academic calendar: the class group / month options for the newest
+    # semester, plus one month's grid.
+    from vitap_vtop_client.constants import (
+        CALENDAR_CLASS_GROUPS_URL,
+        VIEW_CALENDAR_URL,
+    )
+    from vitap_vtop_client.parsers import calendar_parser
+
+    if semesters.semesters:
+        newest = semesters.semesters[0].id
+        print("\nAcademic calendar:")
+        cal_ajax = {
+            **HEADERS,
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "X-Requested-With": "XMLHttpRequest",
+        }
+
+        options = await client._client.post(
+            CALENDAR_CLASS_GROUPS_URL,
+            data={"_csrf": csrf, "authorizedID": reg_no, "x": _timestamp(),
+                  "paramReturnId": "getDateForSemesterPreview", "semSubId": newest},
+            headers=cal_ajax,
+        )
+        _write("calendar_options.html", options.text, username, real_name)
+
+        months = calendar_parser.parse_calendar_months(options.text)
+        if months:
+            month = await client._client.post(
+                VIEW_CALENDAR_URL,
+                data={"_csrf": csrf, "authorizedID": reg_no, "x": _timestamp(),
+                      "calDate": months[0].cal_date, "semSubId": newest,
+                      "classGroupId": "COMB"},
+                headers=cal_ajax,
+            )
+            _write("calendar_month.html", month.text, username, real_name)
+        else:
+            print("- no months listed; skipping the month fixture")
+
     # Capstone/SDP attendance. Only students registered for a capstone have it,
     # so an empty result here is normal rather than a failure.
     from vitap_vtop_client.constants import SDP_ATTENDANCE_URL

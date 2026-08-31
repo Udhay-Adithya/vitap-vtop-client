@@ -171,6 +171,41 @@ one response, so both arrive in a single call.
             print(punch.date, punch.day_type, punch.status or "-", punch.punch_time)
     ```
 
+#### Academic calendar
+
+VTOP's calendar is a three step drill-down — pick a semester, pick a class
+group, then open a month — and it renders each month as a week grid. The client
+exposes the steps, plus one convenience that walks them and returns the whole
+semester as a flat, date-ordered list of days (the grid is a display concern).
+
+-   `get_calendar_class_groups(sem_sub_id)` → `list[ClassGroupModel]`. Class
+    groups are semester dependent, so they cannot be hardcoded. Usually
+    `COMB` (All Class Group Combined) and one or more specific groups.
+-   `get_calendar_months(sem_sub_id, class_group_id="COMB")` →
+    `list[CalendarMonthRefModel]`. Each carries a `label` ("AUG-2026") and the
+    `cal_date` ("01-AUG-2026") the next call needs — they differ.
+-   `get_calendar_month(sem_sub_id, cal_date, class_group_id="COMB")` →
+    `list[CalendarDayModel]` for that month.
+-   `get_academic_calendar(sem_sub_id, class_group_id="COMB")` →
+    `AcademicCalendarModel` with every month's days flattened. This is **one
+    request per month** (six for a typical semester), so prefer
+    `get_calendar_month` when you only need one.
+
+-   **Raises:** `VtopCalendarError`, `VtopConnectionError`, `VtopParsingError`.
+-   **Example:**
+    ```python
+    # ... inside async with VtopClient ...
+    calendar = await client.get_academic_calendar("AP2026272")
+    print(f"{len(calendar.days)} days across {len(calendar.months)} months")
+
+    for day in calendar.days:
+        for event in day.events:
+            # event.label is the qualifier with its brackets stripped:
+            # "WorkingDay", "Exam Days", or a named holiday like "Deepavali".
+            if event.label not in ("WorkingDay", "No Instructional Day"):
+                print(day.date, day.weekday, event.label)
+    ```
+
 #### `get_biometric(date: str)`
 Fetches biometric (entry/exit) logs for a specific date.
 

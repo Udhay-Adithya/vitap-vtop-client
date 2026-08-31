@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [0.5.0] - 2026-08-31
+
+### Added
+- `get_capstone_attendance(sem_sub_id)` for the capstone/SDP attendance VTOP
+  added to the attendance page. Kept separate from `get_attendance` because it
+  is per semester rather than per course and counts present / on duty / absent;
+  returns `None` for students without a capstone. Verified against a live
+  response.
+- The academic calendar: `get_calendar_class_groups`, `get_calendar_months`,
+  `get_calendar_month`, and `get_academic_calendar`, which walks all of a
+  semester's months and returns one flat, date-ordered list of days with their
+  events (including named holidays).
+- `VtopCalendarError`.
+
 ## [0.4.0] - 2026-08-31
 
 Parity pass with the `lib_vtop` rust crate: features that existed there but not

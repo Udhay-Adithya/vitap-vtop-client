@@ -163,3 +163,45 @@ def test_capstone_attendance_parses_from_a_real_response(fixture):
         # "-" is VTOP's placeholder and must never reach the model.
         assert punch.status != "-"
         assert punch.punch_time != "-"
+
+
+def test_calendar_options_parse_from_a_real_response(fixture):
+    from vitap_vtop_client.parsers.calendar_parser import (
+        parse_calendar_months,
+        parse_class_groups,
+    )
+
+    html = fixture("calendar_options.html")
+
+    groups = parse_class_groups(html)
+    assert groups, "no class groups found"
+    for group in groups:
+        assert group.id and group.name
+        assert not group.name.startswith("--"), "the placeholder leaked through"
+
+    months = parse_calendar_months(html)
+    assert months, "no month buttons found"
+    for month in months:
+        # The label and the calDate differ; both are needed.
+        assert month.label and month.cal_date
+        assert month.cal_date.startswith("01-"), month.cal_date
+
+
+def test_calendar_month_parses_from_a_real_response(fixture):
+    from datetime import date
+
+    from vitap_vtop_client.parsers.calendar_parser import parse_calendar_month
+
+    days = parse_calendar_month(fixture("calendar_month.html"), "01-AUG-2026")
+
+    assert len(days) == 31, "August should yield 31 days"
+    assert days[0].date == "2026-08-01" and days[-1].date == "2026-08-31"
+    for day in days:
+        # The weekday comes from the grid column, so it must agree with the
+        # real calendar — a mismatch means the grid was misread.
+        year, month, number = map(int, day.date.split("-"))
+        assert day.weekday == date(year, month, number).strftime("%A"), day.date
+        for event in day.events:
+            assert event.description
+            # The parenthesised qualifier is stripped of its brackets.
+            assert not event.label.startswith("(")

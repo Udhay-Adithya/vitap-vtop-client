@@ -62,6 +62,18 @@ from .payments import (
     PaymentReceipt,
 )
 from .semester import fetch_semesters, SemesterData
+from .academic_calendar import (
+    init_calendar_page,
+    fetch_calendar_class_groups,
+    fetch_calendar_months,
+    fetch_calendar_month,
+    fetch_academic_calendar,
+    DEFAULT_CLASS_GROUP,
+    AcademicCalendarModel,
+    CalendarDayModel,
+    CalendarMonthRefModel,
+    ClassGroupModel,
+)
 from .grade_view import (
     fetch_grade_view,
     fetch_grade_view_detail,
@@ -469,6 +481,100 @@ class VtopClient:
             registration_number=logged_in_info.registration_number,
             semSubID=sem_sub_id,
             csrf_token=logged_in_info.post_login_csrf_token,
+        )
+
+    async def get_calendar_class_groups(
+        self, sem_sub_id: str
+    ) -> List[ClassGroupModel]:
+        """
+        Fetches the calendar class groups available for a semester.
+
+        Class groups are semester dependent, so they cannot be hardcoded.
+        Usually "COMB" (All Class Group Combined) and one or more specific
+        groups.
+
+        Args:
+            sem_sub_id: The semester subject ID (e.g., "AP2026272").
+        """
+        logged_in_info = await self._ensure_logged_in()
+        return await fetch_calendar_class_groups(
+            client=self._client,
+            username=logged_in_info.registration_number,
+            csrf_token=logged_in_info.post_login_csrf_token,
+            semSubID=sem_sub_id,
+        )
+
+    async def get_calendar_months(
+        self, sem_sub_id: str, class_group_id: str = DEFAULT_CLASS_GROUP
+    ) -> List[CalendarMonthRefModel]:
+        """
+        Fetches the months a semester's calendar covers.
+
+        Each entry carries the `cal_date` that `get_calendar_month` expects.
+
+        Args:
+            sem_sub_id: The semester subject ID (e.g., "AP2026272").
+            class_group_id: From `get_calendar_class_groups`. Defaults to the
+                combined group.
+        """
+        logged_in_info = await self._ensure_logged_in()
+        return await fetch_calendar_months(
+            client=self._client,
+            username=logged_in_info.registration_number,
+            csrf_token=logged_in_info.post_login_csrf_token,
+            semSubID=sem_sub_id,
+            classGroupID=class_group_id,
+        )
+
+    async def get_calendar_month(
+        self,
+        sem_sub_id: str,
+        cal_date: str,
+        class_group_id: str = DEFAULT_CLASS_GROUP,
+    ) -> List[CalendarDayModel]:
+        """
+        Fetches one month of the academic calendar.
+
+        VTOP renders the month as a week grid; this returns it as a flat,
+        date-ordered list of days, since the grid is a display concern.
+
+        Args:
+            sem_sub_id: The semester subject ID (e.g., "AP2026272").
+            cal_date: From `CalendarMonthRefModel.cal_date`, e.g. "01-AUG-2026".
+            class_group_id: From `get_calendar_class_groups`.
+        """
+        logged_in_info = await self._ensure_logged_in()
+        return await fetch_calendar_month(
+            client=self._client,
+            username=logged_in_info.registration_number,
+            csrf_token=logged_in_info.post_login_csrf_token,
+            semSubID=sem_sub_id,
+            cal_date=cal_date,
+            classGroupID=class_group_id,
+        )
+
+    async def get_academic_calendar(
+        self, sem_sub_id: str, class_group_id: str = DEFAULT_CLASS_GROUP
+    ) -> AcademicCalendarModel:
+        """
+        Fetches a semester's whole academic calendar.
+
+        Convenience over the three calls above: it opens the page, reads the
+        month list, fetches every month, and flattens them into one
+        date-ordered list of days. That is one request per month — six for a
+        typical semester — so prefer `get_calendar_month` for a single month.
+
+        Args:
+            sem_sub_id: The semester subject ID (e.g., "AP2026272").
+            class_group_id: From `get_calendar_class_groups`.
+        """
+        logged_in_info = await self._ensure_logged_in()
+        return await fetch_academic_calendar(
+            client=self._client,
+            username=logged_in_info.registration_number,
+            csrf_token=logged_in_info.post_login_csrf_token,
+            semSubID=sem_sub_id,
+            classGroupID=class_group_id,
         )
 
     async def get_biometric(self, date: str) -> list[BiometricModel]:
