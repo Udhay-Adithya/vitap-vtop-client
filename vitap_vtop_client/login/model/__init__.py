@@ -1,2 +1,3 @@
 from .logged_in_student_model import LoggedInStudent
 from .restorable_session_model import RestorableSession
+from .otp_challenge_model import OtpChallenge
