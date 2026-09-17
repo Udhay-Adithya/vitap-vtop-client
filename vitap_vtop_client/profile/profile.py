@@ -13,6 +13,7 @@ from vitap_vtop_client.exceptions import (
     VtopProfileError,
     VtopParsingError,
     VtopMenuUnavailableError,
+    VtopSessionError,
 )
 
 async def fetch_profile(
@@ -97,6 +98,7 @@ async def fetch_profile(
     except (
         VtopParsingError,
         VtopMenuUnavailableError,
+        VtopSessionError,
         VtopProfileError,
         VtopConnectionError,
     ) as e:

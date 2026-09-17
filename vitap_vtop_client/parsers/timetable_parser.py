@@ -49,7 +49,7 @@ def get_course_info(html: str) -> list:
         TimetableModel: A list of days, each representing the course schedule for that particualr day.
 
     Raises:
-        VtopParsingError: When failed to parse attendance data(usually due to unexpected html format).
+        VtopParsingError: When failed to parse timetable data(usually due to unexpected html format).
     """
     try:
         soup = BeautifulSoup(html, "html.parser")

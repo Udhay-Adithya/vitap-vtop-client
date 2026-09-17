@@ -3,7 +3,7 @@ import time
 from vitap_vtop_client.constants import HEADERS, MENTOR_DETAILS_URL
 from .model import MentorModel
 from vitap_vtop_client.parsers.mentor_parser import parse_mentor_details
-from vitap_vtop_client.exceptions import VtopConnectionError, VtopMentorError, VtopParsingError, VtopMenuUnavailableError
+from vitap_vtop_client.exceptions import VtopConnectionError, VtopMentorError, VtopParsingError, VtopMenuUnavailableError, VtopSessionError
 
 async def fetch_mentor_info(
     client: httpx.AsyncClient,
@@ -39,7 +39,7 @@ async def fetch_mentor_info(
 
         return parse_mentor_details(response.text)
 
-    except (VtopParsingError, VtopMenuUnavailableError) as e:
+    except (VtopParsingError, VtopMenuUnavailableError, VtopSessionError) as e:
         raise e
 
     except httpx.RequestError as e:

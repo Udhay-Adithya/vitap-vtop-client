@@ -5,6 +5,7 @@ import httpx
 from vitap_vtop_client.constants import HEADERS, PAYMENTS_URL
 from vitap_vtop_client.parsers.pending_payments_parser import parse_pending_payments
 from vitap_vtop_client.exceptions import (
+    VtopSessionError,
     VtopMenuUnavailableError,
     VtopConnectionError,
     VtopProfileError,
@@ -47,7 +48,7 @@ async def fetch_pending_payments(
 
         return parse_pending_payments(response.text)
 
-    except (VtopParsingError, VtopMenuUnavailableError) as e:
+    except (VtopParsingError, VtopMenuUnavailableError, VtopSessionError) as e:
         raise e
 
     except httpx.RequestError as e:

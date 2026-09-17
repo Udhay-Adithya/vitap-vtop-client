@@ -3,7 +3,7 @@ import time
 from vitap_vtop_client.constants import HEADERS, GRADE_HISTORY_URL
 from .model import GradeHistoryModel
 from vitap_vtop_client.parsers import grade_history_parser
-from vitap_vtop_client.exceptions import VtopConnectionError, VtopGradeHistoryError, VtopParsingError, VtopMenuUnavailableError
+from vitap_vtop_client.exceptions import VtopConnectionError, VtopGradeHistoryError, VtopParsingError, VtopMenuUnavailableError, VtopSessionError
 
 async def fetch_grade_history(
     client: httpx.AsyncClient,
@@ -39,7 +39,7 @@ async def fetch_grade_history(
 
         return grade_history_parser.parse_grade_history(response.text)
 
-    except (VtopParsingError, VtopMenuUnavailableError) as e:
+    except (VtopParsingError, VtopMenuUnavailableError, VtopSessionError) as e:
         raise e
 
     except httpx.RequestError as e:
