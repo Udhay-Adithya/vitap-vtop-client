@@ -27,7 +27,7 @@ from .login import (
     RestorableSession,
 )
 
-from .utils import solve_captcha, is_menu_unavailable
+from .utils import solve_captcha, is_menu_unavailable, validate_semester_id
 
 from .attendance import (
     fetch_attendance,
@@ -541,8 +541,17 @@ class VtopClient:
         """
         Fetches the semesters available to the student.
 
-        The ids returned here are what every semester scoped method expects,
-        so prefer this over hardcoding semester ids.
+        The ids returned here are what every semester scoped method expects.
+        Take them from this call rather than storing them, because **VTOP does
+        not reject an unknown semester id** -- it answers with a normal, empty
+        result. A stale id from a previous term therefore looks exactly like a
+        semester in which the student has no data, and nothing downstream can
+        tell the difference.
+
+        Semester scoped methods check the *shape* of an id (`AP` and seven
+        digits) and reject a typo, but a well formed id that is simply wrong
+        cannot be caught here. Choosing a real one from this list is the
+        caller's responsibility.
 
         Returns:
             SemesterData: The available semesters and the time they were read.
@@ -564,6 +573,7 @@ class VtopClient:
         Returns:
             A list containing the parsed attendance data(AttendanceModel).
         """
+        validate_semester_id(sem_sub_id)
         logged_in_info = await self._ensure_logged_in()
         return await fetch_attendance(
             client=self._client,
@@ -590,6 +600,7 @@ class VtopClient:
         Returns:
             A list containing one AttendanceDetailModel per class held.
         """
+        validate_semester_id(sem_sub_id)
         logged_in_info = await self._ensure_logged_in()
         return await fetch_attendance_detail(
             client=self._client,
@@ -619,6 +630,7 @@ class VtopClient:
             The CapstoneAttendanceModel, or None when the student has no
             capstone registered for that semester.
         """
+        validate_semester_id(sem_sub_id)
         logged_in_info = await self._ensure_logged_in()
         return await fetch_capstone_attendance(
             client=self._client,
@@ -640,6 +652,7 @@ class VtopClient:
         Args:
             sem_sub_id: The semester subject ID (e.g., "AP2026272").
         """
+        validate_semester_id(sem_sub_id)
         logged_in_info = await self._ensure_logged_in()
         return await fetch_calendar_class_groups(
             client=self._client,
@@ -661,6 +674,7 @@ class VtopClient:
             class_group_id: From `get_calendar_class_groups`. Defaults to the
                 combined group.
         """
+        validate_semester_id(sem_sub_id)
         logged_in_info = await self._ensure_logged_in()
         return await fetch_calendar_months(
             client=self._client,
@@ -687,6 +701,7 @@ class VtopClient:
             cal_date: From `CalendarMonthRefModel.cal_date`, e.g. "01-AUG-2026".
             class_group_id: From `get_calendar_class_groups`.
         """
+        validate_semester_id(sem_sub_id)
         logged_in_info = await self._ensure_logged_in()
         return await fetch_calendar_month(
             client=self._client,
@@ -712,6 +727,7 @@ class VtopClient:
             sem_sub_id: The semester subject ID (e.g., "AP2026272").
             class_group_id: From `get_calendar_class_groups`.
         """
+        validate_semester_id(sem_sub_id)
         logged_in_info = await self._ensure_logged_in()
         return await fetch_academic_calendar(
             client=self._client,
@@ -749,6 +765,7 @@ class VtopClient:
         Returns:
             A TimetableModel containing the parsed timetable details.
         """
+        validate_semester_id(sem_sub_id)
         logged_in_info = await self._ensure_logged_in()
         return await fetch_timetable(
             client=self._client,
@@ -771,6 +788,7 @@ class VtopClient:
         Returns:
             A list of GradeViewCourse, one per graded course.
         """
+        validate_semester_id(sem_sub_id)
         logged_in_info = await self._ensure_logged_in()
         return await fetch_grade_view(
             client=self._client,
@@ -796,6 +814,7 @@ class VtopClient:
         Returns:
             The GradeViewDetail for the course.
         """
+        validate_semester_id(sem_sub_id)
         logged_in_info = await self._ensure_logged_in()
         return await fetch_grade_view_detail(
             client=self._client,
@@ -877,6 +896,7 @@ class VtopClient:
         Returns:
             A ExamScheduleModel containing the parsed exam schedule details.
         """
+        validate_semester_id(sem_sub_id)
         logged_in_info = await self._ensure_logged_in()
         return await fetch_exam_schedule(
             client=self._client,
@@ -892,6 +912,7 @@ class VtopClient:
         Returns:
             A MarksModel containing the parsed mark details.
         """
+        validate_semester_id(sem_sub_id)
         logged_in_info = await self._ensure_logged_in()
         return await fetch_marks(
             client=self._client,
@@ -987,6 +1008,7 @@ class VtopClient:
         Returns:
             The selectable courses.
         """
+        validate_semester_id(sem_sub_id)
         logged_in_info = await self._ensure_logged_in()
         return await fetch_courses_for_course_page(
             client=self._client,
@@ -1008,6 +1030,7 @@ class VtopClient:
         Returns:
             The selectable slots and the class rows.
         """
+        validate_semester_id(sem_sub_id)
         logged_in_info = await self._ensure_logged_in()
         return await fetch_slots_for_course_page(
             client=self._client,
@@ -1031,6 +1054,7 @@ class VtopClient:
         Returns:
             The course summary, lectures and download paths.
         """
+        validate_semester_id(sem_sub_id)
         logged_in_info = await self._ensure_logged_in()
         return await fetch_course_detail(
             client=self._client,
@@ -1072,6 +1096,7 @@ class VtopClient:
         Returns:
             The raw workbook contents.
         """
+        validate_semester_id(sem_sub_id)
         logged_in_info = await self._ensure_logged_in()
         return await download_course_plan_excel(
             client=self._client,
@@ -1264,6 +1289,7 @@ class VtopClient:
         Returns:
             A list of DigitalAssignmentModel with details populated.
         """
+        validate_semester_id(sem_sub_id)
         logged_in_info = await self._ensure_logged_in()
         return await fetch_all_digital_assignments(
             client=self._client,
