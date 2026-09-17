@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [0.5.1] - 2026-09-17
+
+### Fixed
+- `VtopExamScheduleError`, `VtopMarksError`, `VtopGeneralOutingError` and
+  `VtopWeekendOutingError` are now exported from `vitap_vtop_client.exceptions`.
+  They were defined and raised but never re-exported, so callers could not name
+  them and had to fall back to the `VitapVtopClientError` base.
+- The marks module wrapped unexpected failures in `VtopAttendanceError`, so a
+  marks failure reached callers as an attendance one and `VtopMarksError` was
+  never raised despite being defined for it. Catching `VtopAttendanceError`
+  around `get_marks` no longer works; catch `VtopMarksError` instead.
+
 ## [0.5.0] - 2026-08-31
 
 ### Added
