@@ -689,18 +689,37 @@ class VtopClient:
             csrf_token=logged_in_info.post_login_csrf_token,
         )
 
-    async def get_profile(self) -> StudentProfileModel:
+    async def get_profile(
+        self,
+        include_grade_history: bool = True,
+        include_mentor: bool = True,
+    ) -> StudentProfileModel:
         """
         Fetches profile data for the given registration_number.
 
+        The profile page does not carry the grade history or the mentor, so
+        each of those is a further request. They are fetched concurrently.
+
+        Grade history is the largest response the client fetches anywhere,
+        around 137KB. If you only need the profile itself, turn it off.
+
+        Args:
+            include_grade_history: Fetch the nested grade history. Defaults to
+                True, which costs an extra request of roughly 137KB.
+            include_mentor: Fetch the nested mentor details. Defaults to True,
+                which costs an extra request.
+
         Returns:
             A StudentProfileModel containing the parsed student details.
+            Anything not requested is left at its model default.
         """
         logged_in_info = await self._ensure_logged_in()
         profile = await fetch_profile(
             client=self._client,
             registration_number=logged_in_info.registration_number,
             csrf_token=logged_in_info.post_login_csrf_token,
+            include_grade_history=include_grade_history,
+            include_mentor=include_mentor,
         )
         # The profile page never renders the registration number, so attach the
         # one captured from `authorizedIDX` at login.

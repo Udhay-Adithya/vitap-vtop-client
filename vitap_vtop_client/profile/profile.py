@@ -1,3 +1,4 @@
+import asyncio
 import httpx
 import time
 from vitap_vtop_client.constants import PROFILE_URL, HEADERS
@@ -16,18 +17,33 @@ from vitap_vtop_client.exceptions import (
 async def fetch_profile(
     client: httpx.AsyncClient,
     registration_number: str,
-    csrf_token: str
+    csrf_token: str,
+    include_grade_history: bool = True,
+    include_mentor: bool = True,
 ) -> StudentProfileModel:
     """
     Retrieves and compiles the student profile information from the VTOP Portal.
+
+    The profile page itself does not carry the grade history or the mentor, so
+    those are two further requests. They do not depend on each other or on the
+    profile response, so they run concurrently.
+
+    Grade history is the largest response the client fetches anywhere, around
+    137KB, so a caller that only wants the name and photo should turn it off
+    rather than pay for it on every call.
 
     Parameters:
         client (httpx.AsyncClient): The async HTTP client.
         registration_number (str): The student's username.
         csrf_token (str): CSRF token for authentication.
+        include_grade_history (bool): Fetch the nested grade history. Defaults
+            to True. Costs one extra request of roughly 137KB.
+        include_mentor (bool): Fetch the nested mentor details. Defaults to
+            True. Costs one extra request.
 
     Returns:
-        StudentProfileModel: The student's profile information.
+        StudentProfileModel: The student's profile information. Fields that
+            were not requested are left at their model defaults.
 
     Raises:
         VtopConnectionError: If an HTTP request fails.
@@ -42,31 +58,38 @@ async def fetch_profile(
             'nocache': int(round(time.time() * 1000))
         }
 
-        # Three requests, and any of them can be the one that fails. Say which,
-        # rather than reporting whichever error happened to surface -- a
+        # Up to three requests, and any of them can be the one that fails. Say
+        # which, rather than reporting whichever error happened to surface -- a
         # timeout on the profile page itself used to come back blaming grade
-        # history, because that is the next call in the sequence.
+        # history, because that was the next call in the sequence.
         response = await client.post(PROFILE_URL, data=data, headers=HEADERS)
         response.raise_for_status()
         profile = parse_student_profile(response.text)
 
-        try:
-            profile.grade_history = await fetch_grade_history(
+        # Neither nested fetch depends on the other or on the profile response,
+        # so they go out together rather than one after the other.
+        nested = {}
+        if include_grade_history:
+            nested["grade history"] = fetch_grade_history(
                 client, registration_number, csrf_token
             )
-        except VitapVtopClientError as e:
-            raise VtopProfileError(
-                f"Fetched the profile, but its grade history failed: {e}"
-            ) from e
+        if include_mentor:
+            nested["mentor details"] = fetch_mentor_info(
+                client, registration_number, csrf_token
+            )
 
-        try:
-            profile.mentor_details = await fetch_mentor_info(
-                client, registration_number, csrf_token
-            )
-        except VitapVtopClientError as e:
-            raise VtopProfileError(
-                f"Fetched the profile, but its mentor details failed: {e}"
-            ) from e
+        if nested:
+            labels = list(nested)
+            results = await asyncio.gather(*nested.values(), return_exceptions=True)
+            for label, result in zip(labels, results):
+                if isinstance(result, BaseException):
+                    raise VtopProfileError(
+                        f"Fetched the profile, but its {label} failed: {result}"
+                    ) from result
+                if label == "grade history":
+                    profile.grade_history = result
+                else:
+                    profile.mentor_details = result
 
         return profile
 
