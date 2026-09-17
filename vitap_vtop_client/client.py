@@ -111,6 +111,13 @@ from .digital_assignment import (
 )
 
 
+# Passed as the password by VtopClient.restore, and never by anything else. A
+# restored client holds a live session instead of credentials, so it has to skip
+# the password check -- but doing that with a public keyword argument would put
+# an internal flag in the class signature and make `password` look optional.
+_RESTORED_SESSION = "\x00restored-session"
+
+
 class VtopClient:
     """
     An asynchronous client for interacting with the VIT-AP VTOP portal.
@@ -119,11 +126,10 @@ class VtopClient:
     def __init__(
         self,
         registration_number: str,
-        password: str | None = None,
+        password: str,
         max_login_retries: int = 3,
         captcha_retries: int = 5,
         user_agent: str | None = None,
-        _restored: bool = False,
     ):
         """
         Initializes the VtopClient.
@@ -140,7 +146,12 @@ class VtopClient:
                 process (an in-app VTOP WebView) is advised but not required to
                 send the same value. Defaults to `DEFAULT_USER_AGENT`.
         """
-        if not registration_number or (not password and not _restored):
+        # A restored client holds a live session instead of credentials, so it
+        # can never log in again on its own. _ensure_logged_in checks this
+        # rather than silently failing a login with an empty credential.
+        restored = password is _RESTORED_SESSION
+
+        if not registration_number or (not password and not restored):
             raise VtopLoginError(
                 "Registration number and password are required for VtopClient.",
                 status_code=400,
@@ -148,11 +159,8 @@ class VtopClient:
         # validate_registration_number(registration_number)
 
         self.username = registration_number.upper()
-        self.password = password
-        # A restored client holds a session but no password, so it can never
-        # log in again on its own. _ensure_logged_in checks this rather than
-        # silently failing a login with an empty credential.
-        self._restored = _restored
+        self.password = None if restored else password
+        self._restored = restored
         # VTOP omits an intermediate CA from its TLS chain, so a custom SSL
         # context (certifi roots + the bundled intermediate) is needed to
         # verify it. See ssl_config for details.
@@ -331,8 +339,8 @@ class VtopClient:
 
         client = cls(
             registration_number=registration_number,
+            password=_RESTORED_SESSION,
             user_agent=user_agent,
-            _restored=True,
         )
         client._logged_in_student = LoggedInStudent(
             registration_number=registration_number.upper(),

@@ -99,9 +99,14 @@ async def test_a_restored_client_refuses_to_log_itself_back_in():
 
 
 def test_a_normal_client_still_demands_a_password():
+    """
+    An empty password is caught by our own check. Omitting it entirely is now
+    a TypeError from Python, because `password` went back to being a required
+    argument once restore() stopped needing a default.
+    """
     with pytest.raises(VtopLoginError):
         VtopClient("00XXX0000", "")
-    with pytest.raises(VtopLoginError):
+    with pytest.raises(TypeError):
         VtopClient("00XXX0000")
 
 
@@ -121,3 +126,44 @@ async def test_a_restored_client_sends_the_cookie_and_token():
     await client._client.post("/vtop/processViewStudentAttendance")
     assert "JSESSIONID=abc123" in seen["cookie"]
     await client._client.aclose()
+
+
+# --- the public surface ---
+
+def test_no_internal_parameters_are_exposed_on_the_constructor():
+    """
+    restore() used to signal itself with a `_restored=False` keyword, which put
+    an internal flag in the class signature and, worse, made `password` render
+    as optional in the generated docs. It signals itself with a module-private
+    sentinel instead.
+    """
+    import inspect
+
+    params = inspect.signature(VtopClient.__init__).parameters
+    leaked = [n for n in params if n.startswith("_") and n != "self"]
+    assert not leaked, f"internal parameters on the public signature: {leaked}"
+
+
+def test_password_is_still_a_required_argument():
+    import inspect
+
+    password = inspect.signature(VtopClient.__init__).parameters["password"]
+    assert password.default is inspect.Parameter.empty
+
+
+def test_the_sentinel_is_not_something_a_person_could_type():
+    from vitap_vtop_client.client import _RESTORED_SESSION
+
+    assert "\x00" in _RESTORED_SESSION
+
+
+def test_a_restored_client_reports_no_password_even_though_one_was_passed():
+    client = VtopClient.restore("00XXX0000", "JSESSIONID=abc123", "tok")
+    assert client.password is None
+    assert client._restored is True
+
+
+def test_an_ordinary_client_keeps_its_password_and_is_not_restored():
+    client = VtopClient("00XXX0000", "hunter2")
+    assert client.password == "hunter2"
+    assert client._restored is False
