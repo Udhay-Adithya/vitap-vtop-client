@@ -6,7 +6,6 @@ import httpx
 from vitap_vtop_client.constants import (
     DO_GRADE_VIEW_URL,
     GRADE_VIEW_DETAIL_URL,
-    GRADE_VIEW_URL,
     HEADERS,
 )
 from vitap_vtop_client.exceptions.exception import (
@@ -51,19 +50,10 @@ async def fetch_grade_view(
         VtopConnectionError: If an HTTP request fails.
         VtopParsingError: If parsing fails.
     """
+    # The page shell is not required after all: VTOP answers doStudentGradeView
+    # on a cold session with nothing primed, so opening StudentGradeView first
+    # was a wasted round trip on every call.
     try:
-        # Open the page first, as VTOP requires before it answers the data POST.
-        init_data = {
-            "verifyMenu": "true",
-            "authorizedID": username,
-            "_csrf": csrf_token,
-            "nocache": int(round(time.time() * 1000)),
-        }
-        init_response = await client.post(
-            GRADE_VIEW_URL, data=init_data, headers=HEADERS
-        )
-        init_response.raise_for_status()
-
         # doStudentGradeView is posted as multipart, matching the page's form.
         files = {
             "authorizedID": (None, username),

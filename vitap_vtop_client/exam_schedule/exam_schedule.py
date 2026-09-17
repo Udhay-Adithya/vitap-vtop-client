@@ -2,7 +2,6 @@ from typing import List, Dict, Union
 import time
 import httpx
 from vitap_vtop_client.constants import (
-    EXAM_SCHEDULE_URL,
     GET_EXAM_SCHEDULE_URL,
     HEADERS,
 )
@@ -37,28 +36,9 @@ async def fetch_exam_schedule(
         VtopConnectionError: If network or HTTP issues occur.
         VtopAttendanceError: For unexpected or parsing-related issues.
     """
-    try:
-        verify_data = {
-            "verifyMenu": "true",
-            "authorizedID": registration_number,
-            "_csrf": csrf_token,
-            "nocache": int(round(time.time() * 1000)),
-        }
-        await client.post(EXAM_SCHEDULE_URL, data=verify_data, headers=HEADERS)
-
-    except httpx.RequestError as e:
-        print(f"Attendance initial POST failed: {e}")
-        raise VtopConnectionError(
-            f"Failed to initialize attendance page: {e}",
-            original_exception=e,
-            status_code=502,
-        )
-    except Exception as e:
-        print(f"An unexpected error occurred during exam schedule initial POST: {e}")
-        raise VtopExamScheduleError(
-            f"Failed to initialize exam schedule page: {e}"
-        ) from e
-
+    # No page-shell POST first. VTOP answers doSearchExamScheduleForStudent on a
+    # cold session with nothing primed, so opening StudExamSchedule beforehand
+    # was a wasted round trip on every call.
     try:
 
         data = {
