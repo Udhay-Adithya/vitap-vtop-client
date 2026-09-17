@@ -151,6 +151,24 @@ class VtopClient:
         # verify it. See ssl_config for details.
         self._user_agent = (user_agent or "").strip() or DEFAULT_USER_AGENT
 
+        async def _reject_dead_session(response: httpx.Response) -> None:
+            # A stale or wrong _csrf does not redirect to the login page and
+            # does not come back as the rejection modal. Spring's CSRF filter
+            # refuses the request before it is routed, so Tomcat answers with
+            # its own 404 page. Every url we post to is a constant that exists,
+            # so a 404 here means the token or session is dead, not that the
+            # path is wrong.
+            #
+            # Runs before the modal check because it only reads the status, so
+            # a dead session never pays for the body.
+            if response.status_code == 404 and response.request.method == "POST":
+                raise VtopSessionError(
+                    "VTOP rejected the request with a 404, which is what it "
+                    "does when the session or CSRF token has expired. Log in "
+                    "again before retrying.",
+                    status_code=401,
+                )
+
         async def _reject_menu_unavailable(response: httpx.Response) -> None:
             # VTOP answers a rejected request with a generic modal and an HTTP
             # 200, so raise_for_status() lets it through and the fragment
@@ -178,7 +196,7 @@ class VtopClient:
             verify=create_vtop_ssl_context(),
             event_hooks={
                 "request": [_pin_user_agent],
-                "response": [_reject_menu_unavailable],
+                "response": [_reject_dead_session, _reject_menu_unavailable],
             },
         )
         self._logged_in_student: LoggedInStudent | None = None
