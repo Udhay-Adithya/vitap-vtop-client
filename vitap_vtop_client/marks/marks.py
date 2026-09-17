@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 import time
 import httpx
 from typing import Union
-from vitap_vtop_client.constants import MARKS_URL, VIEW_MARKS_URL, HEADERS
+from vitap_vtop_client.constants import VIEW_MARKS_URL, HEADERS
 from vitap_vtop_client.marks.model.marks_model import MarksModel
 from vitap_vtop_client.parsers.marks_parser import parse_marks
 from vitap_vtop_client.exceptions.exception import (
@@ -34,24 +34,9 @@ async def fetch_marks(
         VtopConnectionError: If HTTP/network errors occur.
         VtopMarksError: If unexpected or parsing errors occur.
     """
-    try:
-        init_data = {
-            "verifyMenu": "true",
-            "authorizedID": registration_number,
-            "_csrf": csrf_token,
-            "nocache": int(round(time.time() * 1000)),
-        }
-        await client.post(MARKS_URL, data=init_data, headers=HEADERS)
-
-    except httpx.RequestError as e:
-        print(f"Failed to fetch marks: {e}")
-        raise VtopConnectionError(
-            f"Failed to fetch marks: {e}", original_exception=e, status_code=502
-        )
-    except Exception as e:
-        print(f"Unexpected error while ini marks: {e}")
-        raise VtopMarksError(f"Unexpected error while fetching marks: {e}") from e
-
+    # No page-shell POST first. VTOP answers doStudentMarkView on a cold
+    # session with nothing primed, so opening StudentMarkView beforehand was a
+    # wasted round trip on every call.
     try:
         data = {
             "authorizedID": registration_number,

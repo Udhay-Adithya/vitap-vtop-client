@@ -11,7 +11,6 @@ from vitap_vtop_client.parsers import attendance_parser
 from vitap_vtop_client.constants import (
     VIEW_ATTENDANCE_URL,
     VIEW_ATTENDANCE_DETAIL_URL,
-    ATTENDANCE_URL,
     SDP_ATTENDANCE_URL,
     HEADERS,
 )
@@ -40,36 +39,10 @@ async def fetch_attendance(
         VtopAttendanceError: If the initial POST or the attendance data request fails or returns unexpected content.
         VtopParsingError: For parsing errors.
     """
+    # No page-shell POST first. VTOP answers processViewStudentAttendance on a
+    # cold session with nothing primed, so opening StudentAttendance beforehand
+    # was a wasted round trip on every call.
     try:
-        # First POST to verify menu/session
-        data_initial = {
-            "verifyMenu": "true",
-            "authorizedID": registration_number,
-            "_csrf": csrf_token,
-            "nocache": int(round(time.time() * 1000)),
-        }
-        # Use await client.post
-        initial_response = await client.post(ATTENDANCE_URL, data=data_initial, headers=HEADERS)
-        initial_response.raise_for_status() # Raise exception for bad status codes
-
-        # Check if the initial POST was successful in setting up the page context
-        # This might involve checking the response content or status,
-        # but raise_for_status is a good start for HTTP errors.
-        # More specific checks might be needed based on VTOP's responses.
-    
-    except httpx.RequestError as e:
-        print(f"Attendance initial POST failed: {e}")
-        raise VtopConnectionError(
-                f"Failed to initialize attendance page: {e}",
-                original_exception=e,
-                status_code=502
-            )
-    except Exception as e:
-         print(f"An unexpected error occurred during attendance initial POST: {e}")
-         raise VtopAttendanceError(f"Failed to initialize attendance page: {e}") from e
-
-    try:
-        # Second POST to fetch attendance data
         data_fetch = {
             "_csrf": csrf_token,
             "semesterSubId": semSubID,

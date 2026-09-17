@@ -1,7 +1,7 @@
 import httpx
 import time
 from datetime import datetime, timezone
-from vitap_vtop_client.constants import TIME_TABLE_URL, GET_TIME_TABLE_URL, HEADERS
+from vitap_vtop_client.constants import GET_TIME_TABLE_URL, HEADERS
 from vitap_vtop_client.parsers import timetable_parser
 from vitap_vtop_client.exceptions.exception import VtopConnectionError, VtopTimetableError, VtopParsingError
 from vitap_vtop_client.timetable.model.timetable_model import TimetableModel
@@ -29,30 +29,10 @@ async def fetch_timetable(
         VtopTimetableError: If initialization or data fetch fails.
         VtopParsingError: If parsing fails.
     """
+    # No page-shell POST first. VTOP answers processViewTimeTable on a cold
+    # session with nothing primed, so opening StudentTimeTable beforehand was a
+    # wasted round trip on every call.
     try:
-        # First POST to initialize the session
-        data_initial = {
-            "verifyMenu": "true",
-            "authorizedID": username,
-            "_csrf": csrf_token,
-            "nocache": int(round(time.time() * 1000)),
-        }
-        initial_response = await client.post(TIME_TABLE_URL, data=data_initial, headers=HEADERS)
-        initial_response.raise_for_status()
-    
-    except httpx.RequestError as e:
-        print(f"Timetable initial POST failed: {e}")
-        raise VtopConnectionError(
-            f"Failed to initialize timetable page: {e}",
-            original_exception=e,
-            status_code=502
-        )
-    except Exception as e:
-        print(f"An unexpected error occurred during timetable initial POST: {e}")
-        raise VtopTimetableError(f"Failed to initialize timetable page: {e}") from e
-
-    try:
-        # Second POST to fetch timetable data
         data_fetch = {
             "_csrf": csrf_token,
             "semesterSubId": semSubID,
