@@ -11,3 +11,6 @@ devenv.lock
 
 # Raw, unscrubbed captures from the fixture recorder.
 tests/fixtures/raw/
+
+# Sphinx build output.
+docs/_build/

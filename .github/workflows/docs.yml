@@ -1,0 +1,57 @@
+name: docs
+
+on:
+  push:
+  pull_request:
+
+# Allow the deploy job to publish to Pages.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never let two deploys race. Queue rather than cancel, so a push that is
+# already publishing finishes rather than leaving the site half updated.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install poetry
+          poetry install --with docs
+
+      # -W turns warnings into errors, so a broken reference or a docstring
+      # Sphinx cannot parse fails the build instead of shipping quietly.
+      - name: Build docs
+        run: poetry run sphinx-build -b html -W docs docs/_build/html
+
+      # Uploaded on every run, so a pull request can be checked by downloading
+      # the artifact even though only main is published.
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/_build/html
+
+  deploy:
+    # Only main is published. Every other push and every pull request still
+    # builds above, which is what catches a broken docstring before merge.
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
