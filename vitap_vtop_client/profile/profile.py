@@ -6,7 +6,12 @@ from vitap_vtop_client.grade_history import fetch_grade_history
 from vitap_vtop_client.parsers.profile_parser import parse_student_profile
 from .model import StudentProfileModel
 
-from vitap_vtop_client.exceptions import VtopConnectionError, VtopProfileError, VtopParsingError
+from vitap_vtop_client.exceptions import (
+    VitapVtopClientError,
+    VtopConnectionError,
+    VtopProfileError,
+    VtopParsingError,
+)
 
 async def fetch_profile(
     client: httpx.AsyncClient,
@@ -37,17 +42,36 @@ async def fetch_profile(
             'nocache': int(round(time.time() * 1000))
         }
 
+        # Three requests, and any of them can be the one that fails. Say which,
+        # rather than reporting whichever error happened to surface -- a
+        # timeout on the profile page itself used to come back blaming grade
+        # history, because that is the next call in the sequence.
         response = await client.post(PROFILE_URL, data=data, headers=HEADERS)
         response.raise_for_status()
-
-        # Now add nested fields
         profile = parse_student_profile(response.text)
-        profile.grade_history = await fetch_grade_history(client, registration_number, csrf_token)
-        profile.mentor_details = await fetch_mentor_info(client, registration_number, csrf_token)
-        
+
+        try:
+            profile.grade_history = await fetch_grade_history(
+                client, registration_number, csrf_token
+            )
+        except VitapVtopClientError as e:
+            raise VtopProfileError(
+                f"Fetched the profile, but its grade history failed: {e}"
+            ) from e
+
+        try:
+            profile.mentor_details = await fetch_mentor_info(
+                client, registration_number, csrf_token
+            )
+        except VitapVtopClientError as e:
+            raise VtopProfileError(
+                f"Fetched the profile, but its mentor details failed: {e}"
+            ) from e
+
         return profile
 
-    except VtopParsingError as e:
+    except (VtopParsingError, VtopProfileError, VtopConnectionError) as e:
+        # Already described; wrapping again would only bury the cause.
         raise e
 
     except httpx.RequestError as e:

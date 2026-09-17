@@ -18,6 +18,13 @@ class VtopConnectionError(VitapVtopClientError):
         original_exception: httpx.RequestError | None = None,
         status_code: int | None = None,
     ):
+        # httpx raises its transport errors with an empty message, so a caller
+        # building one with f"...: {e}" ends up with a message that stops at
+        # the colon -- the failure you most want described is the one that
+        # describes itself least. Name the class, which is the only thing that
+        # separates a read timeout from a refused connection.
+        if original_exception is not None and not str(original_exception):
+            message = f"{message.rstrip()} {type(original_exception).__name__}"
         super().__init__(message, status_code)
         self.original_exception = original_exception
 
