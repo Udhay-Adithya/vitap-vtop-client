@@ -4,7 +4,7 @@ from vitap_vtop_client.constants import HEADERS, BIOMETRIC_LOG_URL, GET_BIOMETRI
 import time
 from datetime import datetime, timezone
 
-from vitap_vtop_client.exceptions.exception import VtopBiometricError, VtopConnectionError, VtopParsingError, VtopMenuUnavailableError
+from vitap_vtop_client.exceptions.exception import VtopBiometricError, VtopConnectionError, VtopParsingError, VtopMenuUnavailableError, VtopSessionError
 from vitap_vtop_client.parsers import biometric_parser
 
 async def fetch_biometric(
@@ -42,16 +42,21 @@ async def fetch_biometric(
             'nocache': int(round(time.time() * 1000))
         }
         await client.post(BIOMETRIC_LOG_URL, data=data, headers=HEADERS)
+    except (VtopParsingError, VtopMenuUnavailableError, VtopSessionError) as e:
+        # A dead session or a refused request is not a biometric problem, and
+        # wrapping it here would drop the status code the caller acts on.
+        raise e
+
     except httpx.RequestError as e:
-        print(f"Attendance initial POST failed: {e}")
+        print(f"Biometric initial POST failed: {e}")
         raise VtopConnectionError(
-                f"Failed to initialize attendance page: {e}",
+                f"Failed to initialize the biometric page: {e}",
                 original_exception=e,
                 status_code=502
             )
     except Exception as e:
-         print(f"An unexpected error occurred during attendance initial POST: {e}")
-         raise VtopBiometricError(f"Failed to initialize attendance page: {e}") from e
+         print(f"An unexpected error occurred during the biometric initial POST: {e}")
+         raise VtopBiometricError(f"Failed to initialize the biometric page: {e}") from e
     
     try:
         data = {
@@ -68,7 +73,7 @@ async def fetch_biometric(
 
         return parsed_data
     
-    except (VtopParsingError, VtopMenuUnavailableError) as e:
+    except (VtopParsingError, VtopMenuUnavailableError, VtopSessionError) as e:
         raise e
 
     except httpx.RequestError as e:

@@ -6,7 +6,7 @@ from vitap_vtop_client.attendance.model.attendance_model import (
     AttendanceModel,
 )
 from vitap_vtop_client.attendance.model.capstone_model import CapstoneAttendanceModel
-from vitap_vtop_client.exceptions.exception import VtopAttendanceError, VtopConnectionError, VtopParsingError, VtopMenuUnavailableError
+from vitap_vtop_client.exceptions.exception import VtopAttendanceError, VtopConnectionError, VtopParsingError, VtopMenuUnavailableError, VtopSessionError
 from vitap_vtop_client.parsers import attendance_parser
 from vitap_vtop_client.constants import (
     VIEW_ATTENDANCE_URL,
@@ -57,7 +57,7 @@ async def fetch_attendance(
 
         return parsed_data
     
-    except (VtopParsingError, VtopMenuUnavailableError) as e:
+    except (VtopParsingError, VtopMenuUnavailableError, VtopSessionError) as e:
         raise e
 
     except httpx.RequestError as e:
@@ -116,7 +116,7 @@ async def fetch_attendance_detail(
 
         return attendance_parser.parse_full_attendance(response.text)
 
-    except (VtopParsingError, VtopMenuUnavailableError) as e:
+    except (VtopParsingError, VtopMenuUnavailableError, VtopSessionError) as e:
         raise e
 
     except httpx.RequestError as e:
@@ -187,7 +187,7 @@ async def fetch_capstone_attendance(
 
         return capstone_attendance_parser.parse_capstone_attendance(response.text)
 
-    except (VtopParsingError, VtopMenuUnavailableError) as e:
+    except (VtopParsingError, VtopMenuUnavailableError, VtopSessionError) as e:
         raise e
 
     except httpx.RequestError as e:

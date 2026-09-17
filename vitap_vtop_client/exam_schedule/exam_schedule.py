@@ -8,6 +8,7 @@ from vitap_vtop_client.constants import (
 from vitap_vtop_client.exam_schedule.model.exam_schedule_model import ExamScheduleModel
 from vitap_vtop_client.parsers.exam_schedule_parser import parse_exam_schedule
 from vitap_vtop_client.exceptions.exception import (
+    VtopSessionError,
     VtopMenuUnavailableError,
     VtopConnectionError,
     VtopExamScheduleError,
@@ -35,7 +36,7 @@ async def fetch_exam_schedule(
 
     Raises:
         VtopConnectionError: If network or HTTP issues occur.
-        VtopAttendanceError: For unexpected or parsing-related issues.
+        VtopExamScheduleError: For unexpected or parsing-related issues.
     """
     # No page-shell POST first. VTOP answers doSearchExamScheduleForStudent on a
     # cold session with nothing primed, so opening StudExamSchedule beforehand
@@ -53,7 +54,7 @@ async def fetch_exam_schedule(
 
         return parse_exam_schedule(response.text)
 
-    except (VtopParsingError, VtopMenuUnavailableError) as e:
+    except (VtopParsingError, VtopMenuUnavailableError, VtopSessionError) as e:
         raise e
 
     except httpx.RequestError as e:
