@@ -68,7 +68,7 @@ HOD_DETAILS_URL = "/vtop/hrms/viewHodDeanDetails"
 PAYMENTS_URL = "/vtop/finance/Payments"
 PAYMENT_RECEIPT_URL = "/vtop/p2p/getReceiptsApplno"
 PRINT_PAYMENT_RECEIPT_URL = "/vtop/finance/dupReceiptNewP2P"
-VIRTUAL_ACCOUNT_URL = "/vtop/admissions/studentVirtualAccountNo "
+VIRTUAL_ACCOUNT_URL = "/vtop/admissions/studentVirtualAccountNo"
 
 # Curriculum URL
 CURRICULUM_URL = "/vtop/academics/common/Curriculum"
@@ -114,8 +114,13 @@ EDIT_GENRAL_OUTING_URL = "/vtop/hostel/updateGeneralOutingInfo"
 DELETE_GENERAL_OUTING_URL = "/vtop/hostel/deleteGeneralOutingInfo"
 
 
-# NCGPA Rank URL
-NCGPA_RANK_URL = "/vtop/hostels/counsellingSlotTimings1"
+# Hostel counselling URL.
+#
+# This was called NCGPA_RANK_URL, which it never was. The page serves hostel
+# counselling slot booking: application number, blocks, floors, room
+# preference, with getHostelBlocks / getFloorsByRoomType / getRoomsByFloorID /
+# getRoomPreference behind it.
+HOSTEL_COUNSELLING_URL = "/vtop/hostels/counsellingSlotTimings1"
 
 # Profile image path
 PFP_PATH = "/vtop/users/image/?id="
