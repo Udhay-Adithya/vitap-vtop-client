@@ -44,6 +44,9 @@ The library used to ship a hardcoded map of these and it went stale, which is
 worse than it sounds: VTOP does not reject an unknown id. It returns an empty
 result, so a wrong semester looks exactly like a semester with no data.
 
+A malformed id is rejected before it is sent, but a well formed one that is
+simply out of date is not — it cannot be. See :ref:`semester-ids`.
+
 Being a good citizen
 --------------------
 

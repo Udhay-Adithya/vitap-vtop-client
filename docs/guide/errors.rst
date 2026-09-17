@@ -67,9 +67,46 @@ Several results are legitimately empty and the library will not raise for them:
   publish
 * marks may not be published yet
 * biometric can be genuinely empty for a day
-* an **unknown semester id** also returns an empty result — VTOP does not
-  reject it, so a wrong id looks the same as a quiet semester. Take ids from
-  :meth:`~vitap_vtop_client.client.VtopClient.get_semesters`.
+* an **unknown semester id** also returns an empty result — see below.
+
+.. _semester-ids:
+
+Semester ids fail silently
+--------------------------
+
+.. warning::
+
+   VTOP does not reject an unknown semester id. It answers with a normal,
+   empty result, so a wrong semester is **indistinguishable** from a semester
+   the student genuinely has no data for.
+
+Measured against live VTOP:
+
+.. code-block:: text
+
+   real id           -> 200, 6896 bytes, 2 courses
+   AP9999999         -> 200, 2006 bytes, 0 courses     <- not a real semester
+   no id at all      -> 200, 2006 bytes, 0 courses
+
+Semester-scoped methods check the *shape* of an id and reject anything that is
+not ``AP`` followed by seven digits:
+
+.. code-block:: python
+
+   await client.get_attendance(sem_sub_id="NOPE9999")
+   # VtopSessionError: 'NOPE9999' is not a semester id. They look like
+   # 'AP2026272' -- 'AP' and seven digits. Call get_semesters() for the ids
+   # this student can actually use ...
+
+That catches a typo, an empty string or a semester *name* passed by mistake,
+and it happens before any network call. It cannot catch an id that is well
+formed but wrong — ``AP9999999`` passes the check and returns nothing — because
+nothing offline can know which ids are real.
+
+**Choosing a real id is the caller's responsibility.** Take them from
+:meth:`~vitap_vtop_client.client.VtopClient.get_semesters` at the point of use
+rather than caching or hardcoding them; an id from a previous term stays well
+formed long after it stops being right.
 
 Timeouts
 --------
