@@ -3,7 +3,7 @@ import time
 from datetime import datetime, timezone
 from vitap_vtop_client.constants import GET_TIME_TABLE_URL, HEADERS
 from vitap_vtop_client.parsers import timetable_parser
-from vitap_vtop_client.exceptions.exception import VtopConnectionError, VtopTimetableError, VtopParsingError
+from vitap_vtop_client.exceptions.exception import VtopConnectionError, VtopTimetableError, VtopParsingError, VtopMenuUnavailableError
 from vitap_vtop_client.timetable.model.timetable_model import TimetableModel
 
 async def fetch_timetable(
@@ -46,7 +46,7 @@ async def fetch_timetable(
         parsed_data = timetable_parser.parse_time_table(timetable_response.text)
         return parsed_data
 
-    except VtopParsingError as e:
+    except (VtopParsingError, VtopMenuUnavailableError) as e:
         raise e
 
     except httpx.RequestError as e:

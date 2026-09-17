@@ -6,6 +6,7 @@ from vitap_vtop_client.constants import VIEW_MARKS_URL, HEADERS
 from vitap_vtop_client.marks.model.marks_model import MarksModel
 from vitap_vtop_client.parsers.marks_parser import parse_marks
 from vitap_vtop_client.exceptions.exception import (
+    VtopMenuUnavailableError,
     VtopConnectionError,
     VtopMarksError,
     VtopParsingError,
@@ -50,7 +51,7 @@ async def fetch_marks(
 
         return parse_marks(response.text)
 
-    except VtopParsingError as e:
+    except (VtopParsingError, VtopMenuUnavailableError) as e:
         raise e
 
     except httpx.RequestError as e:
