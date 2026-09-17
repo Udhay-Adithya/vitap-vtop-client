@@ -209,6 +209,19 @@ class VtopCalendarError(VitapVtopClientError):
         super().__init__(message, status_code)
 
 
+class VtopMenuUnavailableError(VitapVtopClientError):
+    """Raised when VTOP rejects a request with its generic "menu not available" modal.
+
+    VTOP serves the same ~1KB fragment, with an HTTP 200, whether the request
+    shape was wrong or the menu really is switched off. The response carries
+    nothing that distinguishes them, so this error cannot say which it was --
+    only that VTOP refused to answer.
+    """
+
+    def __init__(self, message: str, status_code: int | None = None):
+        super().__init__(message, status_code)
+
+
 class VtopParsingError(VitapVtopClientError):
     """Raised when data parsing fails unexpectedly (e.g., new HTML format)."""
 

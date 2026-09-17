@@ -15,6 +15,7 @@ from vitap_vtop_client.parsers.general_outing_requests_parser import (
 )
 from vitap_vtop_client.parsers.outing_response_parser import parse_outing_response
 from vitap_vtop_client.exceptions.exception import (
+    VtopMenuUnavailableError,
     VtopConnectionError,
     VtopGeneralOutingError,
     VtopParsingError,
@@ -79,7 +80,7 @@ async def submit_general_outing_request(
         init_response.raise_for_status()
         form_info = parse_outing_form(init_response.text)
 
-    except VtopParsingError as e:
+    except (VtopParsingError, VtopMenuUnavailableError) as e:
         raise e
 
     except httpx.RequestError as e:
@@ -127,7 +128,7 @@ async def submit_general_outing_request(
             "Outing applied successfully. It is now waiting for your mentor's approval.",
         )
 
-    except VtopParsingError as e:
+    except (VtopParsingError, VtopMenuUnavailableError) as e:
         raise e
 
     except httpx.RequestError as e:
@@ -158,7 +159,7 @@ async def fetch_general_outing_requests(
         response.raise_for_status()
         return parse_general_outing_requests(response.text)
 
-    except VtopParsingError as e:
+    except (VtopParsingError, VtopMenuUnavailableError) as e:
         raise e
 
     except httpx.RequestError as e:

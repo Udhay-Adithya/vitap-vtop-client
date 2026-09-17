@@ -6,7 +6,7 @@ from vitap_vtop_client.grade_history import fetch_grade_history
 from vitap_vtop_client.parsers.profile_parser import parse_student_profile
 from .model import StudentProfileModel
 
-from vitap_vtop_client.exceptions import VtopConnectionError, VtopProfileError, VtopParsingError
+from vitap_vtop_client.exceptions import VtopConnectionError, VtopProfileError, VtopParsingError, VtopMenuUnavailableError
 
 async def fetch_profile(
     client: httpx.AsyncClient,
@@ -47,7 +47,7 @@ async def fetch_profile(
         
         return profile
 
-    except VtopParsingError as e:
+    except (VtopParsingError, VtopMenuUnavailableError) as e:
         raise e
 
     except httpx.RequestError as e:

@@ -4,7 +4,7 @@ from vitap_vtop_client.constants import HEADERS, BIOMETRIC_LOG_URL, GET_BIOMETRI
 import time
 from datetime import datetime, timezone
 
-from vitap_vtop_client.exceptions.exception import VtopBiometricError, VtopConnectionError, VtopParsingError
+from vitap_vtop_client.exceptions.exception import VtopBiometricError, VtopConnectionError, VtopParsingError, VtopMenuUnavailableError
 from vitap_vtop_client.parsers import biometric_parser
 
 async def fetch_biometric(
@@ -68,7 +68,7 @@ async def fetch_biometric(
 
         return parsed_data
     
-    except VtopParsingError as e:
+    except (VtopParsingError, VtopMenuUnavailableError) as e:
         raise e
 
     except httpx.RequestError as e:

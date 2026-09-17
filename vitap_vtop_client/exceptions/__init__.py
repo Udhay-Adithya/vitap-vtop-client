@@ -10,6 +10,7 @@ from .exception import (
     VtopLoginOtpExpiredError,
     VtopSessionError,
     VtopParsingError,
+    VtopMenuUnavailableError,
     VtopCalendarError,
     VtopDigitalAssignmentError,
     VtopDigitalAssignmentFileNotFoundError,

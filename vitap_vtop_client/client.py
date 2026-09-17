@@ -13,6 +13,7 @@ from .exceptions import (
     VtopConnectionError,
     VtopSessionError,
     VitapVtopClientError,
+    VtopMenuUnavailableError,
 )
 
 from .login import (
@@ -25,7 +26,7 @@ from .login import (
     LoggedInStudent,
 )
 
-from .utils import solve_captcha
+from .utils import solve_captcha, is_menu_unavailable
 
 from .attendance import (
     fetch_attendance,
@@ -150,6 +151,20 @@ class VtopClient:
         # verify it. See ssl_config for details.
         self._user_agent = (user_agent or "").strip() or DEFAULT_USER_AGENT
 
+        async def _reject_menu_unavailable(response: httpx.Response) -> None:
+            # VTOP answers a rejected request with a generic modal and an HTTP
+            # 200, so raise_for_status() lets it through and the fragment
+            # reaches a parser that cannot make sense of it. Catch it here,
+            # once, rather than in every fetch function.
+            await response.aread()
+            if is_menu_unavailable(response.text):
+                raise VtopMenuUnavailableError(
+                    f"VTOP refused to answer {response.request.url.path}. Its "
+                    "response is the same whether the request shape was wrong "
+                    "or the menu is switched off.",
+                    status_code=502,
+                )
+
         async def _pin_user_agent(request: httpx.Request) -> None:
             # Fetch functions pass their own headers, which httpx merges with
             # request headers winning. Rewriting here runs after that merge, so
@@ -161,7 +176,10 @@ class VtopClient:
             follow_redirects=True,
             base_url=VTOP_BASE_URL,
             verify=create_vtop_ssl_context(),
-            event_hooks={"request": [_pin_user_agent]},
+            event_hooks={
+                "request": [_pin_user_agent],
+                "response": [_reject_menu_unavailable],
+            },
         )
         self._logged_in_student: LoggedInStudent | None = None
         self.max_login_retries = max_login_retries
