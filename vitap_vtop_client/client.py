@@ -132,10 +132,11 @@ class VtopClient:
             max_login_retries: Maximum number of overall login attempts.
             captcha_retries: Maximum number of captcha fetch/solve attempts per login.
             user_agent: Browser identity every request on this session carries.
-                VTOP binds a session to the User-Agent that created it, so this
-                is fixed for the life of the client and anything reusing the
-                session out of process (an in-app VTOP WebView) must send the
-                identical value. Defaults to `DEFAULT_USER_AGENT`.
+                Fixed for the life of the client so the session presents one
+                consistent identity. VTOP was not observed to require that a
+                reused session match it, so anything reusing the session out of
+                process (an in-app VTOP WebView) is advised but not required to
+                send the same value. Defaults to `DEFAULT_USER_AGENT`.
         """
         if not registration_number or not password:
             raise VtopLoginError(
@@ -228,8 +229,9 @@ class VtopClient:
 
         Lets something outside this client reuse the authenticated session —
         an in-app VTOP WebView, for example — without logging in again. The
-        consumer must also send the same `User-Agent` (see `user_agent`),
-        because VTOP binds a session to the identity that created it.
+        consumer is advised to send the same `User-Agent` (see `user_agent`) so
+        the session keeps one consistent identity, though VTOP was not observed
+        to require it.
 
         Returns:
             str: e.g. `"JSESSIONID=...; other=..."`, empty if there are none.
