@@ -7,7 +7,7 @@ from vitap_vtop_client.marks.model.marks_model import MarksModel
 from vitap_vtop_client.parsers.marks_parser import parse_marks
 from vitap_vtop_client.exceptions.exception import (
     VtopConnectionError,
-    VtopAttendanceError,
+    VtopMarksError,
     VtopParsingError,
 )
 
@@ -32,7 +32,7 @@ async def fetch_marks(
 
     Raises:
         VtopConnectionError: If HTTP/network errors occur.
-        VtopAttendanceError: If unexpected or parsing errors occur.
+        VtopMarksError: If unexpected or parsing errors occur.
     """
     try:
         init_data = {
@@ -50,7 +50,7 @@ async def fetch_marks(
         )
     except Exception as e:
         print(f"Unexpected error while ini marks: {e}")
-        raise VtopAttendanceError(f"Unexpected error while fetching marks: {e}") from e
+        raise VtopMarksError(f"Unexpected error while fetching marks: {e}") from e
 
     try:
         data = {
@@ -75,4 +75,4 @@ async def fetch_marks(
         )
     except Exception as e:
         print(f"Unexpected error while fetching marks: {e}")
-        raise VtopAttendanceError(f"Unexpected error while fetching marks: {e}") from e
+        raise VtopMarksError(f"Unexpected error while fetching marks: {e}") from e
