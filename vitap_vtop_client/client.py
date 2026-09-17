@@ -24,6 +24,7 @@ from .login import (
     verify_login_otp,
     resend_login_otp,
     LoggedInStudent,
+    RestorableSession,
 )
 
 from .utils import solve_captcha, is_menu_unavailable
@@ -118,10 +119,11 @@ class VtopClient:
     def __init__(
         self,
         registration_number: str,
-        password: str,
+        password: str | None = None,
         max_login_retries: int = 3,
         captcha_retries: int = 5,
         user_agent: str | None = None,
+        _restored: bool = False,
     ):
         """
         Initializes the VtopClient.
@@ -138,7 +140,7 @@ class VtopClient:
                 process (an in-app VTOP WebView) is advised but not required to
                 send the same value. Defaults to `DEFAULT_USER_AGENT`.
         """
-        if not registration_number or not password:
+        if not registration_number or (not password and not _restored):
             raise VtopLoginError(
                 "Registration number and password are required for VtopClient.",
                 status_code=400,
@@ -147,6 +149,10 @@ class VtopClient:
 
         self.username = registration_number.upper()
         self.password = password
+        # A restored client holds a session but no password, so it can never
+        # log in again on its own. _ensure_logged_in checks this rather than
+        # silently failing a login with an empty credential.
+        self._restored = _restored
         # VTOP omits an intermediate CA from its TLS chain, so a custom SSL
         # context (certifi roots + the bundled intermediate) is needed to
         # verify it. See ssl_config for details.
@@ -247,6 +253,96 @@ class VtopClient:
         return "; ".join(
             f"{cookie.name}={cookie.value}" for cookie in self._client.cookies.jar
         )
+
+    @property
+    def session(self) -> RestorableSession:
+        """
+        Everything needed to rebuild this client elsewhere.
+
+        Pair this with `VtopClient.restore`. Handing these three values to
+        another process lets it act on the same VTOP session without logging
+        in again, which matters because VTOP's login is captcha gated and may
+        demand an OTP the user has to read from their email.
+
+        Returns:
+            RestorableSession: The cookie, the post-login CSRF token, the
+                registration number and the User-Agent this session uses.
+
+        Raises:
+            VtopSessionError: If the client is not logged in yet.
+        """
+        student = self._logged_in_student
+        if student is None:
+            raise VtopSessionError(
+                "Not logged in. Call login() before exporting the session.",
+                status_code=409,
+            )
+        return RestorableSession(
+            registration_number=student.registration_number,
+            cookie=self.get_cookie(),
+            csrf_token=student.post_login_csrf_token,
+            user_agent=self._user_agent,
+        )
+
+    @classmethod
+    def restore(
+        cls,
+        registration_number: str,
+        cookie: str,
+        csrf_token: str,
+        user_agent: str | None = None,
+    ) -> "VtopClient":
+        """
+        Rebuilds a client from a session exported by `session`.
+
+        VTOP keeps its session server side against the `JSESSIONID` cookie, so
+        a client holding that cookie and the post-login CSRF token can make
+        data requests without logging in — verified against live VTOP from a
+        process that had never authenticated.
+
+        This is what lets a caller be stateless. A web service can log in once,
+        hand these values back to its own client, and take them again on the
+        next request, instead of keeping a live VtopClient in memory and losing
+        every session when it restarts.
+
+        The returned client has no password. If the session has expired it
+        cannot log back in, and raises `VtopSessionError` instead.
+
+        Args:
+            registration_number: The student the session belongs to.
+            cookie: The `Cookie` header value from `get_cookie()`.
+            csrf_token: The `post_login_csrf_token` from `session`.
+            user_agent: The agent the session was created with. Advisory —
+                VTOP was not observed to enforce it — but passing it keeps one
+                identity across the whole session.
+
+        Returns:
+            VtopClient: A client ready to make data requests.
+
+        Raises:
+            VtopSessionError: If any of the three values is missing.
+        """
+        if not registration_number or not cookie or not csrf_token:
+            raise VtopSessionError(
+                "Restoring a session needs the registration number, the "
+                "cookie and the post-login CSRF token.",
+                status_code=400,
+            )
+
+        client = cls(
+            registration_number=registration_number,
+            user_agent=user_agent,
+            _restored=True,
+        )
+        client._logged_in_student = LoggedInStudent(
+            registration_number=registration_number.upper(),
+            post_login_csrf_token=csrf_token,
+        )
+        for pair in cookie.split(";"):
+            name, sep, value = pair.strip().partition("=")
+            if sep and name:
+                client._client.cookies.set(name, value)
+        return client
 
     async def login(self) -> LoggedInStudent:
         """
@@ -413,6 +509,16 @@ class VtopClient:
                 "Login is awaiting OTP verification. Call verify_login_otp() "
                 "with the OTP sent by VTOP before requesting data.",
                 status_code=409,
+            )
+
+        if self._restored:
+            # Restored from an exported session, so there is no password to log
+            # in with. The session it was given is gone; the caller has to run
+            # a fresh login, which may need an OTP they have to answer.
+            raise VtopSessionError(
+                "This client was restored from an exported session and that "
+                "session is no longer valid. Log in again with credentials.",
+                status_code=401,
             )
 
         async with self._login_lock:
