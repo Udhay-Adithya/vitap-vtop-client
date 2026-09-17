@@ -1,10 +1,13 @@
 # User-Agent used when the caller does not supply one.
 #
-# VTOP binds a session to the User-Agent that created it, so this has to be a
-# single stable string rather than something chosen per request: anything
-# reusing the session out of process (for example an in-app VTOP WebView) must
-# be able to send the identical value. Callers that know the real device should
-# pass its User-Agent to VtopClient instead; this is the fallback for tools and
+# The fallback identity for a session.
+#
+# This is pinned for the life of a client so a session presents one consistent
+# identity rather than a different one per request. It is not a protocol
+# requirement: as of 2026-09-17 VTOP was not observed to tie a session to the
+# User-Agent that created it -- an exported session was reused successfully
+# from a different agent entirely. Callers that know the real device should
+# still pass its User-Agent to VtopClient; this is the fallback for tools and
 # tests.
 DEFAULT_USER_AGENT = (
     "Mozilla/5.0 (Linux; Android 14; Pixel 7) AppleWebKit/537.36 "

@@ -1,9 +1,10 @@
 """
 Tests for session identity: the User-Agent and cookie export.
 
-VTOP binds a session to the User-Agent that created it, so the identity has to
-be fixed for the life of a client and readable by anything reusing the session
-out of process (an in-app VTOP WebView).
+The identity is fixed for the life of a client so a session presents one
+consistent User-Agent, and is readable by anything reusing the session out of
+process (an in-app VTOP WebView). VTOP was not observed to require a reused
+session to match it, so these tests pin our own behaviour, not a VTOP rule.
 """
 
 import httpx
@@ -39,8 +40,8 @@ async def test_the_session_user_agent_wins_over_per_request_headers():
     """
     Fetch functions pass the module HEADERS, which carry the default agent.
     httpx lets request headers win over client defaults, so the client pins its
-    own agent after the merge — otherwise a caller's agent would be ignored and
-    the session would break its own binding.
+    own agent after the merge — otherwise a caller's agent would be silently
+    ignored and the session would not carry the identity they asked for.
     """
     seen: dict[str, str] = {}
 
