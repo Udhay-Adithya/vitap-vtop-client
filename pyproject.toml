@@ -28,6 +28,14 @@ certifi = "*"
 pytest = "^8.3.5"
 pytest-asyncio = "^0.24.0"
 
+
+[tool.poetry.group.docs.dependencies]
+sphinx = "^9.1.0"
+furo = "^2025.12.19"
+sphinx-copybutton = "^0.5.2"
+sphinx-autodoc-typehints = "^3.13.6"
+myst-parser = "^5.1.0"
+
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
