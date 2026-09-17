@@ -6,6 +6,89 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [0.6.0] - 2026-09-17
+
+A pass over how the client talks to VTOP, driven by a read-only exploration of
+the live portal rather than by reading our own code. Several things we believed
+turned out not to be true.
+
+### Added
+- `VtopClient.restore(registration_number, cookie, csrf_token, user_agent=None)`
+  and a `session` property returning the `RestorableSession` it takes. VTOP
+  keeps the session server side against `JSESSIONID`, so a client holding that
+  cookie and the post-login CSRF token can make data requests without ever
+  authenticating — verified from a process that had never logged in. This is
+  what lets a caller stay stateless instead of holding a live client in memory,
+  which matters most for the OTP gate: the challenge is raised in one request
+  and answered in another.
+- `get_profile(include_grade_history=False, include_mentor=False)`. Both default
+  to `True`, so nothing changes for existing callers. Grade history is the
+  largest response the client fetches anywhere, around 137KB, and callers who
+  only wanted a name were paying for it every time.
+- `VtopMenuUnavailableError`, raised when VTOP refuses a request.
+- Shape validation on every semester scoped method.
+- A documentation site at
+  [udhay-adithya.github.io/vitap-vtop-client][docs], built with Sphinx and Furo
+  and published from CI. The API reference is
+  generated from the docstrings, so it cannot drift from the code.
+
+### Fixed
+- VTOP answers a rejected request with a ~1KB "This menu is not available at
+  present!!!" fragment and an HTTP 200, so `raise_for_status()` passed it and a
+  parser then failed on markup it could not recognise. It is now detected in a
+  response hook, which covers every fetch function including ones added later.
+  The same body comes back whether the request shape was wrong or the menu is
+  genuinely switched off, and the error says only that, because the response
+  carries nothing to separate them.
+- An expired CSRF token returns a stock Tomcat 404, not the login page.
+  Spring refuses the request before it is routed. Session-death detection only
+  looked for the login page, so a dead token surfaced as a bare
+  `HTTPStatusError`. It now raises `VtopSessionError` with a 401.
+- httpx raises its transport errors with an empty message, so every message we
+  built with `f"...: {e}"` stopped at the colon. `VtopConnectionError` now names
+  the underlying class, which is the only thing separating a read timeout from a
+  refused connection.
+- `fetch_profile` caught its three requests in one block, so whichever failed
+  was reported as the next call in the sequence: a timeout on the profile page
+  came back blaming grade history. Each leg is now named.
+- `NCGPA_RANK_URL` pointed at hostel counselling slot booking, not NCGPA rank.
+  Renamed `HOSTEL_COUNSELLING_URL`.
+- `VIRTUAL_ACCOUNT_URL` had a trailing space inside the string literal.
+- An internal flag leaked into `VtopClient`'s public signature, and forced
+  `password` to render as optional in the generated reference.
+
+### Changed
+- **Breaking:** `password` is a required argument again. Omitting it raises
+  `TypeError`; an empty string still raises `VtopLoginError`.
+- **Breaking:** a malformed `sem_sub_id` now raises `VtopSessionError` before
+  any request is sent. VTOP does not reject an unknown semester id: it answers
+  with a normal, empty result, so a wrong semester is indistinguishable from a
+  semester with no data. The check is deliberately shallow: it catches a typo,
+  not an id that is well formed but stale. Choosing a real one is the caller's
+  job, and `get_semesters()` is what makes that possible.
+- **Breaking:** `NCGPA_RANK_URL` is renamed. Nothing used it.
+- Requests no longer send `Connection: close`. It closed the socket after every
+  response, so each request paid a fresh TCP and TLS handshake, and four calls
+  under `asyncio.gather` took as long as four serial ones — which read as VTOP
+  serialising the session. It does not; the handshakes did. Concurrent fan-out
+  is roughly 2.6x faster without it.
+- Attendance, marks, exam schedule, timetable and grade view no longer post to
+  their page shell first. On a cold session with nothing primed, every one of
+  those data endpoints answers directly, so the extra request bought nothing.
+  Each is now a single request. The genuine primes — `init_course_page` and
+  `processDigitalAssignment` before an upload — are untouched.
+- `get_profile` fetches its nested grade history and mentor concurrently.
+- We documented that VTOP binds a session to the User-Agent that created it. It
+  does not: an exported session was reused successfully from a completely
+  different agent. The agent is still pinned per client, but that is our choice
+  for a consistent identity rather than a VTOP requirement.
+
+### Removed
+- `DOCS.md`. It documented 21 of 50 public methods and had drifted every time
+  the API changed. The site replaces it.
+
+[docs]: https://udhay-adithya.github.io/vitap-vtop-client/
+
 ## [0.5.1] - 2026-09-17
 
 ### Fixed
