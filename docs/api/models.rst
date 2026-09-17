@@ -9,6 +9,8 @@ Session
 
 .. automodule:: vitap_vtop_client.login.model.restorable_session_model
    :members:
+.. automodule:: vitap_vtop_client.login.model.otp_challenge_model
+   :members:
 .. automodule:: vitap_vtop_client.login.model.logged_in_student_model
    :members:
 

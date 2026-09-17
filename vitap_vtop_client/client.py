@@ -25,6 +25,7 @@ from .login import (
     resend_login_otp,
     LoggedInStudent,
     RestorableSession,
+    OtpChallenge,
 )
 
 from .utils import solve_captcha, is_menu_unavailable, validate_semester_id
@@ -258,6 +259,14 @@ class VtopClient:
                 "Not logged in. Call login() before exporting session cookies.",
                 status_code=409,
             )
+        return self._cookie_header()
+
+    def _cookie_header(self) -> str:
+        """This session's cookies as a `Cookie` header value, with no state check.
+
+        `get_cookie` guards on being logged in, but a pending OTP challenge has
+        to export its cookies precisely because it is *not* logged in yet.
+        """
         return "; ".join(
             f"{cookie.name}={cookie.value}" for cookie in self._client.cookies.jar
         )
@@ -291,6 +300,86 @@ class VtopClient:
             csrf_token=student.post_login_csrf_token,
             user_agent=self._user_agent,
         )
+
+    @property
+    def otp_challenge(self) -> OtpChallenge:
+        """
+        The pending OTP challenge, in a form another process can finish.
+
+        Pair this with `VtopClient.restore_otp_challenge`. A web service raises
+        the challenge while answering one request and receives the OTP on the
+        next, by which point this client is long gone — so the challenge has to
+        be carried rather than held.
+
+        Returns:
+            OtpChallenge: The cookie, the OTP page's CSRF token, the
+                registration number and the User-Agent this session uses.
+
+        Raises:
+            VtopSessionError: If no OTP challenge is pending.
+        """
+        if self._pending_otp_csrf is None:
+            raise VtopSessionError(
+                "No login OTP is pending, so there is no challenge to export.",
+                status_code=409,
+            )
+        return OtpChallenge(
+            registration_number=self.username,
+            cookie=self._cookie_header(),
+            csrf_token=self._pending_otp_csrf,
+            user_agent=self._user_agent,
+        )
+
+    @classmethod
+    def restore_otp_challenge(
+        cls,
+        registration_number: str,
+        cookie: str,
+        csrf_token: str,
+        user_agent: str | None = None,
+    ) -> "VtopClient":
+        """
+        Rebuilds a client that is mid-way through an OTP challenge.
+
+        Credentials and captcha were already accepted when the challenge was
+        raised, so the returned client needs only the OTP: call
+        `verify_login_otp`, or `resend_login_otp` if it has expired.
+
+        The client is deliberately **not** authenticated. `_ensure_logged_in`
+        still refuses to fetch data until the OTP is verified, so a caller
+        cannot accidentally use a half-finished login.
+
+        Args:
+            registration_number: The student the challenge belongs to.
+            cookie: The `Cookie` header value from `otp_challenge`.
+            csrf_token: The OTP page's CSRF token, from `otp_challenge` or from
+                `VtopLoginOtpRequiredError.csrf_token`.
+            user_agent: The agent the challenge was created with.
+
+        Returns:
+            VtopClient: A client awaiting `verify_login_otp`.
+
+        Raises:
+            VtopSessionError: If any of the three values is missing.
+        """
+        if not registration_number or not cookie or not csrf_token:
+            raise VtopSessionError(
+                "Restoring an OTP challenge needs the registration number, "
+                "the cookie and the OTP page's CSRF token.",
+                status_code=400,
+            )
+
+        client = cls(
+            registration_number=registration_number,
+            password=_RESTORED_SESSION,
+            user_agent=user_agent,
+        )
+        client._pending_otp_csrf = csrf_token
+        for pair in cookie.split(";"):
+            name, sep, value = pair.strip().partition("=")
+            if sep and name:
+                client._client.cookies.set(name, value)
+        return client
 
     @classmethod
     def restore(
