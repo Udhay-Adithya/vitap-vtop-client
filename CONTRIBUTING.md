@@ -143,9 +143,10 @@ For other ways of installation visit : [Poetry Documentation](https://python-poe
 -   Use a testing framework like `pytest` or Python's built-in `unittest`.
 
 ## Documentation
--   Keep the [`README.md`](/README.md), [`DOCS.md`](/DOCS.md) and other documentation files up-to-date with your changes.
--   If you add new features or change existing ones, update the relevant sections of the documentation.
--   For API changes, ensure the endpoint descriptions, request/response formats, and examples are accurate.
+-   The API reference at [udhay-adithya.github.io/vitap-vtop-client](https://udhay-adithya.github.io/vitap-vtop-client/) is generated from docstrings, so there is no separate reference file to keep in step. Give every public function a docstring with `Args`, `Returns` and `Raises`, and it documents itself.
+-   Add or update a page under `docs/guide/` when the change is about how VTOP behaves rather than what a method takes — the OTP gate, sessions, error handling and the quirks page all live there.
+-   Build the docs locally with `poetry install --with docs` then `poetry run sphinx-build -b html -W docs docs/_build/html`. CI builds with `-W`, so a broken cross-reference or an unparseable docstring fails the build.
+-   Keep the [`README.md`](/README.md) up-to-date with your changes.
 
 ## Community
 Join the discussion! If you have questions or want to discuss ideas, feel free to open an issue or participate in existing discussions.

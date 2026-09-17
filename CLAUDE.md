@@ -170,7 +170,11 @@ look at what the page loaded *before* it.
    call the fetch function with `registration_number` + `post_login_csrf_token`.
 6. **Tests** — a parser-logic test always; a fixture + contract test if you can
    record one (`python scripts/record_fixtures.py`).
-7. **Demo/docs** — update `DOCS.md` if the public API changed.
+7. **Docs** — the API reference is generated from docstrings, so a complete
+   docstring *is* the reference; there is no separate file to update. Add a
+   page under `docs/guide/` only when VTOP's behaviour needs explaining rather
+   than the method's signature. Build with `sphinx-build -b html -W docs
+   docs/_build/html`; CI builds with `-W`, so a broken reference fails.
 
 ---
 
