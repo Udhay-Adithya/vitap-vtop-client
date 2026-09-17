@@ -22,5 +22,9 @@ from .exception import (
     VtopTimetableError,
     VtopMentorError,
     VtopGradeHistoryError,
-    VtopProfileError
+    VtopProfileError,
+    VtopExamScheduleError,
+    VtopMarksError,
+    VtopGeneralOutingError,
+    VtopWeekendOutingError,
 )
