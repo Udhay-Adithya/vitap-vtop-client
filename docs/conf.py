@@ -53,6 +53,10 @@ intersphinx_mapping = {
 html_theme = "furo"
 html_title = f"vitap-vtop-client {release}"
 html_static_path = ["_static"]
+# Copied verbatim into the build. Holds .nojekyll, which stops GitHub Pages
+# running Jekyll -- Jekyll drops directories beginning with an underscore, and
+# Sphinx puts every asset in _static.
+html_extra_path = ["_extra"]
 html_theme_options = {
     "source_repository": "https://github.com/Udhay-Adithya/vitap-vtop-client/",
     "source_branch": "main",

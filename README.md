@@ -92,7 +92,9 @@ if __name__ == "__main__":
 
 For comprehensive information on all available methods, data models, and advanced usage, please refer to the main documentation:
 
-➡️ **[`DOCS.md`](DOCS.md)**
+➡️ **[udhay-adithya.github.io/vitap-vtop-client](https://udhay-adithya.github.io/vitap-vtop-client/)**
+
+The API reference there is generated from the docstrings, so it cannot drift from the code. It also covers the things VTOP does that are worth knowing before you build on it: the login OTP gate, reusing a session across processes, and what an empty result actually means.
 
 ## Contributing
 Contributions are welcome! We appreciate any help, from bug reports and fixes to feature suggestions and documentation improvements.
